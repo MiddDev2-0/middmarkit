@@ -1,11 +1,17 @@
 {
-  "name": "project-skeleton",
+  "name": "MiddMarkit",
   "version": "0.1.0",
   "private": true,
   "contributors": [
-    "Team Member 1 <member1@middlebury.edu>",
-    "Team Member 2 <member2@middlebury.edu>"
+    "Julian Calder <jcalder@middlebury.edu>",
+    "Ivo Verzone <iverzone@middlebury.edu>",
+    "Alina Zatzick <azatzick@middlebury.edu>",
+    "Catie Cassani <ccassani@middlebury.edu>",
+    "Madeleine Cordeiro <mcordeiro@middlebury.edu>",
+    "Mia Tarantola <mtarantola@middlebury.edu>",
+    "Katherine Murphy <kemurphy@middlebury.edu>"
   ],
+  "description": "MiddMarkit is an online platform enabling Middlebury College Students to buy and sell items to one another with features such as listing automation, image verification, and straightforward operational design.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
