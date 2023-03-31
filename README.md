@@ -23,3 +23,13 @@ Tools for mocking fetch can be installed with
 ```
 
 Note we need to pin the `node-fetch` version due to breaking changes when used with Jest in newer versions.
+
+##### Application Purpose
+
+This applications aims to create a secure online marketplace for Middlebury College students to buy and sell items to one another, faciliating interactions between buyer and seller and maintaining an updated page of listings which are still for sale.
+
+###### Application Link
+
+https://middmarkit.fly.dev
+
+[![Node.js CI](https://github.com/csci312a-s23/project-killington/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/csci312a-s23/project-killington/actions/workflows/node.js.yml)
