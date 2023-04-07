@@ -1,41 +1,29 @@
-//SellerForm.js
-
 import { useState } from "react";
 import styles from "../styles/SellerForm.module.css";
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 
 export default function SellerForm({ handleSaveItem }) {
-  const [isButtonDisabled, setButtonDisabled] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [fileName, setFileName] = useState("");
+  const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
+
+  useEffect(() => {
+    setAllFieldsPopulated(name !== "" && description !== "" && price !== "");
+  }, [name, description, price]);
 
   const handleChangeName = (event) => {
     setName(event.target.value);
-    if (event.target.value === "") {
-      setButtonDisabled(true);
-    } else {
-      setButtonDisabled(false);
-    }
   };
 
   const handleChangePrice = (event) => {
     setPrice(event.target.value);
-    if (event.target.value === "") {
-      setButtonDisabled(true);
-    } else {
-      setButtonDisabled(false);
-    }
   };
 
   const handleChangeDescription = (event) => {
     setDescription(event.target.value);
-    if (event.target.value === "") {
-      setButtonDisabled(true);
-    } else {
-      setButtonDisabled(false);
-    }
   };
 
   const handleFileUpload = (event) => {
@@ -90,7 +78,7 @@ export default function SellerForm({ handleSaveItem }) {
         <button className={styles.button}>Cancel</button>
         <button
           className={styles.button}
-          disabled={isButtonDisabled}
+          disabled={!allFieldsPopulated}
           onClick={handleSave}
         >
           Save

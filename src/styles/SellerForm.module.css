@@ -24,6 +24,11 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .input {
   width: 100%;
   margin: 5px;
