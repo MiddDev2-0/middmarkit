@@ -14,6 +14,7 @@ export default function SellerPage({}) {
   return (
     <div className={styles.container}>
       <main>
+        <h1>Sell your stuff!</h1>
         <SellerForm onSave={handleSaveItem} />
       </main>
     </div>

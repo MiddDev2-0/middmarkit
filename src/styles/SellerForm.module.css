@@ -1,13 +1,21 @@
 /* SellerForm.module.css */
+.title {
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
 .editor {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px;
   padding: 20px;
-
   min-width: 340px;
   max-width: 90%;
+  background: #fff;
+  box-shadow: -3px -3px 7px rgba(94, 104, 121, 0.377),
+    3px 3px 7px rgba(94, 104, 121, 0.377);
 }
 
 .button {
@@ -40,4 +48,35 @@
 
 .fileInput {
   display: none;
+}
+.formInput {
+  width: 350px;
+  padding: 20px;
+}
+.formInput input {
+  display: none;
+}
+.form-input label {
+  display: block;
+  width: 45%;
+  height: 45px;
+  margin-left: 25%;
+  line-height: 50px;
+  text-align: center;
+  background: #1172c2;
+
+  color: #fff;
+  font-size: 15px;
+  font-family: "Open Sans", sans-serif;
+  text-transform: Uppercase;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.formInput img {
+  width: 100%;
+  display: none;
+
+  margin-bottom: 30px;
 }

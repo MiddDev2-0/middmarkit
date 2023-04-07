@@ -7,7 +7,6 @@ export default function SellerForm({ handleSaveItem }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [fileName, setFileName] = useState("");
   const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
 
   useEffect(() => {
@@ -28,8 +27,50 @@ export default function SellerForm({ handleSaveItem }) {
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    setFileName(file.name);
-    // handle the file upload logic here
+    console.log(`Selected file size: ${file.size} bytes`);
+
+    const reader = new FileReader();
+
+    reader.onload = function () {
+      const img = new Image();
+
+      img.onload = function () {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = 1080;
+        canvas.height = 1080;
+
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        canvas.toBlob(
+          (blob) => {
+            const newFile = new File([blob], "image.jpg", {
+              type: "image/jpeg",
+              lastModified: Date.now(),
+            });
+            console.log(`Reformatted image size: ${blob.size} bytes`);
+            console.log(`new image info: ${newFile}`);
+            console.log(newFile.size);
+            console.log(newFile.type);
+            console.log(newFile.name);
+
+            const src = URL.createObjectURL(newFile);
+            const preview = document.getElementById("file-ip-1-preview");
+            preview.src = src;
+            preview.style.display = "block";
+
+            // use newFile for further processing or upload
+          },
+          "image/jpeg",
+          1
+        );
+      };
+
+      img.src = reader.result;
+    };
+
+    reader.readAsDataURL(file);
   };
 
   const handleSave = () => {
@@ -37,22 +78,26 @@ export default function SellerForm({ handleSaveItem }) {
       name: name,
       description: description,
       price: price,
-      uid: fileName,
     };
     handleSaveItem(newItem);
   };
 
   return (
     <div className={styles.editor}>
-      <label className={styles.button} style={{ marginBottom: "10px" }}>
-        <input
-          type="file"
-          accept="image/png, image/jpeg, image/heic, image/heif"
-          className={styles.fileInput}
-          onChange={handleFileUpload}
-        />
-        Upload Photos
-      </label>
+      <div className={styles.formInput}>
+        <div className={styles.preview}>
+          <img id="file-ip-1-preview" />
+        </div>
+        <label className={styles.button} style={{ marginBottom: "10px" }}>
+          <input
+            type="file"
+            accept="image/png, image/jpeg, image/heic, image/heif"
+            className={styles.fileInput}
+            onChange={handleFileUpload}
+          />
+          Upload Photos
+        </label>
+      </div>
 
       <input
         type="text"

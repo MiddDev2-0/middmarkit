@@ -18,7 +18,6 @@ function MainApp({ Component, pageProps }) {
         <title>Midd Markit</title>
       </Head>
       <main>
-        <h1 className={styles.title}>Midd Markit</h1>
         <Component {...props} />
       </main>
 
