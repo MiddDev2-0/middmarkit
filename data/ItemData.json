@@ -1,0 +1,32 @@
+[
+  {
+    "id": 0,
+    "name": "table",
+    "description": "this is a table",
+    "price": 12,
+    "sellerId": 0,
+    "datePosted": "2016-12-07T23:22:33.357Z",
+    "isAvailable": true,
+    "image": ""
+  },
+  {
+    "id": 1,
+    "name": "chair",
+    "description": "this is a chair",
+    "price": 8,
+    "sellerId": 1,
+    "datePosted": "2016-12-07T23:22:33.357Z",
+    "isAvailable": true,
+    "image": ""
+  },
+  {
+    "id": 2,
+    "name": "dresser",
+    "description": "this is a dresser",
+    "price": 10,
+    "sellerId": 2,
+    "datePosted": "2016-12-07T23:22:33.357Z",
+    "isAvailable": true,
+    "image": ""
+  }
+]
