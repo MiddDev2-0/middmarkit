@@ -32,16 +32,30 @@ export default function SellerForm({ handleSaveItem }) {
     const reader = new FileReader();
 
     reader.onload = function () {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1080;
+      canvas.height = 1080;
       const img = new Image();
 
       img.onload = function () {
-        const canvas = document.createElement("canvas");
+        const {width} = img;
+        const {height} = img;
+
+        // Calculate the crop area
+        let x, y, size;
+        if (width > height) {
+          size = height;
+          x = (width - size) / 2;
+          y = 0;
+        } else {
+          size = width;
+          x = 0;
+          y = (height - size) / 2;
+        }
+
+        // Draw the original image onto the canvas
         const ctx = canvas.getContext("2d");
-
-        canvas.width = 1080;
-        canvas.height = 1080;
-
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, x, y, size, size, 0, 0, 1080, 1080);
 
         canvas.toBlob(
           (blob) => {
@@ -95,7 +109,7 @@ export default function SellerForm({ handleSaveItem }) {
             className={styles.fileInput}
             onChange={handleFileUpload}
           />
-          Upload Photos
+          Upload Photo
         </label>
       </div>
 
