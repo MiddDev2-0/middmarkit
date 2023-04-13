@@ -38,8 +38,8 @@ export default function SellerForm({ handleSaveItem }) {
       const img = new Image();
 
       img.onload = function () {
-        const {width} = img;
-        const {height} = img;
+        const { width } = img;
+        const { height } = img;
 
         // Calculate the crop area
         let x, y, size;
