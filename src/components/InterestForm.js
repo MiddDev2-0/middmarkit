@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import UserData from "../../data/UserData.json";
 import { TextField } from "@mui/material";
+
+import { Button } from "@mui/material";
 // import {Stack} from "@mui/material";
 
 export default function InterestForm({ buyer, item }) {
@@ -12,6 +14,19 @@ export default function InterestForm({ buyer, item }) {
   const seller = UserCollection.filter((user) => user.id === item.sellerId)[0];
   console.log(seller["FirstName"]);
   buyer = UserCollection[1];
+
+  function mailForm() {
+    const htmlContents = contents.replaceAll("\n", "%0D%0A");
+    return (
+      <a
+        id="mailto"
+        href={`mailto:${seller.Email}?subject=MiddMarkit: Someone is interested in your item&body=${htmlContents}`}
+        target="_blank"
+      >
+        Send Email{" "}
+      </a>
+    );
+  }
 
   useEffect(() => {
     setContents(
@@ -52,6 +67,8 @@ export default function InterestForm({ buyer, item }) {
           onChange={(event) => setContents(event.target.value)}
         />
       </div>
+      {/* <Button onClick={() => window.location = `mailto:${seller.Email}?subject=MiddMarkit: Someone is interested in your item&body=${contents}`}>Send Email</Button> */}
+      <Button>{mailForm()}</Button>
 
       {/* </Stack> */}
     </div>
