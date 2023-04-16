@@ -15,6 +15,8 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import { useRouter } from "next/router";
+
 function Copyright() {
   const newLocal = "https://mui.com/";
   return (
@@ -34,13 +36,25 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const theme = createTheme();
 
 export default function Album() {
+  const router = useRouter();
+
+  const handleClick = (button) => {
+    if (button === "View item") {
+      router.push("/ItemPage");
+    }
+
+    if (button === "sell") {
+      router.push("/sellerpage");
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Album layout
+            View Account Info
           </Typography>
         </Toolbar>
       </AppBar>
@@ -70,7 +84,9 @@ export default function Album() {
               justifyContent="center"
             >
               <Button variant="contained">Home</Button>
-              <Button variant="outlined">Sell</Button>
+              <Button variant="outlined" onClick={() => handleClick("sell")}>
+                Sell
+              </Button>
             </Stack>
           </Container>
         </Box>
@@ -102,7 +118,12 @@ export default function Album() {
                     <Typography>Item description</Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">View item</Button>
+                    <Button
+                      size="small"
+                      onClick={() => handleClick("View item")}
+                    >
+                      View item
+                    </Button>
                   </CardActions>
                 </Card>
               </Grid>

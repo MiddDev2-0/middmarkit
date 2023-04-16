@@ -15,12 +15,15 @@ import UserData from "../../data/UserData.json";
 import { useState } from "react";
 import InterestForm from "@/components/InterestForm";
 
+import AppBar from "../components/AppBar.js";
+
 export default function ItemPage() {
   const [itemCollection] = useState(ItemData);
   const [userCollection] = useState(UserData);
 
   return (
     <div>
+      <AppBar />
       <div>
         <IndividualItemView item={itemCollection[0]} />
       </div>
