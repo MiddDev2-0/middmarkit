@@ -28,6 +28,8 @@
     "@mui/material": "^5.12.0",
     "create-emotion-server": "^11.0.0",
     "mui-image": "^1.0.7",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.11.16",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
