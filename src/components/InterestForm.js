@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import UserData from "../../data/UserData.json";
+import { TextField } from "@mui/material";
+
+import { Button } from "@mui/material";
+// import {Stack} from "@mui/material";
 
 export default function InterestForm({ buyer, item }) {
   const [contents, setContents] = useState("");
@@ -9,12 +13,24 @@ export default function InterestForm({ buyer, item }) {
 
   const seller = UserCollection.filter((user) => user.id === item.sellerId)[0];
   console.log(seller["FirstName"]);
-
   buyer = UserCollection[1];
+
+  function mailForm() {
+    const htmlContents = contents.replaceAll("\n", "%0D%0A");
+    return (
+      <a
+        id="mailto"
+        href={`mailto:${seller.Email}?subject=MiddMarkit: Someone is interested in your item&body=${htmlContents}`}
+        target="_blank"
+      >
+        Send Email{" "}
+      </a>
+    );
+  }
 
   useEffect(() => {
     setContents(
-      `Hi ${seller["FirstName"]} I'm interested in buying your item (${item.name}). My bid is __$__. Please let me know if this works for you. Thanks, ${buyer.FirstName}`
+      `Hi ${seller["FirstName"]}, \n \nI'm interested in buying your item (${item.name}). My bid is __$__. Please let me know if this works for you. \n\nThanks, \n${buyer.FirstName}`
     );
   }, []);
 
@@ -23,27 +39,38 @@ export default function InterestForm({ buyer, item }) {
   }, []);
 
   return (
-    <div style={{ paddingTop: "7em" }}>
+    <div style={{ paddingTop: "2em" }}>
       <h3>Email seller</h3>
+
+      {/* <Stack spacing={2} direction="row"> */}
       <div style={{ paddingTop: "10px" }}>
-        <input
-          className="myInput"
-          type="text"
-          onChange={(event) => setBuyerEmail(event.target.value)}
-          size={45}
+        <TextField
+          required
+          fullWidth
+          margin="normal"
+          id="email"
+          label="Email"
+          error={!buyerEmail}
           value={buyerEmail}
-          placeholder="Your Email"
+          onChange={(event) => setBuyerEmail(event.target.value)}
         />
       </div>
       <div style={{ paddingTop: "5px" }}>
-        <textarea
-          name="email contents"
-          onChange={(event) => setContents(event.target.value)}
-          value={contents}
+        <TextField
+          fullWidth
+          multiline
           rows={10}
-          cols={50}
+          margin="normal"
+          id="contents"
+          label="Contents"
+          value={contents}
+          onChange={(event) => setContents(event.target.value)}
         />
       </div>
+      {/* <Button onClick={() => window.location = `mailto:${seller.Email}?subject=MiddMarkit: Someone is interested in your item&body=${contents}`}>Send Email</Button> */}
+      <Button>{mailForm()}</Button>
+
+      {/* </Stack> */}
     </div>
   );
 }
