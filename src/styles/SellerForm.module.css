@@ -1,0 +1,92 @@
+/* SellerForm.module.css */
+.title {
+  align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-width: 340px;
+  max-width: 90%;
+  background: #fff;
+  box-shadow: -3px -3px 7px rgba(94, 104, 121, 0.377),
+    3px 3px 7px rgba(94, 104, 121, 0.377);
+}
+
+.button {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin: 5px;
+  font-size: 16px;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.input {
+  width: 100%;
+  margin: 5px;
+  padding: 10px;
+  font-size: 16px;
+  white-space: normal;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.fileInput {
+  display: none;
+}
+.formInput {
+  width: 350px;
+  padding: 20px;
+}
+.formInput input {
+  display: none;
+}
+.form-input label {
+  display: block;
+  width: 45%;
+  height: 45px;
+  margin-left: 25%;
+  line-height: 50px;
+  text-align: center;
+  background: #1172c2;
+
+  color: #fff;
+  font-size: 15px;
+  font-family: "Open Sans", sans-serif;
+  text-transform: Uppercase;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.formInput img {
+  width: 100%;
+  display: none;
+
+  margin-bottom: 30px;
+}
+
+.container {
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #007bff;
+}
