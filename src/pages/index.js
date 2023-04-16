@@ -40,7 +40,7 @@ export default function Album() {
 
   const handleClick = (button) => {
     if (button === "View item") {
-      router.push("/ItemPage");
+      router.push("/itempage");
     }
 
     if (button === "sell") {
