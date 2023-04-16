@@ -74,7 +74,7 @@ export default function Album() {
               color="text.secondary"
               paragraph
             >
-              Welcome to MiddMarket! This is a web application where you can buy
+              Welcome to MiddMarkit! This is a web application where you can buy
               and sell items on the Middlebury Campus
             </Typography>
             <Stack
@@ -139,7 +139,7 @@ export default function Album() {
           color="text.secondary"
           component="p"
         >
-          MiddMarket
+          MiddMarkit
         </Typography>
         <Copyright />
       </Box>

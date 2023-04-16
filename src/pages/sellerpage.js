@@ -1,7 +1,7 @@
 // sellerpage.js
 //import PropTypes from "prop-types";
 import SellerForm from "../components/SellerForm";
-import styles from "../styles/SellerForm.module.css";
+// import styles from "../styles/SellerForm.module.css";
 import React, { useState } from "react";
 
 export default function SellerPage({}) {
@@ -12,10 +12,11 @@ export default function SellerPage({}) {
     itemList.push(newItem);
   };
   return (
-    <div className={styles.container}>
+    // <div className={styles.container}>
+    <div>
       <main>
-        <h1>Sell your stuff!</h1>
-        <SellerForm onSave={handleSaveItem} />
+        {/* <h1>Sell your stuff!</h1> */}
+        <SellerForm handleSaveItem={handleSaveItem} />
       </main>
     </div>
   );
