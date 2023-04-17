@@ -21,7 +21,7 @@ export default function IndividualItemView({ item }) {
           {item.name}
         </Typography>
         <Typography variant="h5" align="left">
-          {item.price}
+          Price: ${item.price}
         </Typography>
         <Typography variant="subtitle1" align="left">
           {item.description}
