@@ -36,7 +36,7 @@ export default function App({
         <main>
           <Container>
             <Typography variant="h2" align="center">
-              MiddMarkit
+              Midd Markit
             </Typography>
             <Component {...pageProps} />
           </Container>

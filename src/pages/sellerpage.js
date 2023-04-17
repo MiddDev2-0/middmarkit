@@ -12,12 +12,12 @@ export default function SellerPage({}) {
     itemList.push(newItem);
   };
   return (
-    <div className={styles.container}>
-      <main>
-        <h1>Sell your stuff!</h1>
+    <main>
+      <div className={styles.container}>
+        <h1 className={styles.sellStuff}>Sell your stuff!</h1>
         <SellerForm onSave={handleSaveItem} />
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
 

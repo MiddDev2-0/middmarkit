@@ -3,7 +3,7 @@ import styles from "../styles/SellerForm.module.css";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 
-export default function SellerForm({ handleSaveItem }) {
+export default function SellerForm({}) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -88,12 +88,13 @@ export default function SellerForm({ handleSaveItem }) {
   };
 
   const handleSave = () => {
-    const newItem = {
-      name: name,
-      description: description,
-      price: price,
-    };
-    handleSaveItem(newItem);
+    // const newItem = {
+    //   name: name,
+    //   description: description,
+    //   price: price,
+    // };
+    // handleSaveItem(newItem);
+    location.reload();
   };
 
   return (
@@ -134,7 +135,9 @@ export default function SellerForm({ handleSaveItem }) {
         className={styles.input}
       />
       <div>
-        <button className={styles.button}>Cancel</button>
+        <button className={styles.button} onClick={handleSave}>
+          Cancel
+        </button>
         <button
           className={styles.button}
           disabled={!allFieldsPopulated}
