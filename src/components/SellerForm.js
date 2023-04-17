@@ -66,7 +66,7 @@ export default function SellerForm({ handleSaveItem }) {
                   label="Item Name"
                   autoFocus
                   value={itemName}
-                  onChange={setItemName}
+                  onChange={(event) => setItemName(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -78,7 +78,7 @@ export default function SellerForm({ handleSaveItem }) {
                   name="price"
                   autoComplete="price"
                   value={price}
-                  onChange={setPrice}
+                  onChange={(event) => setPrice(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -90,7 +90,7 @@ export default function SellerForm({ handleSaveItem }) {
                   name="description"
                   autoComplete="description"
                   value={description}
-                  onChange={setDescription}
+                  onChange={(event) => setDescription(event.target.value)}
                 />
               </Grid>
             </Grid>
