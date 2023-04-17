@@ -14,6 +14,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 // import { useRouter } from "next/router";
 
 const theme = createTheme();
@@ -39,6 +41,14 @@ export default function SellerForm({ handleSaveItem }) {
           <Typography component="h1" variant="h5">
             Sell your item:
           </Typography>
+          <IconButton
+            color="primary"
+            aria-label="upload picture"
+            component="label"
+          >
+            <input hidden accept="image/*" type="file" />
+            <PhotoCamera />
+          </IconButton>
           <Box
             component="form"
             noValidate
