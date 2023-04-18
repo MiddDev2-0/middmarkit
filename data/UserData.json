@@ -1,29 +1,29 @@
 [
   {
-    "FirstName": "Mia",
-    "LastName": "Tarantola",
-    "Email": "mtarantola@middlebury.edu",
+    "firstName": "Mia",
+    "lastName": "Tarantola",
+    "email": "mtarantola@middlebury.edu",
     "items": [],
     "sellerId": 0
   },
   {
-    "FirstName": "Catie",
-    "LastName": "Cassani",
-    "Email": "ccassani@middlebury.edu",
+    "firstName": "Catie",
+    "lastName": "Cassani",
+    "email": "ccassani@middlebury.edu",
     "items": [],
     "sellerId": 1
   },
   {
-    "FirstName": "Alina",
-    "LastName": "Zatzick",
-    "Email": "azatzick@middlebury.edu",
+    "firstName": "Alina",
+    "lastName": "Zatzick",
+    "email": "azatzick@middlebury.edu",
     "items": [],
     "sellerId": 2
   },
   {
-    "FirstName": "Maddy",
-    "LastName": "Cordeiro",
-    "Email": "mcordeiro@middlebury.edu",
+    "firstName": "Maddy",
+    "lastName": "Cordeiro",
+    "email": "mcordeiro@middlebury.edu",
     "items": [],
     "sellerId": 3
   }
