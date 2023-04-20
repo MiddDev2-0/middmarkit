@@ -20,7 +20,7 @@ exports.up = function (knex) {
       table.int("sellerId").notNullable().references("User.id");
       table.string("datePosted").notNullable();
       table.boolean("isAvailable").notNullable();
-      table.specificType("images", "text[]").notNullable();
+      table.string("images").notNullable();
     }),
   ]);
 };

@@ -2,6 +2,25 @@
 /* eslint no-unused-vars: ["error", { "args": "none" }] */
 
 const user_data = require("../../data/UserData.json");
+const item_data = require("../../data/ItemData.json");
+
+const createItem = (knex, item, userEmail) => {
+  return knex("User")
+    .where("email", userEmail)
+    .first()
+    .then((userInfo) => {
+      console.log(userInfo);
+      return knex("Item").insert({
+        name: item.name,
+        description: item.description,
+        sellerId: userInfo["id"],
+        price: item.price,
+        datePosted: item.datePosted,
+        isAvailable: item.isAvailable,
+        images: item.images,
+      });
+    });
+};
 
 exports.seed = function (knex) {
   return knex("Item")
@@ -10,38 +29,14 @@ exports.seed = function (knex) {
       return knex("User").del();
     })
     .then(() => {
-      return user_data.forEach(async (user) => {
-        const newUser = {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          reviewerStatus: user.reviewerStatus,
-        };
-        const id = await knex("User").insert(newUser);
-        console.log(newUser, id);
-        user.items.forEach(async (item) => {
-          await knex("Item").insert({ ...item, sellerId: id });
-        });
+      return knex("User").insert(user_data);
+    })
+    .then(() => {
+      const itemPromises = [];
+      item_data.forEach((item) => {
+        const userEmail = item.sellerEmail;
+        itemPromises.push(createItem(knex, item, userEmail));
       });
+      return Promise.all(itemPromises);
     });
-
-  //     // // console.log(typeof user_data);
-  //     // const usersArray = user_data.map((user) => ({
-  //     //     firstName: user.firstName,
-  //     //     lastName: user.lastName,
-  //     //     email: user.email,
-  //     //     reviewerStatus: user.reviewerStatus,
-  //     //   })
-  //     // );
-  //     // return knex("User").insert(usersArray);
-  //   }).catch(error => console.log(error));
-  //   // .then(() => {
-  //   //   const itemsArray = [];
-  //   //   user_data.forEach((user) => {
-  //   //     user.items.forEach((item) => {
-  //   //       itemsArray.push(item);
-  //   //     });
-  //   //   });
-  //   //   return knex("Item").insert(itemsArray);
-  //   // });
 };

@@ -4,7 +4,7 @@
     "name": "Table",
     "description": "This is a mahogany brown round bed side table",
     "price": 12,
-    "sellerId": 0,
+    "sellerEmail": "mtarantola@middlebury.edu",
     "datePosted": "2016-12-07T23:22:33.357Z",
     "isAvailable": true,
     "images": "table image"
@@ -14,7 +14,7 @@
     "name": "chair",
     "description": "this is a chair",
     "price": 8,
-    "sellerId": 1,
+    "sellerEmail": "ccassani@middlebury.edu",
     "datePosted": "2016-12-07T23:22:33.357Z",
     "isAvailable": true,
     "images": "chair image"
@@ -24,7 +24,7 @@
     "name": "dresser",
     "description": "this is a dresser",
     "price": 10,
-    "sellerId": 2,
+    "sellerEmail": "azatzick@middlebury.edu",
     "datePosted": "2016-12-07T23:22:33.357Z",
     "isAvailable": true,
     "images": "dresser image"

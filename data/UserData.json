@@ -3,59 +3,24 @@
     "firstName": "Mia",
     "lastName": "Tarantola",
     "email": "mtarantola@middlebury.edu",
-    "id": 0,
-    "reviewerStatus": false,
-    "items": [
-      {
-        "name": "Table",
-        "description": "This is a mahogany brown round bed side table",
-        "price": 12,
-        "datePosted": "2016-12-07T23:22:33.357Z",
-        "isAvailable": true,
-        "images": "table image"
-      }
-    ]
+    "reviewerStatus": false
   },
   {
     "firstName": "Catie",
     "lastName": "Cassani",
     "email": "ccassani@middlebury.edu",
-    "id": 1,
-    "reviewerStatus": false,
-    "items": [
-      {
-        "name": "chair",
-        "description": "this is a chair",
-        "price": 8,
-        "datePosted": "2016-12-07T23:22:33.357Z",
-        "isAvailable": true,
-        "images": "chair image"
-      }
-    ]
+    "reviewerStatus": false
   },
   {
     "firstName": "Alina",
     "lastName": "Zatzick",
     "email": "azatzick@middlebury.edu",
-    "id": 2,
-    "reviewerStatus": false,
-    "items": [
-      {
-        "name": "dresser",
-        "description": "this is a dresser",
-        "price": 10,
-        "datePosted": "2016-12-07T23:22:33.357Z",
-        "isAvailable": true,
-        "images": "dresser image"
-      }
-    ]
+    "reviewerStatus": false
   },
   {
     "firstName": "Maddy",
     "lastName": "Cordeiro",
     "email": "mcordeiro@middlebury.edu",
-    "id": 3,
-    "reviewerStatus": false,
-    "items": []
+    "reviewerStatus": false
   }
 ]
