@@ -5,7 +5,12 @@ export default async function handler(req, res) {
   switch (method) {
     case "GET": {
       const user = await knex("User").where({ id: query.id }).first();
-      res.status(200).json(user);
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(404).end(`User with id ${req.query.id} not found`);
+      }
+
       break;
     }
     case "PUT": {
