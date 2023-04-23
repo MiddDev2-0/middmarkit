@@ -17,7 +17,12 @@ exports.up = function (knex) {
       table.string("name").notNullable();
       table.text("description").notNullable();
       table.integer("price").notNullable();
-      table.integer("sellerId").notNullable().references("User.id");
+      table
+        .integer("sellerId")
+        .notNullable()
+        .references("id")
+        .inTable("User")
+        .onDelete("CASCADE");
       table.string("datePosted").notNullable();
       table.boolean("isAvailable").notNullable();
       table.string("images").notNullable();

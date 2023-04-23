@@ -1,35 +1,13 @@
-import { knex } from "../../../../knex/knex";
+import nc from "next-connect";
+import { onError } from "../../../lib/middleware";
+import User from "../../../../models/User";
 
-export default async function handler(req, res) {
-  const { method, query } = req;
-  switch (method) {
-    case "GET": {
-      const user = await knex("User").where({ id: query.id }).first();
-      if (user) {
-        res.status(200).json(user);
-      } else {
-        res.status(404).end(`User with id ${req.query.id} not found`);
-      }
+const handler = nc({ onError }).get(async (req, res) => {
+  const user = await User.query()
+    .findById(req.query.id)
+    .withGraphFetched("items")
+    .throwIfNotFound();
+  res.status(200).json(user);
+});
 
-      break;
-    }
-    case "PUT": {
-      if (req.body.id !== parseInt(query.id, 10)) {
-        res.status(400).end(`URL and object does not match`);
-        break;
-      }
-      const updates = await knex("User")
-        .where({ id: query.id })
-        .update(req.body);
-      if (updates === 1) {
-        res.status(200).json(req.body);
-      } else {
-        res.status(400).end(`Unable to update row`);
-      }
-      break;
-    }
-    default:
-      res.setHeader("Allow", ["GET", "PUT"]);
-      res.status(405).end(`Method ${method} Not Allowed`);
-  }
-}
+export default handler;

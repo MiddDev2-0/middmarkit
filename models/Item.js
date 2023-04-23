@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
-// import { Model } from "objection";
+import { Model } from "objection";
 import BaseModel from "./BaseModel";
+import User from "./User";
 
 export default class Item extends BaseModel {
   // Table name is the only required property.
@@ -27,4 +28,15 @@ export default class Item extends BaseModel {
       },
     };
   }
+
+  static relationMappings = () => ({
+    user: {
+      relation: Model.HasOneRelation,
+      modelClass: User,
+      join: {
+        to: "Item.sellerId",
+        from: "User.id",
+      },
+    },
+  });
 }
