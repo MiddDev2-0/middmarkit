@@ -1,22 +1,17 @@
-import { knex } from "../../../../knex/knex";
+import nc from "next-connect";
+import { onError } from "../../../lib/middleware";
+import Item from "../../../../models/Item";
 
-export default async function handler(req, res) {
-  const { method } = req;
-  switch (method) {
-    case "GET": {
-      const knexQuery = knex("Item");
-      const items = await knexQuery;
-      res.status(200).json(items);
-      break;
-    }
-    case "POST": {
-      const { id, ...item } = req.body;
-      const [insertedId] = await knex("Item").insert(item);
-      res.status(200).json({ ...item, id: insertedId });
-      break;
-    }
-    default:
-      res.setHeader("Allow", ["GET", "POST"]);
-      res.status(405).end(`Method ${method} Not Allowed`);
-  }
-}
+const handler = nc({ onError })
+  .get(async (req, res) => {
+    const query = Item.query();
+    const items = await query;
+    res.status(200).json(items);
+  })
+  .post(async (req, res) => {
+    const { id, ...newItem } = req.body;
+    const item = await Item.query().insertAndFetch(newItem).throwIfNotFound();
+    res.status(200).json(item);
+  });
+
+export default handler;

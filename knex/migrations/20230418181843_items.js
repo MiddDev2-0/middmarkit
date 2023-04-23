@@ -16,8 +16,8 @@ exports.up = function (knex) {
       table.increments("id").primary();
       table.string("name").notNullable();
       table.text("description").notNullable();
-      table.int("price").notNullable();
-      table.int("sellerId").notNullable().references("User.id");
+      table.integer("price").notNullable();
+      table.integer("sellerId").notNullable().references("User.id");
       table.string("datePosted").notNullable();
       table.boolean("isAvailable").notNullable();
       table.string("images").notNullable();

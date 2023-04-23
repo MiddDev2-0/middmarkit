@@ -1,35 +1,23 @@
-import { knex } from "../../../../knex/knex";
+import nc from "next-connect";
+import Item from "../../../../models/Item";
+import { onError } from "../../../lib/middleware";
 
-export default async function handler(req, res) {
-  const { method, query } = req;
-  switch (method) {
-    case "GET": {
-      const item = await knex("Item").where({ id: query.id }).first();
-      if (item) {
-        res.status(200).json(item);
-      } else {
-        res.status(404).end(`Item with id ${req.query.id} not found`);
-      }
+const handler = nc({ onError })
+  .get(async (req, res) => {
+    const item = await Item.query().findById(req.query.id).throwIfNotFound();
+    res.status(200).json(item);
+  })
 
-      break;
+  .put(async (req, res) => {
+    const { id, ...updatedItem } = req.body;
+    if (id !== parseInt(req.query.id, 10)) {
+      res.status(400).end("URL and object does not match");
+      return;
     }
-    case "PUT": {
-      if (req.body.id !== parseInt(query.id, 10)) {
-        res.status(400).end(`URL and object does not match`);
-        break;
-      }
-      const updates = await knex("Item")
-        .where({ id: query.id })
-        .update(req.body);
-      if (updates === 1) {
-        res.status(200).json(req.body);
-      } else {
-        res.status(400).end(`Unable to update row`);
-      }
-      break;
-    }
-    default:
-      res.setHeader("Allow", ["GET", "PUT"]);
-      res.status(405).end(`Method ${method} Not Allowed`);
-  }
-}
+    const item = await Item.query()
+      .updateAndFetchById(id, updatedItem)
+      .throwIfNotFound();
+    res.status(200).json(item);
+  });
+
+export default handler;
