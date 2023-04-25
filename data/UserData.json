@@ -3,28 +3,24 @@
     "firstName": "Mia",
     "lastName": "Tarantola",
     "email": "mtarantola@middlebury.edu",
-    "items": [],
-    "sellerId": 0
+    "reviewerStatus": false
   },
   {
     "firstName": "Catie",
     "lastName": "Cassani",
     "email": "ccassani@middlebury.edu",
-    "items": [],
-    "sellerId": 1
+    "reviewerStatus": false
   },
   {
     "firstName": "Alina",
     "lastName": "Zatzick",
     "email": "azatzick@middlebury.edu",
-    "items": [],
-    "sellerId": 2
+    "reviewerStatus": false
   },
   {
     "firstName": "Maddy",
     "lastName": "Cordeiro",
     "email": "mcordeiro@middlebury.edu",
-    "items": [],
-    "sellerId": 3
+    "reviewerStatus": false
   }
 ]
