@@ -20,42 +20,11 @@ import PhotoCamera from "@mui/icons-material/PhotoCamera";
 
 const theme = createTheme();
 
-// const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
-const cloud_name = "middmarkit";
-const api_key = "765198598371986";
-const upload_preset = "ucwgvyiu";
-
-export default function SellerForm({}) {
+export default function SellerForm({ handleSaveItem }) {
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-
-    // const signatureResponse = getSignature();
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", upload_preset);
-    formData.append("api_key", api_key);
-    // data.append("signature", signatureResponse.data.signature)
-    // data.append("timestamp", signature.data.timestamp)
-
-    const cloudinaryResponse = fetch(
-      `https://api.cloudinary.com/v1_1/${cloud_name}/auto/upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    )
-      .then((res) => res.json())
-      .then((response) => {
-        return response;
-      });
-    console.log(cloudinaryResponse);
-    console.log(cloudinaryResponse.secure_url);
-  };
+  // const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
 
   return (
     <ThemeProvider theme={theme}>
@@ -77,15 +46,15 @@ export default function SellerForm({}) {
             aria-label="upload picture"
             component="label"
           >
-            <input
-              hidden
-              accept="image/*"
-              type="file"
-              onChange={handleFileUpload}
-            />
+            <input hidden accept="image/*" type="file" />
             <PhotoCamera />
           </IconButton>
-          <Box component="form" noValidate sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSaveItem}
+            sx={{ mt: 3 }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
