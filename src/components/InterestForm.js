@@ -12,7 +12,7 @@ export default function InterestForm({ buyer, item }) {
   const [UserCollection] = useState(UserData);
 
   const seller = UserCollection.filter((user) => user.id === item.sellerId)[0];
-  console.log(seller["FirstName"]);
+  console.log(seller?.FirstName);
   buyer = UserCollection[1];
 
   function mailForm() {
@@ -20,7 +20,7 @@ export default function InterestForm({ buyer, item }) {
     return (
       <a
         id="mailto"
-        href={`mailto:${seller.Email}?subject=MiddMarkit: Someone is interested in your item&body=${htmlContents}`}
+        href={`mailto:${seller?.Email}?subject=MiddMarkit: Someone is interested in your item&body=${htmlContents}`}
         target="_blank"
       >
         Send Email{" "}
@@ -28,11 +28,13 @@ export default function InterestForm({ buyer, item }) {
     );
   }
 
-  useEffect(() => {
-    setContents(
-      `Hi ${seller["FirstName"]}, \n \nI'm interested in buying your item (${item.name}). My bid is __$__. Please let me know if this works for you. \n\nThanks, \n${buyer.FirstName}`
-    );
-  }, []);
+  useEffect(() => { 
+    if (seller) {
+      setContents(
+        `Hi ${seller["FirstName"]}, \n \nI'm interested in buying your item (${item.name}). My bid is __$__. Please let me know if this works for you. \n\nThanks, \n${buyer.FirstName}`
+      );
+    }
+  }, [buyer.FirstName, item.name, seller]);
 
   useEffect(() => {
     setBuyerEmail(buyer.Email);

@@ -151,5 +151,5 @@ export default function SellerForm({}) {
 }
 
 SellerForm.propTypes = {
-  handleSaveItem: PropTypes.func.isRequired,
+  handleSaveItem: PropTypes.func//.isRequired,
 };

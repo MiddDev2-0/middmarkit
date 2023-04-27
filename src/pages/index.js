@@ -146,4 +146,4 @@ export default function Album() {
       {/* End footer */}
     </ThemeProvider>
   );
-}
+ }
