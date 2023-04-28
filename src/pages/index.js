@@ -14,6 +14,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import LoginWidget from "@/components/LoginWidget";
+import { useSession } from "next-auth/react";
 
 import { useRouter } from "next/router";
 
@@ -37,6 +39,7 @@ const theme = createTheme();
 
 export default function Album() {
   const router = useRouter();
+  const { data: status } = useSession({ required: true }); //session
 
   const handleClick = (button) => {
     if (button === "View item") {
@@ -48,14 +51,18 @@ export default function Album() {
     }
   };
 
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
+          <LoginWidget />
+          {/* <Typography variant="h6" color="inherit" noWrap>
             View Account Info
-          </Typography>
+          </Typography> */}
         </Toolbar>
       </AppBar>
       <main>
@@ -146,4 +153,4 @@ export default function Album() {
       {/* End footer */}
     </ThemeProvider>
   );
- }
+}
