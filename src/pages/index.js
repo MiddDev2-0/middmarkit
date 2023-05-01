@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
@@ -15,7 +16,6 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginWidget from "@/components/LoginWidget";
-import { useSession } from "next-auth/react";
 
 import { useRouter } from "next/router";
 
@@ -37,9 +37,18 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
-export default function Album() {
-  const router = useRouter();
+export default function Authentication() {
   const { data: status } = useSession({ required: true }); //session
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  return <Album LoginWidgetComponent={LoginWidget} />;
+}
+
+export function Album({ LoginWidgetComponent }) {
+  const router = useRouter();
 
   const handleClick = (button) => {
     if (button === "View item") {
@@ -51,15 +60,13 @@ export default function Album() {
     }
   };
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
-          <LoginWidget />
+          <LoginWidgetComponent />
+          {/* <LoginWidget /> */}
           {/* <Typography variant="h6" color="inherit" noWrap>
             View Account Info
           </Typography> */}
