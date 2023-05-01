@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import Album from "@/pages";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
 jest.mock("next/router", () => require("next-router-mock"));
 

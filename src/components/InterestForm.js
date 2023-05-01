@@ -12,7 +12,7 @@ export default function InterestForm({ buyer, item }) {
   const [UserCollection] = useState(UserData);
 
   const seller = UserCollection.filter((user) => user.id === item.sellerId)[0];
-  console.log(seller?.FirstName);
+
   buyer = UserCollection[1];
 
   function mailForm() {
@@ -28,7 +28,7 @@ export default function InterestForm({ buyer, item }) {
     );
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     if (seller) {
       setContents(
         `Hi ${seller["FirstName"]}, \n \nI'm interested in buying your item (${item.name}). My bid is __$__. Please let me know if this works for you. \n\nThanks, \n${buyer.FirstName}`
