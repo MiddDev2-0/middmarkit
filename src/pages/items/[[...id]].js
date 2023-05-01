@@ -24,7 +24,7 @@ export default function ItemPage() {
   const { id } = router.query;
 
   // const id = +router.query.id;
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState();
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -47,7 +47,7 @@ export default function ItemPage() {
         setCurrentItem();
       }
     }
-  }, [id, router.isReady, currentItem]);
+  }, [id, router.isReady]);
 
   // useEffect(() => {
   //   if (!id) {
@@ -67,29 +67,35 @@ export default function ItemPage() {
   console.log(currentItem);
 
   useEffect(() => {
-    const getData = async () => {
-      const response = await fetch(`/api/users/${currentItem.sellerId}`, {
-        method: "GET",
-      });
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
-      console.log(data);
-      setUser(data);
-      console.log(user);
-    };
-    getData();
-  }, []);
+    if (currentItem) {
+      const getData = async () => {
+        const response = await fetch(`/api/users/${currentItem.sellerId}`, {
+          method: "GET",
+        });
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        const data = await response.json();
+        console.log(data);
+        setUser(data);
+        console.log(user);
+      };
+      getData();
+    }
+  }, [currentItem]);
 
   return (
     <div>
       <AppBar />
+      <div>{currentItem && <IndividualItemView item={currentItem} />}</div>
       <div>
-        <IndividualItemView item={currentItem} />
-      </div>
-      <div>
-        <InterestForm item={currentItem} buyer={user} />
+        {currentItem && user && (
+          <InterestForm
+            item={currentItem}
+            seller={user}
+            buyer={{ firstName: "test" }}
+          />
+        )}
       </div>
     </div>
   );

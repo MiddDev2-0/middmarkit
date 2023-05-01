@@ -13,7 +13,7 @@ export default function IndividualItemView({ item }) {
         <CardMedia
           component="img"
           style={{ height: "400" }}
-          image="/Images/0.jpg"
+          image={item.images}
         />
       </Card>
       <Container sx={{ maxWidth: "50%" }}>
