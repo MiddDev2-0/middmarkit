@@ -16,7 +16,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 const theme = createTheme();
 
@@ -31,6 +31,7 @@ export default function SellerForm({}) {
   const [imageID, setImageID] = useState("");
   const [price, setPrice] = useState("");
   const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setAllFieldsPopulated(name !== "" && description !== "" && price !== "");
@@ -59,7 +60,7 @@ export default function SellerForm({}) {
       });
   };
 
-  const handleSave = () => {
+  const handlePost = () => {
     const newItem = {
       name: name,
       description: description,
@@ -68,6 +69,11 @@ export default function SellerForm({}) {
       imageURL: `https://res.cloudinary.com/middmarkit/image/upload/${imageID}.jpg`,
     };
     console.log(newItem);
+    console.log("BEEEGF");
+  };
+
+  const handleCancel = () => {
+    router.push(`/`);
   };
 
   return (
@@ -143,10 +149,13 @@ export default function SellerForm({}) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={handleSave}
+              onClick={handlePost}
               disabled={!allFieldsPopulated}
             >
               Post your item!
+            </Button>
+            <Button sx={{ mt: 3, mb: 2 }} onClick={handleCancel}>
+              Cancel
             </Button>
           </Box>
         </Box>
