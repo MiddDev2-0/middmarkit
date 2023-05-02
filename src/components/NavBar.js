@@ -7,34 +7,26 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+
 import Container from "@mui/material/Container";
-import { useRouter } from "next/router";
+
+import LoginWidgetComponent from "@/components/LoginWidget";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-export default function AppBarComponent({}) {
+export default function AppBarComponent({ handleClick, user }) {
   const theme = createTheme();
-  const router = useRouter();
-
-  const handleClick = (button) => {
-    if (button === "sell") {
-      router.push("/sellerpage");
-    }
-
-    if (button === "home") {
-      router.back();
-    }
-  };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
+          <LoginWidgetComponent />
+          {/* <LoginWidget /> */}
+          {/* <Typography variant="h6" color="inherit" noWrap>
             View Account Info
-          </Typography>
+          </Typography> */}
         </Toolbar>
       </AppBar>
       <main>
@@ -58,6 +50,15 @@ export default function AppBarComponent({}) {
               <Button variant="outlined" onClick={() => handleClick("sell")}>
                 Sell
               </Button>
+              {console.log(user)}
+              {!!user && (
+                <Button
+                  variant="outlined"
+                  onClick={() => handleClick("user items")}
+                >
+                  My items
+                </Button>
+              )}
             </Stack>
           </Container>
         </Box>

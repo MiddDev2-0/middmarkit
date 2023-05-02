@@ -1,10 +1,6 @@
 import { useSession } from "next-auth/react";
 import * as React from "react";
 
-// import Card from "@mui/material/Card";
-// import CardActions from "@mui/material/CardActions";
-// import CardContent from "@mui/material/CardContent";
-// import CardMedia from "@mui/material/CardMedia";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 
@@ -53,19 +49,27 @@ export function Album({}) {
   const router = useRouter();
   // const [currentItem,setCurrentItem] = useState();
   const [items, setItems] = useState([]);
+  const { data: session } = useSession();
+  console.log(session);
 
   useEffect(() => {
-    const getData = async () => {
-      const response = await fetch("/api/items", { method: "GET" });
-      if (!response.ok) {
-        console.log("error");
-        throw new Error(response.statusText);
+    if (session) {
+      if (session.user) {
+        const getData = async () => {
+          const response = await fetch(`/api/users/${session.user.id}`, {
+            method: "GET",
+          });
+          if (!response.ok) {
+            console.log("error");
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          setItems(data.items);
+        };
+        getData();
       }
-      const data = await response.json();
-      setItems(data);
-    };
-    getData();
-  }, []);
+    }
+  }, [session]);
 
   const handleClick = (button, id) => {
     if (button === "View item") {
@@ -83,11 +87,10 @@ export function Album({}) {
       {/* <AppBar position="relative">
         <Toolbar>
           <LoginWidgetComponent />
-          
         </Toolbar>
       </AppBar> */}
       <main>
-        {/* Hero unit */}
+        {/* Hero unit
         <Box
           sx={{
             bgcolor: "background.paper",
@@ -102,11 +105,21 @@ export function Album({}) {
               color="text.secondary"
               paragraph
             >
-              Welcome to MiddMarkit! This is a web application where you can buy
-              and sell items on the Middlebury Campus
+              My Items for Sale
             </Typography>
+            <Stack
+              sx={{ pt: 4 }}
+              direction="row"
+              spacing={2}
+              justifyContent="center"
+            >
+              <Button variant="contained">Home</Button>
+              <Button variant="outlined" onClick={() => handleClick("sell")}>
+                Sell
+              </Button>
+            </Stack>
           </Container>
-        </Box>
+        </Box> */}
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
