@@ -28,14 +28,14 @@ const upload_preset = "ucwgvyiu";
 export default function SellerForm({}) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [imageID, setImageID] = useState("");
+  const [imageID, setImageID] = useState(undefined);
   const [price, setPrice] = useState("");
   const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     setAllFieldsPopulated(name !== "" && description !== "" && price !== "");
-  }, [name, description, price, imageID]);
+  }, [name, description, price]);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -65,12 +65,57 @@ export default function SellerForm({}) {
       name: name,
       description: description,
       price: price,
-      imageID: imageID,
-      imageURL: `https://res.cloudinary.com/middmarkit/image/upload/${imageID}.jpg`,
+      sellerId: 1,
+      datePosted: new Date().toISOString(),
+      isAvailable: true,
+      images: imageID,
     };
-    console.log(newItem);
-    console.log("BEEEGF");
+
+    const getData = async () => {
+      const testItem = {
+        name: "Example Item",
+        description: "This is an example item.",
+        price: 100,
+        sellerId: 1, // the ID of the seller (must exist in the User table)
+        datePosted: "2023-05-02",
+        isAvailable: true,
+        images: "https://example.com/item.jpg",
+      };
+
+      const response = await fetch("/api/items", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(testItem),
+      });
+      console.log(newItem);
+      if (!response.ok) {
+        console.log("error");
+        throw new Error(response.statusText);
+      }
+
+      const data = await response.json();
+      console.log(data); // the newly created item object
+    };
+
+    getData();
   };
+
+  //   (async () => {
+  //     const response = await fetch(`/api/items`, {
+  //       method: "POST",
+  //       body: JSON.stringify(newItem),
+  //       headers: new Headers({
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //       }),
+  //     });
+  //     if (response.ok) {
+  //       router.push(`/`);
+  //     }
+  //   })();
+  // };
 
   const handleCancel = () => {
     router.push(`/`);
@@ -148,13 +193,13 @@ export default function SellerForm({}) {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 4, mb: 2 }}
               onClick={handlePost}
               disabled={!allFieldsPopulated}
             >
               Post your item!
             </Button>
-            <Button sx={{ mt: 3, mb: 2 }} onClick={handleCancel}>
+            <Button sx={{ mt: 2, mb: 2 }} onClick={handleCancel}>
               Cancel
             </Button>
           </Box>
