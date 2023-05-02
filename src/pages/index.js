@@ -141,7 +141,7 @@ export function Album({ LoginWidgetComponent }) {
           color="text.secondary"
           component="p"
         >
-          MiddMarket
+          MiddMarkit
         </Typography>
         <Copyright />
       </Box>
