@@ -64,58 +64,25 @@ export default function SellerForm({}) {
     const newItem = {
       name: name,
       description: description,
-      price: price,
+      price: Math.round(+price),
       sellerId: 1,
-      datePosted: new Date().toISOString(),
+      datePosted: "2016-11-19T22:57:32.639Z",
       isAvailable: true,
       images: imageID,
     };
+    console.log(newItem);
 
-    const getData = async () => {
-      const testItem = {
-        name: "Example Item",
-        description: "This is an example item.",
-        price: 100,
-        sellerId: 1, // the ID of the seller (must exist in the User table)
-        datePosted: "2023-05-02",
-        isAvailable: true,
-        images: "https://example.com/item.jpg",
-      };
+    //BAD REQUEST ERROR:
 
-      const response = await fetch("/api/items", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(testItem),
-      });
-      console.log(newItem);
-      if (!response.ok) {
-        console.log("error");
-        throw new Error(response.statusText);
-      }
-
-      const data = await response.json();
-      console.log(data); // the newly created item object
-    };
-
-    getData();
+    fetch("/api/items", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(newItem),
+    })
+      .then((resp) => resp.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
   };
-
-  //   (async () => {
-  //     const response = await fetch(`/api/items`, {
-  //       method: "POST",
-  //       body: JSON.stringify(newItem),
-  //       headers: new Headers({
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //       }),
-  //     });
-  //     if (response.ok) {
-  //       router.push(`/`);
-  //     }
-  //   })();
-  // };
 
   const handleCancel = () => {
     router.push(`/`);
@@ -168,6 +135,7 @@ export default function SellerForm({}) {
                 <TextField
                   required
                   fullWidth
+                  type="number"
                   id="price"
                   label="Price"
                   name="price"
