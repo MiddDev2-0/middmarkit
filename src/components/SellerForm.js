@@ -1,7 +1,7 @@
 import { useState } from "react";
 // import styles from "../styles/SellerForm.module.css";
 // import PropTypes from "prop-types";
-// import { useEffect } from "react";
+import { useEffect } from "react";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -30,6 +30,11 @@ export default function SellerForm({}) {
   const [description, setDescription] = useState("");
   const [imageID, setImageID] = useState("");
   const [price, setPrice] = useState("");
+  const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
+
+  useEffect(() => {
+    setAllFieldsPopulated(name !== "" && description !== "" && price !== "");
+  }, [name, description, price, imageID]);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -63,9 +68,8 @@ export default function SellerForm({}) {
       imageURL: `https://res.cloudinary.com/middmarkit/image/upload/${imageID}.jpg`,
     };
     console.log(newItem);
-    // handleSaveItem(newItem);
-    //location.reload();
   };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -140,6 +144,7 @@ export default function SellerForm({}) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               onClick={handleSave}
+              disabled={!allFieldsPopulated}
             >
               Post your item!
             </Button>
