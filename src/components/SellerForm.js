@@ -28,7 +28,7 @@ const upload_preset = "ucwgvyiu";
 export default function SellerForm({}) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [imageID, setImageID] = useState(undefined);
+  const [imageId, setImageId] = useState(undefined);
   const [price, setPrice] = useState("");
   const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
   const router = useRouter();
@@ -56,7 +56,7 @@ export default function SellerForm({}) {
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
-        setImageID(response.public_id);
+        setImageId(response.public_id);
       });
   };
 
@@ -66,9 +66,9 @@ export default function SellerForm({}) {
       description: description,
       price: Math.round(+price),
       sellerId: 1,
-      datePosted: "2016-11-19T22:57:32.639Z",
+      datePosted: new Date().toISOString(),
       isAvailable: true,
-      images: imageID,
+      images: imageId,
     };
     console.log(newItem);
 
@@ -136,6 +136,7 @@ export default function SellerForm({}) {
                   required
                   fullWidth
                   type="number"
+                  pattern="[0-9]+"
                   id="price"
                   label="Price"
                   name="price"
