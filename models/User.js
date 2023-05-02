@@ -14,14 +14,16 @@ export default class User extends BaseModel {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["firstName", "lastName", "email"],
+      required: ["googleId"],
+      // , "firstName", "lastName", "email"],
 
       properties: {
         id: { type: "integer" },
+        googleId: { type: "string" },
         firstName: { type: "string" },
         lastName: { type: "string" },
         email: { type: "string" },
-        reviewerStatus: { type: "boolean" },
+        reviewerStatus: { type: "boolean", default: false },
       },
     };
   }
@@ -36,4 +38,11 @@ export default class User extends BaseModel {
       },
     },
   });
+
+  //Override this method to exclude googleId
+  $formatJson(json) {
+    json = super.$formatJson(json);
+    delete json.googleId;
+    return json;
+  }
 }
