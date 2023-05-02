@@ -1,10 +1,9 @@
-// import TablePic from "../Images/0.jpg";
-
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/system";
 import { Container } from "@mui/material";
+import Image from "next/image";
 
 export default function IndividualItemView({ item }) {
   return (
@@ -21,18 +20,13 @@ export default function IndividualItemView({ item }) {
           {item.name}
         </Typography>
         <Typography variant="h5" align="left">
-          Price: ${item.price}
+          {item.price}
         </Typography>
         <Typography variant="subtitle1" align="left">
           {item.description}
         </Typography>
       </Container>
-      {/* <Image 
-        src = "/Images/0.jpg"
-        height = "100"
-        width = "100"
-        alt = "table"
-        /> */}
+      {<Image src="/Images/0.jpg" height="100" width="100" alt="table" />}
     </Stack>
   );
 }

@@ -23,38 +23,49 @@ const theme = createTheme();
 // const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
 const cloud_name = "middmarkit";
 const api_key = "765198598371986";
-const upload_preset = "dsxfrbyg";
+const upload_preset = "ucwgvyiu";
 
 export default function SellerForm({}) {
-  const [itemName, setItemName] = useState("");
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [imageID, setImageID] = useState("");
   const [price, setPrice] = useState("");
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
 
-    // const signatureResponse = getSignature();
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", upload_preset);
     formData.append("api_key", api_key);
 
-    // data.append("signature", signatureResponse.data.signature)
-    // data.append("timestamp", signature.data.timestamp)
+    // eslint-disable-next-line no-unused-vars
     const cloudinaryResponse = fetch(
       `https://api.cloudinary.com/v1_1/${cloud_name}/auto/upload`,
       {
         method: "POST",
+        body: formData,
       }
     )
       .then((res) => res.json())
       .then((response) => {
-        return response;
+        console.log(response);
+        setImageID(response.public_id);
       });
-    console.log(cloudinaryResponse);
-    console.log(cloudinaryResponse.secure_url);
   };
 
+  const handleSave = () => {
+    const newItem = {
+      name: name,
+      description: description,
+      price: price,
+      imageID: imageID,
+      imageURL: `https://res.cloudinary.com/middmarkit/image/upload/${imageID}.jpg`,
+    };
+    console.log(newItem);
+    // handleSaveItem(newItem);
+    //location.reload();
+  };
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -94,8 +105,8 @@ export default function SellerForm({}) {
                   id="itemName"
                   label="Item Name"
                   autoFocus
-                  value={itemName}
-                  onChange={(event) => setItemName(event.target.value)}
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -128,6 +139,7 @@ export default function SellerForm({}) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={handleSave}
             >
               Post your item!
             </Button>
