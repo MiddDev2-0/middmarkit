@@ -6,6 +6,7 @@ exports.up = function (knex) {
   return Promise.all([
     knex.schema.createTable("User", (table) => {
       table.increments("id").primary();
+      table.string("googleId");
       table.string("firstName").notNullable();
       table.string("lastName").notNullable();
       table.string("email").notNullable();

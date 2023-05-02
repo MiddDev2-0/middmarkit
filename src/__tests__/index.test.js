@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import Album from "@/pages";
-// import { useRouter } from "next/router";
+import { Album } from "@/pages";
+//import { useRouter } from "next/router";
 
 jest.mock("next/router", () => require("next-router-mock"));
 
 describe("End-to-end testing for index.js", () => {
   test("Renders the heading", () => {
-    render(<Album />);
+    render(<Album LoginWidgetComponent={() => {}} />);
     const heading = screen.getByText(/Welcome to MiddMarket!/i);
     expect(heading).toBeInTheDocument();
   });
@@ -17,7 +17,7 @@ describe("End-to-end testing for index.js", () => {
     useRouterMock.mockImplementation(() => ({
       push: pushMock,
     }));
-    render(<Album />);
+    render(<Album LoginWidgetComponent={() => {}} />);
     const button = screen.getByRole("button", { name: /Sell/i });
     fireEvent.click(button);
 

@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
@@ -14,6 +15,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import LoginWidget from "@/components/LoginWidget";
 
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -38,7 +40,17 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function Album() {
+export default function Authentication() {
+  const { data: status } = useSession({ required: true }); //session
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  return <Album LoginWidgetComponent={LoginWidget} />;
+}
+
+export function Album({ LoginWidgetComponent }) {
   const router = useRouter();
   // const [currentItem,setCurrentItem] = useState();
   const [items, setItems] = useState([]);
@@ -71,9 +83,11 @@ export default function Album() {
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
+          <LoginWidgetComponent />
+          {/* <LoginWidget /> */}
+          {/* <Typography variant="h6" color="inherit" noWrap>
             View Account Info
-          </Typography>
+          </Typography> */}
         </Toolbar>
       </AppBar>
       <main>
