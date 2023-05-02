@@ -6,13 +6,10 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 // import {Stack} from "@mui/material";
 
-export default function InterestForm({ buyer, item }) {
+export default function InterestForm({ buyer, seller, item }) {
   const [contents, setContents] = useState("");
-  const [buyerEmail, setBuyerEmail] = useState("");
   const [UserCollection] = useState(UserData);
 
-  const seller = UserCollection.filter((user) => user.id === item.sellerId)[0];
-  console.log(seller?.FirstName);
   buyer = UserCollection[1];
 
   function mailForm() {
@@ -20,7 +17,7 @@ export default function InterestForm({ buyer, item }) {
     return (
       <a
         id="mailto"
-        href={`mailto:${seller?.Email}?subject=MiddMarkit: Someone is interested in your item&body=${htmlContents}`}
+        href={`mailto:${seller?.email}?subject=MiddMarkit: Someone is interested in your item&body=${htmlContents}`}
         target="_blank"
       >
         Send Email{" "}
@@ -28,17 +25,13 @@ export default function InterestForm({ buyer, item }) {
     );
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     if (seller) {
       setContents(
-        `Hi ${seller["FirstName"]}, \n \nI'm interested in buying your item (${item.name}). My bid is __$__. Please let me know if this works for you. \n\nThanks, \n${buyer.FirstName}`
+        `Hi ${seller["firstName"]}, \n \nI'm interested in buying your item (${item.name}). My bid is __$__. Please let me know if this works for you. \n\nThanks, \n${buyer.firstName}`
       );
     }
-  }, [buyer.FirstName, item.name, seller]);
-
-  useEffect(() => {
-    setBuyerEmail(buyer.Email);
-  }, []);
+  }, [buyer, item, seller]);
 
   return (
     <div style={{ paddingTop: "2em" }}>
@@ -52,9 +45,8 @@ export default function InterestForm({ buyer, item }) {
           margin="normal"
           id="email"
           label="Email"
-          error={!buyerEmail}
-          value={buyerEmail}
-          onChange={(event) => setBuyerEmail(event.target.value)}
+          value={buyer.email}
+          disabled
         />
       </div>
       <div style={{ paddingTop: "5px" }}>
