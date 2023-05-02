@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 20px;
   min-width: 340px;
   max-width: 90%;
@@ -88,5 +89,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #007bff;
+}
+
+.sellStuff {
+  font-family: "__Roboto_0eb3ef", "__Roboto_Fallback_0eb3ef", Helvetica, Arial,
+    sans-serif;
+  font-weight: 300;
+  align-items: center;
 }

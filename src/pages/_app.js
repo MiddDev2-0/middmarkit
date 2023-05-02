@@ -7,12 +7,14 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Head from "next/head";
 import { styled } from "@mui/material/styles";
+import { SessionProvider } from "next-auth/react";
 
 const clientSideEmotionCache = createEmotionCache();
 
 export default function App({
   Component,
-  pageProps,
+  // pageProps,
+  pageProps: { session, ...pageProps },
   emotionCache = clientSideEmotionCache,
 }) {
   const Footer = styled("footer")(({ theme: styledTheme }) => ({
@@ -36,9 +38,11 @@ export default function App({
         <main>
           <Container>
             <Typography variant="h2" align="center">
-              MiddMarkit
+              Midd Markit
             </Typography>
-            <Component {...pageProps} />
+            <SessionProvider session={session}>
+              <Component {...pageProps} />
+            </SessionProvider>
           </Container>
         </main>
 

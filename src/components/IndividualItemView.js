@@ -12,7 +12,7 @@ export default function IndividualItemView({ item }) {
         <CardMedia
           component="img"
           style={{ height: "400" }}
-          image="/Images/0.jpg"
+          image={item.images}
         />
       </Card>
       <Container sx={{ maxWidth: "50%" }}>
@@ -20,7 +20,7 @@ export default function IndividualItemView({ item }) {
           {item.name}
         </Typography>
         <Typography variant="h5" align="left">
-          {item.price}
+          ${item.price}
         </Typography>
         <Typography variant="subtitle1" align="left">
           {item.description}

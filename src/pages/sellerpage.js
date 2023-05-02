@@ -1,4 +1,3 @@
-// sellerpage.js
 //import PropTypes from "prop-types";
 import SellerForm from "../components/SellerForm";
 // import styles from "../styles/SellerForm.module.css";
@@ -12,7 +11,6 @@ export default function SellerPage({}) {
     itemList.push(newItem);
   };
   return (
-    // <div className={styles.container}>
     <div>
       <main>
         {/* <h1>Sell your stuff!</h1> */}
