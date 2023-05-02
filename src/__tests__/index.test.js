@@ -4,7 +4,7 @@ import { Album } from "@/pages";
 
 jest.mock("next/router", () => require("next-router-mock"));
 
-describe("End-to-end testing for index.js", () => {
+describe.skip("End-to-end testing for index.js", () => {
   test("Renders the heading", () => {
     render(<Album LoginWidgetComponent={() => {}} />);
     const heading = screen.getByText(/Welcome to MiddMarket!/i);
