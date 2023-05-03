@@ -5,7 +5,7 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import CardContent from "@mui/material/CardContent";
 
-export default function ItemCard({ item, handleClick, page }) {
+export default function ItemCard({ item, handleClick, page, sold }) {
   const markAsSold = () => {
     const getData = async () => {
       const newItem = { ...item };
@@ -26,6 +26,28 @@ export default function ItemCard({ item, handleClick, page }) {
     getData();
   };
 
+  const bottomtext = () => {
+    if (!sold) {
+      return (
+        <CardContent sx={{ flexGrow: 1 }}>
+          <Typography gutterBottom variant="h5" component="h2">
+            {item.name}
+          </Typography>
+          <Typography>${item.price}</Typography>
+          <Typography>{item.description}</Typography>
+        </CardContent>
+      );
+    } else {
+      return (
+        <CardContent sx={{ flexGrow: 1 }}>
+          <Typography gutterBottom variant="h3" component="h2" align="center">
+            SOLD
+          </Typography>
+        </CardContent>
+      );
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -33,6 +55,7 @@ export default function ItemCard({ item, handleClick, page }) {
         display: "flex",
         flexDirection: "column",
       }}
+      style={{ backgroundColor: sold ? "#CECFD0" : "#FFFFFF" }}
     >
       <CardMedia
         component="img"
@@ -43,23 +66,26 @@ export default function ItemCard({ item, handleClick, page }) {
         image={item.images}
         alt="random"
       />
-      <CardContent sx={{ flexGrow: 1 }}>
+      {/* <CardContent sx={{ flexGrow: 1 }}> 
         <Typography gutterBottom variant="h5" component="h2">
           {item.name}
         </Typography>
         <Typography>${item.price}</Typography>
         <Typography>{item.description}</Typography>
-      </CardContent>
+      </CardContent> */}
+      {bottomtext()}
       <CardActions>
-        <Button
-          size="small"
-          onClick={() => {
-            handleClick("View item", item.id);
-          }}
-        >
-          View item
-        </Button>
-        {page === "user" && (
+        {!sold && (
+          <Button
+            size="small"
+            onClick={() => {
+              handleClick("View item", item.id);
+            }}
+          >
+            View item
+          </Button>
+        )}
+        {page === "user" && !sold && (
           <Button
             size="small"
             onClick={() => {

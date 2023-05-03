@@ -50,6 +50,9 @@ export function Album({}) {
   // const [currentItem,setCurrentItem] = useState();
   const [items, setItems] = useState([]);
   const { data: session } = useSession();
+  const [availableItems, setAvailableItems] = useState([]);
+  const [unavailableItems, setUnavailableItems] = useState([]);
+
   console.log(session);
 
   useEffect(() => {
@@ -70,6 +73,17 @@ export function Album({}) {
       }
     }
   }, [session]);
+
+  useEffect(() => {
+    const available = [];
+    const unavailable = [];
+    items.forEach((item) => {
+      item.isAvailable === 0 ? unavailable.push(item) : available.push(item);
+    });
+    console.log(available);
+    setAvailableItems(available);
+    setUnavailableItems(unavailable);
+  }, [items]);
 
   const handleClick = (button, id) => {
     if (button === "View item") {
@@ -94,11 +108,34 @@ export function Album({}) {
           My Listed Items
         </Typography>
 
+        <Typography variant="h5" align="left" color="text.secondary" paragraph>
+          Available Items
+        </Typography>
+
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
-            {items.map((item) => (
+            {availableItems.map((item) => (
               <Grid key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard item={item} handleClick={handleClick} page="user" />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+
+        <Typography variant="h5" align="left" color="text.secondary" paragraph>
+          Sold Items
+        </Typography>
+
+        <Container sx={{ py: 8 }} maxWidth="md">
+          <Grid container spacing={4}>
+            {unavailableItems.map((item) => (
+              <Grid key={item.id} xs={12} sm={6} md={4}>
+                <ItemCard
+                  item={item}
+                  handleClick={handleClick}
+                  page="user"
+                  sold="sold"
+                />
               </Grid>
             ))}
           </Grid>
