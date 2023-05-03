@@ -84,48 +84,21 @@ export function Album({}) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {/* <AppBar position="relative">
-        <Toolbar>
-          <LoginWidgetComponent />
-        </Toolbar>
-      </AppBar> */}
       <main>
-        {/* Hero unit
-        <Box
-          sx={{
-            bgcolor: "background.paper",
-            pt: 8,
-            pb: 6,
-          }}
+        <Typography
+          variant="h4"
+          align="center"
+          color="text.secondary"
+          paragraph
         >
-          <Container maxWidth="sm">
-            <Typography
-              variant="h5"
-              align="center"
-              color="text.secondary"
-              paragraph
-            >
-              My Items for Sale
-            </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button variant="contained">Home</Button>
-              <Button variant="outlined" onClick={() => handleClick("sell")}>
-                Sell
-              </Button>
-            </Stack>
-          </Container>
-        </Box> */}
+          My Listed Items
+        </Typography>
+
         <Container sx={{ py: 8 }} maxWidth="md">
-          {/* End hero unit */}
           <Grid container spacing={4}>
             {items.map((item) => (
               <Grid key={item.id} xs={12} sm={6} md={4}>
-                <ItemCard item={item} handleClick={handleClick} />
+                <ItemCard item={item} handleClick={handleClick} page="user" />
               </Grid>
             ))}
           </Grid>

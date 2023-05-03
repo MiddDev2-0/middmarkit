@@ -5,7 +5,27 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import CardContent from "@mui/material/CardContent";
 
-export default function ItemCard({ item, handleClick }) {
+export default function ItemCard({ item, handleClick, page }) {
+  const markAsSold = () => {
+    const getData = async () => {
+      const newItem = { ...item };
+      newItem.isAvailable = false;
+      const response = await fetch(`/api/items/${item.id}`, {
+        method: "PUT",
+        body: JSON.stringify(newItem),
+        headers: new Headers({
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }),
+      });
+      if (!response.ok) {
+        console.log("error");
+        throw new Error(response.statusText);
+      }
+    };
+    getData();
+  };
+
   return (
     <Card
       sx={{
@@ -39,6 +59,16 @@ export default function ItemCard({ item, handleClick }) {
         >
           View item
         </Button>
+        {page === "user" && (
+          <Button
+            size="small"
+            onClick={() => {
+              markAsSold();
+            }}
+          >
+            Mark as sold
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
