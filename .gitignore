@@ -9,9 +9,6 @@
 /coverage
 .eslintcache
 
-# Ignore the default SQLite database.
-/db/*.sqlite3
-
 # next.js
 /.next/
 /out/

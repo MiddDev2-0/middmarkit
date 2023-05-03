@@ -28,7 +28,7 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href={newLocal}>
-        Your Website
+        middmarkit.com
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -74,7 +74,7 @@ export function Album({ LoginWidgetComponent }) {
     }
 
     if (button === "sell") {
-      router.push("/sellerpage");
+      router.push("/items/new");
     }
   };
 
@@ -106,8 +106,8 @@ export function Album({ LoginWidgetComponent }) {
               color="text.secondary"
               paragraph
             >
-              Welcome to MiddMarket! This is a web application where you can buy
-              and sell items on the Middlebury Campus
+              Welcome to Midd Markit! This is a web application where you can
+              buy and sell items on the Middlebury Campus
             </Typography>
             <Stack
               sx={{ pt: 4 }}
@@ -141,7 +141,7 @@ export function Album({ LoginWidgetComponent }) {
           color="text.secondary"
           component="p"
         >
-          MiddMarkit
+          Midd Markit
         </Typography>
         <Copyright />
       </Box>

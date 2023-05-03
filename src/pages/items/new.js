@@ -1,5 +1,5 @@
 //import PropTypes from "prop-types";
-import SellerForm from "../components/SellerForm";
+import SellerForm from "../../components/SellerForm";
 // import styles from "../styles/SellerForm.module.css";
 import React, { useState } from "react";
 
