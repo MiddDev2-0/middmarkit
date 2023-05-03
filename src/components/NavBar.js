@@ -15,23 +15,35 @@ import LoginWidgetComponent from "@/components/LoginWidget";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 export default function AppBarComponent({}) {
   const theme = createTheme();
   const { data: session } = useSession({ required: true });
   const router = useRouter();
+  // states to highlight the button that is clicked
+  const [homeVariant, setHomeVariant] = useState("contained");
+  const [sellVariant, setSellVariant] = useState("outlined");
+  const [itemsVariant, setItemsVariant] = useState("outlined");
 
   const handleClick = (button) => {
     if (button === "sell") {
       router.push("/sellerpage");
+      setSellVariant("contained");
+      setHomeVariant("outlined");
+      setItemsVariant("outlined");
     }
-
     if (button === "home") {
       router.push("/");
+      setHomeVariant("contained");
+      setSellVariant("outlined");
+      setItemsVariant("outlined");
     }
-
     if (button === "user items" && !!session && !!session.user) {
       router.push(`/users/${session.user.id}`);
+      setItemsVariant("contained");
+      setSellVariant("outlined");
+      setHomeVariant("outlined");
     }
   };
 
@@ -62,16 +74,16 @@ export default function AppBarComponent({}) {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant="contained" onClick={() => handleClick("home")}>
+              <Button variant={homeVariant} onClick={() => handleClick("home")}>
                 Home
               </Button>
-              <Button variant="outlined" onClick={() => handleClick("sell")}>
+              <Button variant={sellVariant} onClick={() => handleClick("sell")}>
                 Sell
               </Button>
 
               {!!session && !!session.user && (
                 <Button
-                  variant="outlined"
+                  variant={itemsVariant}
                   onClick={() => handleClick("user items")}
                 >
                   My items
