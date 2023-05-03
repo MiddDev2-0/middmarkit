@@ -13,9 +13,27 @@ import Container from "@mui/material/Container";
 import LoginWidgetComponent from "@/components/LoginWidget";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
-export default function AppBarComponent({ handleClick, user }) {
+export default function AppBarComponent({}) {
   const theme = createTheme();
+  const { data: session } = useSession({ required: true });
+  const router = useRouter();
+
+  const handleClick = (button) => {
+    if (button === "sell") {
+      router.push("/sellerpage");
+    }
+
+    if (button === "home") {
+      router.push("/");
+    }
+
+    if (button === "user items" && !!session && !!session.user) {
+      router.push(`/users/${session.user.id}`);
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -50,8 +68,8 @@ export default function AppBarComponent({ handleClick, user }) {
               <Button variant="outlined" onClick={() => handleClick("sell")}>
                 Sell
               </Button>
-              {console.log(user)}
-              {!!user && (
+
+              {!!session && !!session.user && (
                 <Button
                   variant="outlined"
                   onClick={() => handleClick("user items")}

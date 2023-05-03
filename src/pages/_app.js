@@ -9,9 +9,6 @@ import Head from "next/head";
 import { styled } from "@mui/material/styles";
 import { SessionProvider } from "next-auth/react";
 import NavBar from "@/components/NavBar";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -30,31 +27,29 @@ export default function App({
     paddingTop: styledTheme.spacing(2),
   }));
 
-  const { data: userSession } = useSession({ required: true });
-  const router = useRouter();
-  const [user, setUser] = useState();
+  // const { data: userSession } = useSession({ required: true });
 
-  useEffect(() => {
-    if (userSession) {
-      if (userSession.user) {
-        setUser(userSession.user);
-      }
-    }
-  }, [userSession]);
+  // useEffect(() => {
+  //   if (userSession) {
+  //     if (userSession.user) {
+  //       setUser(userSession.user);
+  //     }
+  //   }
+  // }, [userSession]);
 
-  const handleClick = (button) => {
-    if (button === "sell") {
-      router.push("/sellerpage");
-    }
+  // const handleClick = (button) => {
+  //   if (button === "sell") {
+  //     router.push("/sellerpage");
+  //   }
 
-    if (button === "home") {
-      router.push("/");
-    }
+  //   if (button === "home") {
+  //     router.push("/");
+  //   }
 
-    if (button === "user items" && user) {
-      router.push(`/users/${user.id}`);
-    }
-  };
+  //   if (button === "user items" && user) {
+  //     router.push(`/users/${user.id}`);
+  //   }
+  // };
 
   return (
     <CacheProvider value={emotionCache}>
@@ -71,7 +66,7 @@ export default function App({
               Midd Markit
             </Typography>
             <SessionProvider session={session}>
-              <NavBar handleClick={handleClick} user={user} />
+              <NavBar />
               <Component {...pageProps} />
             </SessionProvider>
           </Container>
