@@ -33,8 +33,10 @@ export default function SellerForm({}) {
   const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
 
   useEffect(() => {
-    setAllFieldsPopulated(name !== "" && description !== "" && price !== "");
-  }, [name, description, price, imageID]);
+    setAllFieldsPopulated(
+      name !== "" && description !== "" && price !== "" && imageId !== undefined
+    );
+  }, [name, description, price, imageId]);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -139,7 +141,7 @@ export default function SellerForm({}) {
               </Grid>
             </Grid>
             <Button
-              type="submit"
+              type="button"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
