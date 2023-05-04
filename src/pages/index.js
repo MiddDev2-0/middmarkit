@@ -27,7 +27,7 @@ function Copyright() {
     <Typography variant="body2" color="text.secondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href={newLocal}>
-        Your Website
+        middmarkit.com
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -73,7 +73,7 @@ export function Album({}) {
     }
 
     if (button === "sell") {
-      router.push("/sellerpage");
+      router.push("/items/new");
     }
   };
 
@@ -126,7 +126,7 @@ export function Album({}) {
           color="text.secondary"
           component="p"
         >
-          MiddMarkit
+          Midd Markit
         </Typography>
         <Copyright />
       </Box>

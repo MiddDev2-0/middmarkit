@@ -36,6 +36,7 @@ exports.seed = function (knex) {
       item_data.forEach((item) => {
         const userEmail = item.sellerEmail;
         itemPromises.push(createItem(knex, item, userEmail));
+        console.log(item);
       });
       return Promise.all(itemPromises);
     });

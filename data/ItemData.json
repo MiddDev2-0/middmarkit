@@ -7,7 +7,7 @@
     "sellerEmail": "mtarantola@middlebury.edu",
     "datePosted": "2016-12-07T23:22:33.357Z",
     "isAvailable": true,
-    "images": "/Images/1.jpg"
+    "images": "listings/igcyn5wksqm2xyurxyeg"
   },
   {
     "id": 2,
@@ -17,7 +17,7 @@
     "sellerEmail": "ccassani@middlebury.edu",
     "datePosted": "2016-12-07T23:22:33.357Z",
     "isAvailable": true,
-    "images": "/Images/2.jpg"
+    "images": "listings/cfgevownlgvbxloaaajf"
   },
   {
     "id": 3,
@@ -27,6 +27,6 @@
     "sellerEmail": "azatzick@middlebury.edu",
     "datePosted": "2016-12-07T23:22:33.357Z",
     "isAvailable": true,
-    "images": "/Images/3.jpg"
+    "images": "listings/hknhfywitr2u5i9dpj68"
   }
 ]
