@@ -34,8 +34,10 @@ export default function SellerForm({}) {
   const router = useRouter();
 
   useEffect(() => {
-    setAllFieldsPopulated(name !== "" && description !== "" && price !== "");
-  }, [name, description, price]);
+    setAllFieldsPopulated(
+      name !== "" && description !== "" && price !== "" && imageId !== undefined
+    );
+  }, [name, description, price, imageId]);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -159,7 +161,7 @@ export default function SellerForm({}) {
               </Grid>
             </Grid>
             <Button
-              type="submit"
+              type="button"
               fullWidth
               variant="contained"
               sx={{ mt: 4, mb: 2 }}
