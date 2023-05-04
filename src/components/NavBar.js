@@ -28,7 +28,7 @@ export default function AppBarComponent({}) {
 
   const handleClick = (button) => {
     if (button === "sell") {
-      router.push("/sellerpage");
+      router.push("/items/new");
       setSellVariant("contained");
       setHomeVariant("outlined");
       setItemsVariant("outlined");
