@@ -10,8 +10,15 @@ export default function LoginWidget() {
         <p>
           Signed in as {session.user.email}{" "}
           <Button
-            backgroundColor="#FFFFFF"
-            variant="contained"
+            sx={{
+              color: "primary",
+              backgroundColor: "#FFFFFF",
+              ":hover": {
+                backgroundColor: "#FFFFFF",
+                color: "primary",
+              },
+            }}
+            variant="outlined"
             onClick={signOut}
           >
             Sign out
