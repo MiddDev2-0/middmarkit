@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import SellerPage from "@/pages/sellerpage";
+import SellerPage from "@/pages/items/new";
 
 describe.skip("SellerPage", () => {
   it("renders the sell stuff title", () => {
