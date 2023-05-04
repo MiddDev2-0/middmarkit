@@ -5,7 +5,7 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import CardContent from "@mui/material/CardContent";
 
-export default function ItemCard({ item, handleClick, page, sold }) {
+export default function ItemCard({ item, handleClick, page, sold, complete }) {
   const markAsSold = () => {
     const getData = async () => {
       const newItem = { ...item };
@@ -22,6 +22,8 @@ export default function ItemCard({ item, handleClick, page, sold }) {
         console.log("error");
         throw new Error(response.statusText);
       }
+      const data = await response.json();
+      complete(data);
     };
     getData();
   };

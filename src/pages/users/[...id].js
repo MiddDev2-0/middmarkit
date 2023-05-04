@@ -55,6 +55,13 @@ export function Album({}) {
 
   console.log(session);
 
+  const complete = (insertedItem) => {
+    const newItems = items.map((item) => {
+      return item.id === insertedItem.id ? insertedItem : item;
+    });
+    setItems(newItems);
+  };
+
   useEffect(() => {
     if (session) {
       if (session.user) {
@@ -77,12 +84,16 @@ export function Album({}) {
   useEffect(() => {
     const available = [];
     const unavailable = [];
-    items.forEach((item) => {
-      item.isAvailable === 0 ? unavailable.push(item) : available.push(item);
-    });
-    console.log(available);
-    setAvailableItems(available);
-    setUnavailableItems(unavailable);
+    console.log("user page items");
+    console.log(items);
+    if (items) {
+      items.forEach((item) => {
+        item.isAvailable === 0 ? unavailable.push(item) : available.push(item);
+      });
+      console.log(available);
+      setAvailableItems(available);
+      setUnavailableItems(unavailable);
+    }
   }, [items]);
 
   const handleClick = (button, id) => {
@@ -116,7 +127,13 @@ export function Album({}) {
           <Grid container spacing={4}>
             {availableItems.map((item) => (
               <Grid key={item.id} xs={12} sm={6} md={4}>
-                <ItemCard item={item} handleClick={handleClick} page="user" />
+                <ItemCard
+                  item={item}
+                  handleClick={handleClick}
+                  page="user"
+                  setItems={setItems}
+                  complete={complete}
+                />
               </Grid>
             ))}
           </Grid>
@@ -135,6 +152,8 @@ export function Album({}) {
                   handleClick={handleClick}
                   page="user"
                   sold="sold"
+                  setItems={setItems}
+                  complete={complete}
                 />
               </Grid>
             ))}
