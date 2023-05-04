@@ -16,7 +16,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
 const theme = createTheme();
 
@@ -28,10 +28,9 @@ const upload_preset = "ucwgvyiu";
 export default function SellerForm({}) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [imageId, setImageId] = useState(undefined);
+  const [imageID, setImageID] = useState("");
   const [price, setPrice] = useState("");
   const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     setAllFieldsPopulated(
@@ -58,36 +57,19 @@ export default function SellerForm({}) {
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
-        setImageId(response.public_id);
+        setImageID(response.public_id);
       });
   };
 
-  const handlePost = () => {
+  const handleSave = () => {
     const newItem = {
       name: name,
       description: description,
-      price: Math.round(+price),
-      sellerId: 1,
-      datePosted: new Date().toISOString(),
-      isAvailable: true,
-      images: imageId,
+      price: price,
+      imageID: imageID,
+      imageURL: `https://res.cloudinary.com/middmarkit/image/upload/${imageID}.jpg`,
     };
     console.log(newItem);
-
-    //BAD REQUEST ERROR:
-
-    fetch("/api/items", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(newItem),
-    })
-      .then((resp) => resp.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
-  };
-
-  const handleCancel = () => {
-    router.push(`/`);
   };
 
   return (
@@ -137,8 +119,6 @@ export default function SellerForm({}) {
                 <TextField
                   required
                   fullWidth
-                  type="number"
-                  pattern="[0-9]+"
                   id="price"
                   label="Price"
                   name="price"
@@ -164,14 +144,11 @@ export default function SellerForm({}) {
               type="button"
               fullWidth
               variant="contained"
-              sx={{ mt: 4, mb: 2 }}
-              onClick={handlePost}
+              sx={{ mt: 3, mb: 2 }}
+              onClick={handleSave}
               disabled={!allFieldsPopulated}
             >
               Post your item!
-            </Button>
-            <Button sx={{ mt: 2, mb: 2 }} onClick={handleCancel}>
-              Cancel
             </Button>
           </Box>
         </Box>

@@ -3,43 +3,43 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import ButtonBase from "@mui/material/ButtonBase";
-
 import CardContent from "@mui/material/CardContent";
 
-const ItemCard = ({ item, handleClick }) => {
-  const cloud_name = "middmarkit";
-  const public_id = item.images;
+export default function ItemCard({ item, handleClick }) {
   return (
-    <ButtonBase onClick={() => handleClick("View item", item.id)}>
-      <Card
+    <Card
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <CardMedia
+        component="img"
         sx={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          m: "10px",
-          pt: "10px",
+          // 16:9
+          pt: "56.25%",
         }}
-      >
-        <CardMedia
-          component="img"
-          sx={{ p: "10px" }}
-          image={`https://res.cloudinary.com/${cloud_name}/image/upload/${public_id}`}
-          alt="random"
-        />
-        <CardContent sx={{ flexGrow: 1 }}>
-          <Typography gutterBottom variant="h5" component="h2">
-            {item.name}
-          </Typography>
-          <Typography>${item.price}</Typography>
-          <Typography>{item.description}</Typography>
-        </CardContent>
-        <CardActions style={{ display: "none" }}>
-          <Button> </Button>
-        </CardActions>
-      </Card>
-    </ButtonBase>
+        image={item.images}
+        alt="random"
+      />
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Typography gutterBottom variant="h5" component="h2">
+          {item.name}
+        </Typography>
+        <Typography>${item.price}</Typography>
+        <Typography>{item.description}</Typography>
+      </CardContent>
+      <CardActions>
+        <Button
+          size="small"
+          onClick={() => {
+            handleClick("View item", item.id);
+          }}
+        >
+          View item
+        </Button>
+      </CardActions>
+    </Card>
   );
-};
-
-export default ItemCard;
+}

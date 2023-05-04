@@ -5,19 +5,17 @@ import { Stack } from "@mui/system";
 import { Container } from "@mui/material";
 
 export default function IndividualItemView({ item }) {
-  const cloud_name = "middmarkit";
-  const public_id = item.images;
   return (
-    <Stack spacing={2}>
-      <Card sx={{ maxWidth: "400px" }}>
+    <Stack spacing={2} direction="row" sx={{ paddingTop: 10 }}>
+      <Card sx={{ maxWidth: "50%", maxHeight: 600 }}>
         <CardMedia
           component="img"
           style={{ height: "400" }}
-          image={`https://res.cloudinary.com/${cloud_name}/image/upload/${public_id}`}
+          image={item.images}
         />
       </Card>
-      <Container>
-        <Typography variant="h4" align="left">
+      <Container sx={{ maxWidth: "50%" }}>
+        <Typography variant="h3" align="left">
           {item.name}
         </Typography>
         <Typography variant="h5" align="left">

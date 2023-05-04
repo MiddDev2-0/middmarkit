@@ -10,9 +10,7 @@ const handler = nc({ onError })
   })
   .post(async (req, res) => {
     const { id, ...newItem } = req.body;
-    console.log("newItem made it to the API: ", newItem);
     const item = await Item.query().insertAndFetch(newItem).throwIfNotFound();
-    console.log("item was inserted into DB", item);
     res.status(200).json(item);
   });
 
