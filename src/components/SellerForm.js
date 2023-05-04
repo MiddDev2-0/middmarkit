@@ -84,6 +84,8 @@ export default function SellerForm({}) {
       .then((resp) => resp.json())
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
+
+    router.push(`/`);
   };
 
   const handleCancel = () => {
