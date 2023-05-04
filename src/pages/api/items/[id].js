@@ -18,6 +18,15 @@ const handler = nc({ onError })
       .updateAndFetchById(id, updatedItem)
       .throwIfNotFound();
     res.status(200).json(item);
+  })
+  .delete(async (req, res) => {
+    const item = await Item.query().deleteById(req.query.id);
+    if (item) {
+      console.log(item);
+      res.status(200).json({ message: "Item deleted successfully" });
+    } else {
+      res.status(400).end("item not found");
+    }
   });
 
 export default handler;

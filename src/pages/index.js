@@ -1,16 +1,15 @@
 import { useSession } from "next-auth/react";
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Button from "@mui/material/Button";
+
 // import Card from "@mui/material/Card";
 // import CardActions from "@mui/material/CardActions";
 // import CardContent from "@mui/material/CardContent";
 // import CardMedia from "@mui/material/CardMedia";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
+
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
+
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
@@ -50,7 +49,7 @@ export default function Authentication() {
   return <Album LoginWidgetComponent={LoginWidget} />;
 }
 
-export function Album({ LoginWidgetComponent }) {
+export function Album({}) {
   const router = useRouter();
   // const [currentItem,setCurrentItem] = useState();
   const [items, setItems] = useState([]);
@@ -81,15 +80,12 @@ export function Album({ LoginWidgetComponent }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar position="relative">
+      {/* <AppBar position="relative">
         <Toolbar>
           <LoginWidgetComponent />
-          {/* <LoginWidget /> */}
-          {/* <Typography variant="h6" color="inherit" noWrap>
-            View Account Info
-          </Typography> */}
+          
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
       <main>
         {/* Hero unit */}
         <Box
@@ -106,20 +102,9 @@ export function Album({ LoginWidgetComponent }) {
               color="text.secondary"
               paragraph
             >
-              Welcome to Midd Markit! This is a web application where you can
-              buy and sell items on the Middlebury Campus
+              Welcome to MiddMarkit! This is a web application where you can buy
+              and sell items on the Middlebury Campus
             </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button variant="contained">Home</Button>
-              <Button variant="outlined" onClick={() => handleClick("sell")}>
-                Sell
-              </Button>
-            </Stack>
           </Container>
         </Box>
         <Container sx={{ py: 8 }} maxWidth="md">

@@ -16,8 +16,6 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import * as React from "react";
 
-import AppBar from "../../components/AppBar.js";
-
 export default function ItemPage() {
   const [user, setUser] = useState();
   const router = useRouter();
@@ -86,7 +84,6 @@ export default function ItemPage() {
 
   return (
     <div>
-      <AppBar />
       <div>{currentItem && <IndividualItemView item={currentItem} />}</div>
       <div>
         {currentItem && user && (
