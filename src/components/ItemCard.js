@@ -33,11 +33,11 @@ export default function ItemCard({ item, handleClick, page, sold, complete }) {
     if (!sold) {
       return (
         <CardContent sx={{}}>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h5" component="h2" align="center">
             {item.name}
           </Typography>
-          <Typography>${item.price}</Typography>
-          <Typography noWrap sx={{ width: "100%" }}>
+          <Typography align="center">${item.price}</Typography>
+          <Typography align="center" noWrap sx={{ width: "100%" }}>
             {item.description}
           </Typography>
         </CardContent>
