@@ -9,6 +9,7 @@ import Head from "next/head";
 import { styled } from "@mui/material/styles";
 import { SessionProvider } from "next-auth/react";
 import NavBar from "@/components/NavBar";
+import SearchBar from "@/components/SearchBar";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -67,6 +68,7 @@ export default function App({
             </Typography>
             <SessionProvider session={session}>
               <NavBar />
+              <SearchBar />
               <Component {...pageProps} />
             </SessionProvider>
           </Container>
