@@ -8,7 +8,6 @@ in the future this component would take in an item
 
 
 */
-
 import IndividualItemView from "@/components/IndividualItemView";
 import { useState } from "react";
 import InterestForm from "@/components/InterestForm";
@@ -20,8 +19,6 @@ export default function ItemPage() {
   const [user, setUser] = useState();
   const router = useRouter();
   const { id } = router.query;
-
-  // const id = +router.query.id;
   const [currentItem, setCurrentItem] = useState();
 
   useEffect(() => {
@@ -35,9 +32,7 @@ export default function ItemPage() {
           if (!response.ok) {
             throw new Error(response.statusText);
           }
-
           const data = await response.json();
-
           setCurrentItem(data);
         };
         getData();
@@ -46,23 +41,6 @@ export default function ItemPage() {
       }
     }
   }, [id, router.isReady]);
-
-  // useEffect(() => {
-  //   if (!id) {
-  //     setCurrentItem();
-  //   } else if (!currentItem || currentItem.id !== id) {
-  //     (async () => {
-  //       const response = await fetch(`/api/items/${id}`, { method: "GET" });
-  //       if (response.ok) {
-  //         const currItem = await response.json();
-  //         setCurrentArticle(currentItem);
-  //         console.log(currItem)
-  //       }
-  //     })();
-  //   }
-  // }, [id, currentItem]);
-
-  console.log(currentItem);
 
   useEffect(() => {
     if (currentItem) {
@@ -74,9 +52,7 @@ export default function ItemPage() {
           throw new Error(response.statusText);
         }
         const data = await response.json();
-        console.log(data);
         setUser(data);
-        console.log(user);
       };
       getData();
     }
@@ -87,11 +63,7 @@ export default function ItemPage() {
       <div>{currentItem && <IndividualItemView item={currentItem} />}</div>
       <div>
         {currentItem && user && (
-          <InterestForm
-            item={currentItem}
-            seller={user}
-            buyer={{ firstName: "test" }}
-          />
+          <InterestForm item={currentItem} seller={user} />
         )}
       </div>
     </div>
