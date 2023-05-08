@@ -20,6 +20,7 @@ export default function ItemCard({
     const getData = async () => {
       const newItem = { ...item };
       newItem.isAvailable = false;
+      console.log(newItem);
       const response = await fetch(`/api/items/${item.id}`, {
         method: "PUT",
         body: JSON.stringify(newItem),
@@ -43,6 +44,8 @@ export default function ItemCard({
     const getData = async () => {
       const newItem = { ...item };
       newItem.adminRemoved = true;
+      newItem.isAvailable = Boolean(newItem.isAvailable);
+      console.log(JSON.stringify(newItem));
       const response = await fetch(`/api/items/${item.id}`, {
         method: "PUT",
         body: JSON.stringify(newItem),
