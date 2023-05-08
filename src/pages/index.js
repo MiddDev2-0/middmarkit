@@ -40,8 +40,6 @@ function Copyright() {
 const theme = createTheme();
 
 export default function Authentication() {
-  const { data: status } = useSession({ required: true }); //session
-
   if (status === "loading") {
     return <div>Loading...</div>;
   }
@@ -53,6 +51,10 @@ export function Album({}) {
   const router = useRouter();
   // const [currentItem,setCurrentItem] = useState();
   const [items, setItems] = useState([]);
+  const { data: session } = useSession();
+  const isReviewer = session.user.reviewerStatus;
+  console.log("is reviewer");
+  console.log(isReviewer);
 
   useEffect(() => {
     const getData = async () => {
@@ -62,6 +64,7 @@ export function Album({}) {
         throw new Error(response.statusText);
       }
       const data = await response.json();
+      data.filter((item) => !item.adminRemoved && item.isAvailable);
       setItems(data);
     };
     getData();
@@ -75,6 +78,13 @@ export function Album({}) {
     if (button === "sell") {
       router.push("/items/new");
     }
+  };
+
+  const complete = (removedItem) => {
+    const newItems = items.map((item) => {
+      return item.id === removedItem.id ? removedItem : item;
+    });
+    setItems(newItems);
   };
 
   return (
@@ -116,7 +126,12 @@ export function Album({}) {
           >
             {items.map((item) => (
               <Grid item key={item.id} xs={12} sm={6} md={4}>
-                <ItemCard item={item} handleClick={handleClick} />
+                <ItemCard
+                  item={item}
+                  handleClick={handleClick}
+                  complete={complete}
+                  isReviewer={isReviewer}
+                />
               </Grid>
             ))}
           </Grid>
