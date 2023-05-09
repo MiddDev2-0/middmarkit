@@ -3,8 +3,9 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-
 import CardContent from "@mui/material/CardContent";
+import PropTypes from "prop-types";
+import ItemShape from "./ItemShape";
 
 export default function ItemCard({ item, handleClick, page, sold, complete }) {
   const markAsSold = () => {
@@ -99,3 +100,11 @@ export default function ItemCard({ item, handleClick, page, sold, complete }) {
     </Card>
   );
 }
+
+ItemCard.propTypes = {
+  item: ItemShape,
+  handleClick: PropTypes.func.isRequired,
+  page: PropTypes.string.isRequired,
+  sold: PropTypes.bool.isRequired,
+  complete: PropTypes.func.isRequired,
+};
