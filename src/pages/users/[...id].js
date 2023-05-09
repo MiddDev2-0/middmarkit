@@ -88,7 +88,11 @@ export function Album({}) {
     console.log(items);
     if (items) {
       items.forEach((item) => {
-        item.isAvailable === 0 ? unavailable.push(item) : available.push(item);
+        if (item.isAvailable === 0) {
+          unavailable.push(item);
+        } else if (item.isAvailable === 1 && !item.adminRemoved) {
+          available.push(item);
+        }
       });
       console.log(available);
       setAvailableItems(available);

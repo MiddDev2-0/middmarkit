@@ -27,30 +27,6 @@ export default function App({
     paddingTop: styledTheme.spacing(2),
   }));
 
-  // const { data: userSession } = useSession({ required: true });
-
-  // useEffect(() => {
-  //   if (userSession) {
-  //     if (userSession.user) {
-  //       setUser(userSession.user);
-  //     }
-  //   }
-  // }, [userSession]);
-
-  // const handleClick = (button) => {
-  //   if (button === "sell") {
-  //     router.push("/sellerpage");
-  //   }
-
-  //   if (button === "home") {
-  //     router.push("/");
-  //   }
-
-  //   if (button === "user items" && user) {
-  //     router.push(`/users/${user.id}`);
-  //   }
-  // };
-
   return (
     <CacheProvider value={emotionCache}>
       <Head>

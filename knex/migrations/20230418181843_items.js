@@ -27,6 +27,7 @@ exports.up = function (knex) {
       table.string("datePosted").notNullable();
       table.boolean("isAvailable").notNullable();
       table.string("images").notNullable();
+      table.boolean("adminRemoved").notNullable();
     }),
   ]);
 };

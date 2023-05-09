@@ -18,6 +18,7 @@ const createItem = (knex, item, userEmail) => {
         datePosted: item.datePosted,
         isAvailable: item.isAvailable,
         images: item.images,
+        adminRemoved: item.adminRemoved,
       });
     });
 };
