@@ -17,8 +17,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useRouter } from "next/router";
+
+import { useSession } from "next-auth/react";
+
 import CircularProgress from "@mui/material/CircularProgress";
 import Backdrop from "@mui/material/Backdrop";
+
 
 const theme = createTheme();
 
@@ -34,6 +38,10 @@ export default function SellerForm({}) {
   const [price, setPrice] = useState("");
   const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
   const router = useRouter();
+
+  const [seller, setSeller] = useState();
+  const { data: session } = useSession();
+
   const [open, setOpen] = React.useState(false);
 
   const handleCloseBackdrop = () => {
@@ -43,11 +51,31 @@ export default function SellerForm({}) {
     setOpen(true);
   };
 
+
   useEffect(() => {
     setAllFieldsPopulated(
       name !== "" && description !== "" && price !== "" && imageId !== undefined
     );
   }, [name, description, price, imageId]);
+
+  useEffect(() => {
+    if (session) {
+      if (session.user) {
+        const getData = async () => {
+          const response = await fetch(`/api/users/${session.user.id}`, {
+            method: "GET",
+          });
+          if (!response.ok) {
+            console.log("error");
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          setSeller(data);
+        };
+        getData();
+      }
+    }
+  }, [session]);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -78,7 +106,7 @@ export default function SellerForm({}) {
       name: name,
       description: description,
       price: Math.round(+price),
-      sellerId: 1,
+      sellerId: seller.id,
       datePosted: new Date().toISOString(),
       isAvailable: true,
       images: imageId,
