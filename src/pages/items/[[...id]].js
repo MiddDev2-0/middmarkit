@@ -67,11 +67,7 @@ export default function ItemPage() {
       <div>{currentItem && <IndividualItemView item={currentItem} />}</div>
       <div>
         {currentItem && user && (
-          <InterestForm
-            item={currentItem}
-            seller={user}
-            buyer={{ firstName: "test" }}
-          />
+          <InterestForm item={currentItem} seller={user} />
         )}
       </div>
     </div>
