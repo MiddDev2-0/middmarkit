@@ -104,7 +104,7 @@ export default function ItemCard({ item, handleClick, page, sold, complete }) {
 ItemCard.propTypes = {
   item: ItemShape,
   handleClick: PropTypes.func.isRequired,
-  page: PropTypes.string.isRequired,
-  sold: PropTypes.bool.isRequired,
-  complete: PropTypes.func.isRequired,
+  page: PropTypes.string,
+  sold: PropTypes.bool,
+  complete: PropTypes.func,
 };
