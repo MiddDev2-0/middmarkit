@@ -10,8 +10,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-//import LoginWidget from "@/components/LoginWidget";
-//import { SessionProvider } from "next-auth/react";
 
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -33,22 +31,7 @@ function Copyright() {
 }
 
 // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 const theme = createTheme();
-
-// export default function Authentication({ session }) {
-//   // const { data: status } = useSession({ required: true }); //session
-
-//   // if (status === "loading") {
-//   //   return <div>Loading...</div>;
-//   // }
-
-//   return (
-//     <SessionProvider session={session}>
-//       <Album LoginWidgetComponent={LoginWidget} />;
-//     </SessionProvider>
-//   );
-// }
 
 export default function Album({}) {
   const router = useRouter();
