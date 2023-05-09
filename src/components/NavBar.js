@@ -2,6 +2,9 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 
+import SearchBar from "@/components/SearchBar";
+import { Typography } from "@mui/material";
+
 import CssBaseline from "@mui/material/CssBaseline";
 
 import Stack from "@mui/material/Stack";
@@ -57,6 +60,13 @@ export default function AppBarComponent({}) {
           {/* <Typography variant="h6" color="inherit" noWrap>
             View Account Info
           </Typography> */}
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+          />
+          <SearchBar />
         </Toolbar>
       </AppBar>
       <main>
@@ -80,7 +90,6 @@ export default function AppBarComponent({}) {
               <Button variant={sellVariant} onClick={() => handleClick("sell")}>
                 Sell
               </Button>
-
               {!!session && !!session.user && (
                 <Button
                   variant={itemsVariant}
@@ -89,6 +98,7 @@ export default function AppBarComponent({}) {
                   My items
                 </Button>
               )}
+              {/* <SearchBar/> */}
             </Stack>
           </Container>
         </Box>
