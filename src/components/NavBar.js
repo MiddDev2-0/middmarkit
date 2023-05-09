@@ -9,7 +9,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 
 import Container from "@mui/material/Container";
-
 import LoginWidgetComponent from "@/components/LoginWidget";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -19,7 +18,7 @@ import { useState } from "react";
 
 export default function AppBarComponent({}) {
   const theme = createTheme();
-  const { data: session } = useSession({ required: true });
+  const { data: session } = useSession();
   const router = useRouter();
   console.log("router");
   console.log(router);
