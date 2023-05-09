@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 
 import Container from "@mui/material/Container";
+//import { SessionProvider }  from "next-auth/react";
 
 import LoginWidgetComponent from "@/components/LoginWidget";
 
@@ -19,7 +20,7 @@ import { useState } from "react";
 
 export default function AppBarComponent({}) {
   const theme = createTheme();
-  const { data: session } = useSession({ required: true });
+  const { data: session } = useSession();
   const router = useRouter();
   // states to highlight the button that is clicked
   const [homeVariant, setHomeVariant] = useState("contained");
@@ -45,9 +46,17 @@ export default function AppBarComponent({}) {
       setSellVariant("outlined");
       setHomeVariant("outlined");
     }
+    // return (
+    //   <SessionProvider session={session}>
+    //     <main>
+    //       {/* rest of the code */}
+    //     </main>
+    //   </SessionProvider>
+    // );
   };
 
   return (
+    // <SessionProvider session={session}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppBar position="relative">
@@ -94,5 +103,6 @@ export default function AppBarComponent({}) {
         </Box>
       </main>
     </ThemeProvider>
+    // {/* </SessionProvider> */}
   );
 }

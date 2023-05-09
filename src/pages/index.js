@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import * as React from "react";
 
 // import Card from "@mui/material/Card";
@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import LoginWidget from "@/components/LoginWidget";
+//import LoginWidget from "@/components/LoginWidget";
 
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -39,17 +39,17 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function Authentication() {
-  const { data: status } = useSession({ required: true }); //session
+// export default function Authentication() {
+//   const { data: status } = useSession({ required: true }); //session
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
+//   if (status === "loading") {
+//     return <div>Loading...</div>;
+//   }
 
-  return <Album LoginWidgetComponent={LoginWidget} />;
-}
+//   return <Album LoginWidgetComponent={LoginWidget} />;
+// }
 
-export function Album({}) {
+export default function Album({}) {
   const router = useRouter();
   // const [currentItem,setCurrentItem] = useState();
   const [items, setItems] = useState([]);

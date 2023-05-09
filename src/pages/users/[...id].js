@@ -10,7 +10,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import LoginWidget from "@/components/LoginWidget";
+//import LoginWidget from "@/components/LoginWidget";
+//import { SessionProvider } from "next-auth/react";
 
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -35,21 +36,24 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function Authentication() {
-  const { data: status } = useSession({ required: true }); //session
+// export default function Authentication({ session }) {
+//   // const { data: status } = useSession({ required: true }); //session
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
+//   // if (status === "loading") {
+//   //   return <div>Loading...</div>;
+//   // }
 
-  return <Album LoginWidgetComponent={LoginWidget} />;
-}
+//   return (
+//     <SessionProvider session={session}>
+//       <Album LoginWidgetComponent={LoginWidget} />;
+//     </SessionProvider>
+//   );
+// }
 
-export function Album({}) {
+export default function Album({}) {
   const router = useRouter();
   // const [currentItem,setCurrentItem] = useState();
   const [items, setItems] = useState([]);
-  const { data: session } = useSession();
   const [availableItems, setAvailableItems] = useState([]);
   const [unavailableItems, setUnavailableItems] = useState([]);
 
@@ -105,6 +109,11 @@ export function Album({}) {
       router.push("/sellerpage");
     }
   };
+
+  const { data: status } = useSession({ required: true }); //session **adds authentication to users
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
 
   return (
     <ThemeProvider theme={theme}>

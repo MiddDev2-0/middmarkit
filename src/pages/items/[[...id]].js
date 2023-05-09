@@ -8,13 +8,28 @@ in the future this component would take in an item
 
 
 */
-
+import { useSession } from "next-auth/react";
 import IndividualItemView from "@/components/IndividualItemView";
 import { useState } from "react";
 import InterestForm from "@/components/InterestForm";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import * as React from "react";
+//import LoginWidget from "@/components/LoginWidget";
+//import { SessionProvider } from "next-auth/react";
+
+// export default function Login({session}) {
+//   const { data: status } = useSession({ required: true }); //sessionn
+
+//   if (status === "loading") {
+//     return <div>Loading...</div>;
+//   }
+//   return (
+//     <SessionProvider session={session}>
+//       <ItemPage LoginWidgetComponent={LoginWidget} />;
+//     </SessionProvider>
+//   );
+// }
 
 export default function ItemPage() {
   const [user, setUser] = useState();
@@ -47,21 +62,6 @@ export default function ItemPage() {
     }
   }, [id, router.isReady]);
 
-  // useEffect(() => {
-  //   if (!id) {
-  //     setCurrentItem();
-  //   } else if (!currentItem || currentItem.id !== id) {
-  //     (async () => {
-  //       const response = await fetch(`/api/items/${id}`, { method: "GET" });
-  //       if (response.ok) {
-  //         const currItem = await response.json();
-  //         setCurrentArticle(currentItem);
-  //         console.log(currItem)
-  //       }
-  //     })();
-  //   }
-  // }, [id, currentItem]);
-
   console.log(currentItem);
 
   useEffect(() => {
@@ -74,13 +74,16 @@ export default function ItemPage() {
           throw new Error(response.statusText);
         }
         const data = await response.json();
-        console.log(data);
         setUser(data);
-        console.log(user);
       };
       getData();
     }
   }, [currentItem]);
+
+  const { data: status } = useSession({ required: true }); //session
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
