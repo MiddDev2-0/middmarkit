@@ -14,8 +14,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import LoginWidget from "@/components/LoginWidget";
-
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -39,16 +37,7 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function Authentication() {
-  const { data: status } = useSession({ required: true }); //session
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-
-  return <Album LoginWidgetComponent={LoginWidget} />;
-}
-
-export function Album({}) {
+export default function Album({}) {
   const router = useRouter();
   // const [currentItem,setCurrentItem] = useState();
   const [items, setItems] = useState([]);

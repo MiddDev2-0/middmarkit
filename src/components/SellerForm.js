@@ -23,7 +23,6 @@ import { useSession } from "next-auth/react";
 import CircularProgress from "@mui/material/CircularProgress";
 import Backdrop from "@mui/material/Backdrop";
 
-
 const theme = createTheme();
 
 // const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
@@ -50,7 +49,6 @@ export default function SellerForm({}) {
   const handleOpenBackdrop = () => {
     setOpen(true);
   };
-
 
   useEffect(() => {
     setAllFieldsPopulated(

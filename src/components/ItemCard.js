@@ -68,8 +68,15 @@ export default function ItemCard({
   const bottomtext = () => {
     if (!sold && !item.adminRemoved) {
       return (
-        <CardContent>
-          <Typography variant="h5" component="h2" align="left" noWrap>
+
+        <CardContent sx={{}}>
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="h2"
+            align="center"
+            noWrap
+          >
             {item.name}
           </Typography>
           <Typography align="left" display="inline">
