@@ -68,7 +68,6 @@ export default function ItemCard({
   const bottomtext = () => {
     if (!sold && !item.adminRemoved) {
       return (
-
         <CardContent sx={{}}>
           <Typography
             gutterBottom
@@ -122,7 +121,7 @@ export default function ItemCard({
       <CardActions>
         {!sold && !item.adminRemoved && (
           <Button
-            sx={{ width: "100%" }}
+            size="small"
             onClick={() => {
               handleClick("View item", item.id);
             }}
