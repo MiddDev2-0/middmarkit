@@ -57,8 +57,8 @@ export default function ItemPage() {
     }
   }, [currentItem]);
 
-  const { data: status } = useSession({ required: true });
-  if (status === "loading") {
+  const { status } = useSession({ required: true });
+  if (status !== "authenticated") {
     return <div>Loading...</div>;
   }
 
