@@ -17,7 +17,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useRouter } from "next/router";
+
 import { useSession } from "next-auth/react";
+
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
+
 
 const theme = createTheme();
 
@@ -33,8 +38,19 @@ export default function SellerForm({}) {
   const [price, setPrice] = useState("");
   const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
   const router = useRouter();
+
   const [seller, setSeller] = useState();
   const { data: session } = useSession();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleCloseBackdrop = () => {
+    setOpen(false);
+  };
+  const handleOpenBackdrop = () => {
+    setOpen(true);
+  };
+
 
   useEffect(() => {
     setAllFieldsPopulated(
@@ -81,6 +97,7 @@ export default function SellerForm({}) {
       .then((response) => {
         console.log(response);
         setImageId(response.public_id);
+        handleCloseBackdrop();
       });
   };
 
@@ -127,7 +144,7 @@ export default function SellerForm({}) {
           }}
         >
           <Typography component="h1" variant="h5">
-            Sell your item:
+            Sell your stuff!
           </Typography>
           <IconButton
             color="primary"
@@ -139,9 +156,26 @@ export default function SellerForm({}) {
               accept="image/*"
               type="file"
               onChange={handleFileUpload}
+              onClick={handleOpenBackdrop}
             />
             <PhotoCamera />
           </IconButton>
+
+          <div>
+            <Backdrop sx={{ color: "#fff" }} open={open}>
+              <CircularProgress color="inherit" />
+            </Backdrop>
+          </div>
+
+          {imageId && (
+            <Box
+              maxWidth={"400px"}
+              component="img"
+              alt="The house from the offer."
+              src={`https://res.cloudinary.com/${cloud_name}/image/upload/${imageId}`}
+            />
+          )}
+
           <Box component="form" noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
