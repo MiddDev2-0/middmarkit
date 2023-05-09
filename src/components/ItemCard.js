@@ -120,6 +120,7 @@ export default function ItemCard({
         {!sold && !item.adminRemoved && (
           <Button
             size="large"
+            variant="outlined"
             sx={{ width: "80%" }}
             onClick={() => {
               handleClick("View item", item.id);
@@ -130,7 +131,7 @@ export default function ItemCard({
         )}
         {page === "user" && !sold && !item.adminRemoved && (
           <Button
-            size="small"
+            size="large"
             onClick={() => {
               markAsSold();
             }}
@@ -140,6 +141,7 @@ export default function ItemCard({
         )}
         {isReviewer && !sold && !item.adminRemoved && (
           <Button
+            color="warning"
             size="large"
             onClick={() => {
               removeItem();
