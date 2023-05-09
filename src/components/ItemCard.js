@@ -69,7 +69,13 @@ export default function ItemCard({
     if (!sold && !item.adminRemoved) {
       return (
         <CardContent sx={{}}>
-          <Typography gutterBottom variant="h5" component="h2" align="center">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="h2"
+            align="center"
+            noWrap
+          >
             {item.name}
           </Typography>
           <Typography align="center">${item.price}</Typography>
