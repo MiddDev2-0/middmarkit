@@ -5,9 +5,9 @@ const ItemShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
-  sellerEmail: PropTypes.string.isRequired,
+  sellerId: PropTypes.number.isRequired,
   datePosted: PropTypes.string.isRequired,
-  isAvailable: PropTypes.bool.isRequired,
+  isAvailable: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   images: PropTypes.string.isRequired,
 });
 
