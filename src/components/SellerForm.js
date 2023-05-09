@@ -108,6 +108,7 @@ export default function SellerForm({}) {
       datePosted: new Date().toISOString(),
       isAvailable: true,
       images: imageId,
+      adminRemoved: false,
     };
     console.log(newItem);
 
