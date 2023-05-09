@@ -78,10 +78,8 @@ export default function ItemCard({
           >
             {item.name}
           </Typography>
-          <Typography align="left" display="inline">
-            ${item.price}
-          </Typography>
-          <Typography align="left" noWrap>
+          <Typography align="center">${item.price}</Typography>
+          <Typography align="center" noWrap>
             {item.description}
           </Typography>
         </CardContent>
