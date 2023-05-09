@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
+import { useSession } from "next-auth/react";
 
 export default function InterestForm({ seller, item }) {
   const [contents, setContents] = useState("");
