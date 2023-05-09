@@ -32,19 +32,21 @@ export default function ItemCard({ item, handleClick, page, sold, complete }) {
   const bottomtext = () => {
     if (!sold) {
       return (
-        <CardContent sx={{}}>
-          <Typography gutterBottom variant="h5" component="h2" align="center">
+        <CardContent>
+          <Typography variant="h5" component="h2" align="left" noWrap>
             {item.name}
           </Typography>
-          <Typography align="center">${item.price}</Typography>
-          <Typography align="center" noWrap sx={{ width: "100%" }}>
+          <Typography align="left" display="inline">
+            ${item.price}
+          </Typography>
+          <Typography align="left" noWrap>
             {item.description}
           </Typography>
         </CardContent>
       );
     } else {
       return (
-        <CardContent sx={{}}>
+        <CardContent>
           <Typography gutterBottom variant="h3" component="h2" align="center">
             SOLD
           </Typography>
@@ -56,12 +58,12 @@ export default function ItemCard({ item, handleClick, page, sold, complete }) {
   return (
     <Card
       sx={{
-        height: "100%",
         display: "flex",
         flexDirection: "column",
         backgroundColor: sold ? "#CECFD0" : "#FFFFFF",
-        height: "100%",
-        "&:hover": { border: "5px solid #CECFD0" },
+        width: "100%",
+
+        // "&:hover": { border: "5px solid #CECFD0" },
       }}
     >
       <CardMedia
@@ -77,7 +79,7 @@ export default function ItemCard({ item, handleClick, page, sold, complete }) {
       <CardActions>
         {!sold && (
           <Button
-            size="small"
+            sx={{ width: "100%" }}
             onClick={() => {
               handleClick("View item", item.id);
             }}

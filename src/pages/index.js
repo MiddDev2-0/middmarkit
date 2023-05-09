@@ -83,7 +83,7 @@ export function Album({}) {
       {/* <AppBar position="relative">
         <Toolbar>
           <LoginWidgetComponent />
-          
+
         </Toolbar>
       </AppBar> */}
       <main>
@@ -107,15 +107,15 @@ export function Album({}) {
             </Typography>
           </Container>
         </Box>
-        <Container sx={{ py: 8 }} maxWidth="md">
+        <Container sx={{ py: 8, maxWidth: "100%" }}>
           {/* End hero unit */}
           <Grid
             container
             spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}
+            columns={{ xs: 12, sm: 12, md: 12 }}
           >
             {items.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4}>
+              <Grid item key={item.id} xs={12} sm={6} md={4} minWidth={100}>
                 <ItemCard item={item} handleClick={handleClick} />
               </Grid>
             ))}
