@@ -142,7 +142,7 @@ export default function Album({}) {
             </Typography>
           </Container>
         </Box>
-        <Container sx={{ py: 8, maxWidth: "100%" }}>
+        <Container sx={{ py: 8 }}>
           {/* End hero unit */}
           <Grid
             container
@@ -150,7 +150,6 @@ export default function Album({}) {
             columns={{ xs: 12, sm: 12, md: 12 }}
           >
             {items.map((item) => (
-
               <Grid item key={item.id} xs={12} sm={6} md={4} minWidth={100}>
                 <ItemCard
                   item={item}
@@ -158,7 +157,6 @@ export default function Album({}) {
                   complete={complete}
                   isReviewer={isReviewer}
                 />
-
               </Grid>
             ))}
           </Grid>

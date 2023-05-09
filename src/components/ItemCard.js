@@ -68,7 +68,6 @@ export default function ItemCard({
   const bottomtext = () => {
     if (!sold && !item.adminRemoved) {
       return (
-
         <CardContent sx={{}}>
           <Typography
             gutterBottom
@@ -104,8 +103,6 @@ export default function ItemCard({
         display: "flex",
         flexDirection: "column",
         backgroundColor: sold ? "#CECFD0" : "#FFFFFF",
-        width: "100%",
-
         // "&:hover": { border: "5px solid #CECFD0" },
       }}
     >
