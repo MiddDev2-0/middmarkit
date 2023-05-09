@@ -104,6 +104,19 @@ export function Album({}) {
   };
 
   const complete = (removedItem) => {
+    const getData = async () => {
+      const response = await fetch("/api/items", { method: "GET" });
+      if (!response.ok) {
+        console.log("error");
+        throw new Error(response.statusText);
+      }
+      const data = await response.json();
+      const newData = data.filter(
+        (item) => !item.adminRemoved && !!item.isAvailable
+      );
+      setItems(newData);
+    };
+    getData();
     const newItems = items.map((item) => {
       return item.id === removedItem.id ? removedItem : item;
     });
