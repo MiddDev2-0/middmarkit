@@ -105,6 +105,6 @@ ItemCard.propTypes = {
   item: ItemShape,
   handleClick: PropTypes.func.isRequired,
   page: PropTypes.string,
-  sold: PropTypes.bool,
+  sold: PropTypes.string,
   complete: PropTypes.func,
 };
