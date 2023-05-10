@@ -19,6 +19,7 @@ import LoginWidget from "@/components/LoginWidget";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
+
 import ItemCard from "@/components/ItemCard";
 
 function Copyright() {
@@ -51,6 +52,27 @@ export default function Authentication(props) {
 export function Album({ searchKey }) {
   const router = useRouter();
   const [items, setItems] = useState([]);
+  const { data: session } = useSession();
+  const [isReviewer, setIsReviewer] = useState(false);
+
+  useEffect(() => {
+    if (session) {
+      if (session.user) {
+        const getData = async () => {
+          const response = await fetch(`/api/users/${session.user.id}`, {
+            method: "GET",
+          });
+          if (!response.ok) {
+            console.log("error");
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          setIsReviewer(data.reviewerStatus);
+        };
+        getData();
+      }
+    }
+  }, [session]);
 
   useEffect(() => {
     const getData = async () => {
@@ -60,7 +82,11 @@ export function Album({ searchKey }) {
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      setItems(data);
+
+      const newData = data.filter(
+        (item) => !item.adminRemoved && !!item.isAvailable
+      );
+      setItems(newData);
     };
     getData();
   }, []);
@@ -72,6 +98,26 @@ export function Album({ searchKey }) {
         item.name.includes(searchKey) || item.description.includes(searchKey)
     );
   }
+
+  const complete = (removedItem) => {
+    const getData = async () => {
+      const response = await fetch("/api/items", { method: "GET" });
+      if (!response.ok) {
+        console.log("error");
+        throw new Error(response.statusText);
+      }
+      const data = await response.json();
+      const newData = data.filter(
+        (item) => !item.adminRemoved && !!item.isAvailable
+      );
+      setItems(newData);
+    };
+    getData();
+    const newData = items.map((item) => {
+      return item.id === removedItem.id ? removedItem : item;
+    });
+    setItems(newData);
+  };
 
   const handleClick = (button, id) => {
     if (button === "View item") {
@@ -122,7 +168,12 @@ export function Album({ searchKey }) {
           >
             {newItems.map((item) => (
               <Grid item key={item.id} xs={12} sm={6} md={4}>
-                <ItemCard item={item} handleClick={handleClick} />
+                <ItemCard
+                  item={item}
+                  handleClick={handleClick}
+                  complete={complete}
+                  isReviewer={isReviewer}
+                />
               </Grid>
             ))}
           </Grid>

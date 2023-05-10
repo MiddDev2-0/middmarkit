@@ -46,6 +46,7 @@ export default function Album({}) {
   useEffect(() => {
     if (session) {
       if (session.user) {
+        console.log(session.user);
         const getData = async () => {
           const response = await fetch(`/api/users/${session.user.id}`, {
             method: "GET",
@@ -69,14 +70,15 @@ export default function Album({}) {
     console.log(items);
     if (items) {
       items.forEach((item) => {
-        if (item.isAvailable === 0) {
+        if (Boolean(item.isAvailable) === false && !item.adminRemoved) {
           unavailable.push(item);
-        } else if (item.isAvailable === 1 && !item.adminRemoved) {
+        } else if (Boolean(item.isAvailable) === true && !item.adminRemoved) {
           available.push(item);
         }
       });
-      console.log(available);
+
       setAvailableItems(available);
+
       setUnavailableItems(unavailable);
     }
   }, [items]);
@@ -110,7 +112,7 @@ export default function Album({}) {
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
             {availableItems.map((item) => (
-              <Grid key={item.id} xs={12} sm={6} md={4}>
+              <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard
                   item={item}
                   handleClick={handleClick}
@@ -130,7 +132,7 @@ export default function Album({}) {
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
             {unavailableItems.map((item) => (
-              <Grid key={item.id} xs={12} sm={6} md={4}>
+              <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard
                   item={item}
                   handleClick={handleClick}

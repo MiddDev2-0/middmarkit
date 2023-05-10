@@ -69,7 +69,7 @@ export default function AppBarComponent({ search }) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           />
-          <SearchBar search={search} />
+          {router.pathname === "/" && <SearchBar search={search} />}
         </Toolbar>
       </AppBar>
       <main>
