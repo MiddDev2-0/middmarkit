@@ -18,6 +18,11 @@ import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useRouter } from "next/router";
 
+import { useSession } from "next-auth/react";
+
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
+
 const theme = createTheme();
 
 // const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
@@ -33,11 +38,42 @@ export default function SellerForm({}) {
   const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
   const router = useRouter();
 
+  const [seller, setSeller] = useState();
+  const { data: session } = useSession();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleCloseBackdrop = () => {
+    setOpen(false);
+  };
+  const handleOpenBackdrop = () => {
+    setOpen(true);
+  };
+
   useEffect(() => {
     setAllFieldsPopulated(
       name !== "" && description !== "" && price !== "" && imageId !== undefined
     );
   }, [name, description, price, imageId]);
+
+  useEffect(() => {
+    if (session) {
+      if (session.user) {
+        const getData = async () => {
+          const response = await fetch(`/api/users/${session.user.id}`, {
+            method: "GET",
+          });
+          if (!response.ok) {
+            console.log("error");
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          setSeller(data);
+        };
+        getData();
+      }
+    }
+  }, [session]);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -59,6 +95,7 @@ export default function SellerForm({}) {
       .then((response) => {
         console.log(response);
         setImageId(response.public_id);
+        handleCloseBackdrop();
       });
   };
 
@@ -67,10 +104,11 @@ export default function SellerForm({}) {
       name: name,
       description: description,
       price: Math.round(+price),
-      sellerId: 1,
+      sellerId: seller.id,
       datePosted: new Date().toISOString(),
       isAvailable: true,
       images: imageId,
+      adminRemoved: false,
     };
     console.log(newItem);
 
@@ -105,7 +143,7 @@ export default function SellerForm({}) {
           }}
         >
           <Typography component="h1" variant="h5">
-            Sell your item:
+            Sell your stuff!
           </Typography>
           <IconButton
             color="primary"
@@ -117,9 +155,26 @@ export default function SellerForm({}) {
               accept="image/*"
               type="file"
               onChange={handleFileUpload}
+              onClick={handleOpenBackdrop}
             />
             <PhotoCamera />
           </IconButton>
+
+          <div>
+            <Backdrop sx={{ color: "#fff" }} open={open}>
+              <CircularProgress color="inherit" />
+            </Backdrop>
+          </div>
+
+          {imageId && (
+            <Box
+              maxWidth={"400px"}
+              component="img"
+              alt="The house from the offer."
+              src={`https://res.cloudinary.com/${cloud_name}/image/upload/${imageId}`}
+            />
+          )}
+
           <Box component="form" noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>

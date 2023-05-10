@@ -1,16 +1,32 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import UserData from "../../data/UserData.json";
 import { TextField } from "@mui/material";
-
 import { Button } from "@mui/material";
-// import {Stack} from "@mui/material";
+import { useSession } from "next-auth/react";
 
-export default function InterestForm({ buyer, seller, item }) {
+export default function InterestForm({ seller, item }) {
   const [contents, setContents] = useState("");
-  const [UserCollection] = useState(UserData);
+  const [buyer, setBuyer] = useState();
+  const { data: session } = useSession();
 
-  buyer = UserCollection[1];
+  useEffect(() => {
+    if (session) {
+      if (session.user) {
+        const getData = async () => {
+          const response = await fetch(`/api/users/${session.user.id}`, {
+            method: "GET",
+          });
+          if (!response.ok) {
+            console.log("error");
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          setBuyer(data);
+        };
+        getData();
+      }
+    }
+  }, [session]);
 
   function mailForm() {
     const htmlContents = contents.replaceAll("\n", "%0D%0A");
@@ -26,9 +42,9 @@ export default function InterestForm({ buyer, seller, item }) {
   }
 
   useEffect(() => {
-    if (seller) {
+    if (seller && buyer) {
       setContents(
-        `Hi ${seller["firstName"]}, \n \nI'm interested in buying your item (${item.name}). My bid is __$__. Please let me know if this works for you. \n\nThanks, \n${buyer.firstName}`
+        `Hi ${seller.firstName}, \n \nI'm interested in buying your item (${item.name}). My bid is __$__. Please let me know if this works for you. \n\nThanks, \n${buyer.firstName}`
       );
     }
   }, [buyer, item, seller]);
@@ -36,19 +52,6 @@ export default function InterestForm({ buyer, seller, item }) {
   return (
     <div style={{ paddingTop: "2em" }}>
       <h3>Email seller</h3>
-
-      {/* <Stack spacing={2} direction="row"> */}
-      <div style={{ paddingTop: "10px" }}>
-        <TextField
-          required
-          fullWidth
-          margin="normal"
-          id="email"
-          label="Email"
-          value={buyer.email}
-          disabled
-        />
-      </div>
       <div style={{ paddingTop: "5px" }}>
         <TextField
           fullWidth
@@ -61,10 +64,7 @@ export default function InterestForm({ buyer, seller, item }) {
           onChange={(event) => setContents(event.target.value)}
         />
       </div>
-      {/* <Button onClick={() => window.location = `mailto:${seller.Email}?subject=MiddMarkit: Someone is interested in your item&body=${contents}`}>Send Email</Button> */}
       <Button>{mailForm()}</Button>
-
-      {/* </Stack> */}
     </div>
   );
 }
