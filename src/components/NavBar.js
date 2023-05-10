@@ -20,7 +20,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function AppBarComponent({}) {
+export default function AppBarComponent({ search }) {
   const theme = createTheme();
   const { data: session } = useSession({ required: true });
   const router = useRouter();
@@ -56,17 +56,13 @@ export default function AppBarComponent({}) {
       <AppBar position="relative">
         <Toolbar>
           <LoginWidgetComponent />
-          {/* <LoginWidget /> */}
-          {/* <Typography variant="h6" color="inherit" noWrap>
-            View Account Info
-          </Typography> */}
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           />
-          <SearchBar />
+          <SearchBar search={search} />
         </Toolbar>
       </AppBar>
       <main>
@@ -98,7 +94,6 @@ export default function AppBarComponent({}) {
                   My items
                 </Button>
               )}
-              {/* <SearchBar/> */}
             </Stack>
           </Container>
         </Box>

@@ -39,19 +39,17 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function Authentication() {
+export default function Authentication(props) {
   const { data: status } = useSession({ required: true }); //session
 
   if (status === "loading") {
     return <div>Loading...</div>;
   }
-
-  return <Album LoginWidgetComponent={LoginWidget} />;
+  return <Album LoginWidgetComponent={LoginWidget} {...props} />;
 }
 
-export function Album({}) {
+export function Album({ searchKey }) {
   const router = useRouter();
-  // const [currentItem,setCurrentItem] = useState();
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -66,6 +64,14 @@ export function Album({}) {
     };
     getData();
   }, []);
+
+  let newItems = items;
+  if (searchKey) {
+    newItems = items.filter(
+      (item) =>
+        item.name.includes(searchKey) || item.description.includes(searchKey)
+    );
+  }
 
   const handleClick = (button, id) => {
     if (button === "View item") {
@@ -114,7 +120,7 @@ export function Album({}) {
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
-            {items.map((item) => (
+            {newItems.map((item) => (
               <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard item={item} handleClick={handleClick} />
               </Grid>

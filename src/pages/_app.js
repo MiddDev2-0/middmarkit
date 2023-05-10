@@ -9,23 +9,29 @@ import Head from "next/head";
 import { styled } from "@mui/material/styles";
 import { SessionProvider } from "next-auth/react";
 import NavBar from "@/components/NavBar";
+import { useState } from "react";
 
 const clientSideEmotionCache = createEmotionCache();
 
+const Footer = styled("footer")(({ theme: styledTheme }) => ({
+  borderTop: "1px solid #eaeaea",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  marginTop: styledTheme.spacing(5),
+  paddingTop: styledTheme.spacing(2),
+}));
+
 export default function App({
   Component,
-  // pageProps,
   pageProps: { session, ...pageProps },
   emotionCache = clientSideEmotionCache,
 }) {
-  const Footer = styled("footer")(({ theme: styledTheme }) => ({
-    borderTop: "1px solid #eaeaea",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: styledTheme.spacing(5),
-    paddingTop: styledTheme.spacing(2),
-  }));
+  const [searchKey, setSearchKey] = useState("");
+
+  const search = (searchString) => {
+    setSearchKey(searchString);
+  };
 
   // const { data: userSession } = useSession({ required: true });
 
@@ -66,8 +72,8 @@ export default function App({
               Midd Markit
             </Typography>
             <SessionProvider session={session}>
-              <NavBar />
-              <Component {...pageProps} />
+              <NavBar searchKey={searchKey} search={search} />
+              <Component {...pageProps} searchKey={searchKey} />
             </SessionProvider>
           </Container>
         </main>

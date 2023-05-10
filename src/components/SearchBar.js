@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 //import Box from "@mui/material/Box";
@@ -49,12 +50,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function BasicTextFields() {
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+export default function SearchBar({ search }) {
+  //const [searchTerm, setSearchTerm] = useState("");
+  const [searchKey, setSearchKey] = useState("");
 
   return (
     <Search>
@@ -62,10 +60,18 @@ export default function BasicTextFields() {
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
-        placeholder="Search…"
+        placeholder="Search items…"
         inputProps={{ "aria-label": "search" }}
-        onChange={handleChange}
-        value={searchTerm}
+        value={searchKey}
+        onKeyDown={(event) => {
+          if (event.key === "Enter") {
+            console.log(event);
+            search(searchKey);
+          }
+        }}
+        onChange={(event) => {
+          setSearchKey(event.target.value);
+        }}
       />
     </Search>
   );
