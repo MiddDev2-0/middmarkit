@@ -65,7 +65,6 @@ export default function SearchBar({ search }) {
         value={searchKey}
         onKeyDown={(event) => {
           if (event.key === "Enter") {
-            console.log(event);
             search(searchKey);
           }
         }}
