@@ -50,6 +50,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function BasicTextFields() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   return (
     <Search>
       <SearchIconWrapper>
@@ -58,6 +64,8 @@ export default function BasicTextFields() {
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
+        onChange={handleChange}
+        value={searchTerm}
       />
     </Search>
   );
