@@ -14,9 +14,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import LoginWidget from "@/components/LoginWidget";
+
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
+
 import ItemCard from "@/components/ItemCard";
 
 function Copyright() {
@@ -37,15 +40,20 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function Album({}) {
+export default function Authentication(props) {
+  const { data: status } = useSession({ required: true }); //session
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+  return <Album LoginWidgetComponent={LoginWidget} {...props} />;
+}
+
+export function Album({ searchKey }) {
   const router = useRouter();
-  // const [currentItem,setCurrentItem] = useState();
   const [items, setItems] = useState([]);
   const { data: session } = useSession();
   const [isReviewer, setIsReviewer] = useState(false);
-
-  console.log("is reviewer");
-  console.log(isReviewer);
 
   useEffect(() => {
     if (session) {
@@ -74,6 +82,7 @@ export default function Album({}) {
         throw new Error(response.statusText);
       }
       const data = await response.json();
+
       const newData = data.filter(
         (item) => !item.adminRemoved && !!item.isAvailable
       );
@@ -82,15 +91,13 @@ export default function Album({}) {
     getData();
   }, []);
 
-  const handleClick = (button, id) => {
-    if (button === "View item") {
-      router.push(`/items/${id}`);
-    }
-
-    if (button === "sell") {
-      router.push("/items/new");
-    }
-  };
+  let newItems = items;
+  if (searchKey) {
+    newItems = items.filter(
+      (item) =>
+        item.name.includes(searchKey) || item.description.includes(searchKey)
+    );
+  }
 
   const complete = (removedItem) => {
     const getData = async () => {
@@ -106,10 +113,20 @@ export default function Album({}) {
       setItems(newData);
     };
     getData();
-    const newItems = items.map((item) => {
+    const newData = items.map((item) => {
       return item.id === removedItem.id ? removedItem : item;
     });
-    setItems(newItems);
+    setItems(newData);
+  };
+
+  const handleClick = (button, id) => {
+    if (button === "View item") {
+      router.push(`/items/${id}`);
+    }
+
+    if (button === "sell") {
+      router.push("/items/new");
+    }
   };
 
   return (
@@ -149,8 +166,8 @@ export default function Album({}) {
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 12, sm: 12, md: 12 }}
           >
-            {items.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4} minWidth={100}>
+            {newItems.map((item) => (
+              <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard
                   item={item}
                   handleClick={handleClick}

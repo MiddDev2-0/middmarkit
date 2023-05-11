@@ -2,6 +2,9 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 
+import SearchBar from "@/components/SearchBar";
+import { Typography } from "@mui/material";
+
 import CssBaseline from "@mui/material/CssBaseline";
 
 import Stack from "@mui/material/Stack";
@@ -16,7 +19,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function AppBarComponent({}) {
+export default function AppBarComponent({ search }) {
   const theme = createTheme();
   const { data: session } = useSession();
   const router = useRouter();
@@ -60,10 +63,13 @@ export default function AppBarComponent({}) {
       <AppBar position="relative">
         <Toolbar>
           <LoginWidgetComponent />
-          {/* <LoginWidget /> */}
-          {/* <Typography variant="h6" color="inherit" noWrap>
-            View Account Info
-          </Typography> */}
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+          />
+          {router.pathname === "/" && <SearchBar search={search} />}
         </Toolbar>
       </AppBar>
       <main>
@@ -87,7 +93,6 @@ export default function AppBarComponent({}) {
               <Button variant={sellVariant} onClick={() => handleClick("sell")}>
                 Sell
               </Button>
-
               {!!session && !!session.user && (
                 <Button
                   variant={itemsVariant}
