@@ -72,9 +72,12 @@ export default function ItemPage() {
     <div>
       <div>{currentItem && <IndividualItemView item={currentItem} />}</div>
       <div>
-        {currentItem && user && (
-          <InterestForm item={currentItem} seller={user} />
-        )}
+        {currentItem &&
+          user &&
+          currentItem.sellerId !== user.id &&
+          currentItem.isAvailable(
+            <InterestForm item={currentItem} seller={user} />
+          )}
       </div>
     </div>
   );
