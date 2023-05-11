@@ -1,58 +1,42 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Album } from "@/pages";
-//import { useRouter } from "next/router";
-
-jest.mock("next/router", () => require("next-router-mock"));
+//import fetchMock from "fetch-mock-jest";
+import mockRouter from "next-router-mock";
 
 describe.skip("End-to-end testing for index.js", () => {
-  test("Renders the heading", () => {
+  // beforeEach(() => {
+  //   //jest.useFakeTimers();
+  //   fetchMock.get("/", () => {
+  //     return {
+  //       item: {
+  //         id: 1,
+  //         description: "This is a mahogany brown round bed side table",
+  //         price: 12,
+  //         sellerEmail: "mtarantola@middlebury.edu",
+  //         datePosted: "2016-12-07T23:22:33.357Z",
+  //         isAvailable: true,
+  //         images: "/Images/1.jpg",
+  //       },
+  //     };
+  //   });
+  // });
+
+  // afterEach(() => {
+  //   jest.runOnlyPendingTimers();
+  //   jest.useRealTimers();
+  //   fetchMock.reset();
+  // });
+
+  test.skip("Renders the heading", async () => {
     render(<Album LoginWidgetComponent={() => {}} />);
-    const heading = screen.getByText(/Welcome to MiddMarkit!/i);
+    const heading = await screen.findByText(/Midd Markit/);
     expect(heading).toBeInTheDocument();
   });
 
-  test("Clicking 'Sell' button navigates to seller page", () => {
-    const pushMock = jest.fn();
-    const useRouterMock = jest.spyOn(require("next/router"), "useRouter");
-    useRouterMock.mockImplementation(() => ({
-      push: pushMock,
-    }));
+  test.skip("Clicking 'Sell' button navigates to seller page", () => {
     render(<Album LoginWidgetComponent={() => {}} />);
     const button = screen.getByRole("button", { name: /Sell/i });
     fireEvent.click(button);
-
-    expect(pushMock).toHaveBeenCalledWith("/sellerpage");
-
-    useRouterMock.mockRestore();
+    expect(mockRouter.asPath).toBe("/sellerpage");
   });
-
-  // test("Clicking 'Home' button navigates to home page", () => {
-  //   const pushMock = jest.fn();
-  //   const useRouterMock = jest.spyOn(require("next/router"), "useRouter");
-  //   useRouterMock.mockImplementation(() => ({
-  //     push: pushMock,
-  //   }));
-  //   render(<Album />);
-  //   const button = screen.getByRole("button", { name: /Home/i });
-  //   fireEvent.click(button);
-
-  //   expect(pushMock).toHaveBeenCalledWith("/");
-
-  //   useRouterMock.mockRestore();
-  // });
-
-  // test("Clicking item card navigates to item page", () => {
-  //   const pushMock = jest.fn();
-  //   const useRouterMock = jest.spyOn(require("next/router"), "useRouter");
-  //   useRouterMock.mockImplementation(() => ({
-  //     push: pushMock,
-  //   }));
-  //   render(<Album />);
-  //   const card = screen.getByRole("img", { name: /Heading 1/i });
-  //   fireEvent.click(card);
-
-  //   expect(pushMock).toHaveBeenCalledWith("/itempage");
-
-  //   useRouterMock.mockRestore();
-  // });
 });
