@@ -54,19 +54,6 @@ export default function InterestForm({ seller, item }) {
   return (
     <div style={{ paddingTop: "2em" }}>
       <h3>Email seller</h3>
-
-      {/* <Stack spacing={2} direction="row"> */}
-      {/* <div style={{ paddingTop: "10px" }}>
-        <TextField
-          required
-          fullWidth
-          margin="normal"
-          id="email"
-          label="Email"
-          value={buyer.email}
-          disabled
-        />
-      </div> */}
       <div style={{ paddingTop: "5px" }}>
         <TextField
           fullWidth
@@ -79,10 +66,7 @@ export default function InterestForm({ seller, item }) {
           onChange={(event) => setContents(event.target.value)}
         />
       </div>
-      {/* <Button onClick={() => window.location = `mailto:${seller.Email}?subject=MiddMarkit: Someone is interested in your item&body=${contents}`}>Send Email</Button> */}
       <Button>{mailForm()}</Button>
-
-      {/* </Stack> */}
     </div>
   );
 }

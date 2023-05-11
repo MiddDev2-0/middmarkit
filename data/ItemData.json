@@ -1,13 +1,14 @@
 [
   {
     "id": 1,
-    "name": "Table",
-    "description": "This is a mahogany brown round bed side table",
+    "name": "A really big brown table - hand crafted mahogany oak stained with Benjamin moore. family heirloom. Unique antique find!",
+    "description": "A really big brown table - hand crafted mahogany oak stained with Benjamin moore. family heirloom. Unique antique find!",
     "price": 12,
     "sellerEmail": "mtarantola@middlebury.edu",
     "datePosted": "2016-12-07T23:22:33.357Z",
     "isAvailable": true,
-    "images": "listings/igcyn5wksqm2xyurxyeg"
+    "images": "listings/igcyn5wksqm2xyurxyeg",
+    "adminRemoved": false
   },
   {
     "id": 2,
@@ -17,7 +18,8 @@
     "sellerEmail": "ccassani@middlebury.edu",
     "datePosted": "2016-12-07T23:22:33.357Z",
     "isAvailable": true,
-    "images": "listings/cfgevownlgvbxloaaajf"
+    "images": "listings/cfgevownlgvbxloaaajf",
+    "adminRemoved": false
   },
   {
     "id": 3,
@@ -27,6 +29,7 @@
     "sellerEmail": "azatzick@middlebury.edu",
     "datePosted": "2016-12-07T23:22:33.357Z",
     "isAvailable": true,
-    "images": "listings/hknhfywitr2u5i9dpj68"
+    "images": "listings/hknhfywitr2u5i9dpj68",
+    "adminRemoved": false
   }
 ]

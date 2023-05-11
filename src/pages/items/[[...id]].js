@@ -5,9 +5,8 @@ Individual Item View
 Interest Form
 
 in the future this component would take in an item
-
-
 */
+import { useSession } from "next-auth/react";
 import IndividualItemView from "@/components/IndividualItemView";
 import { useState } from "react";
 import InterestForm from "@/components/InterestForm";
@@ -60,6 +59,11 @@ export default function ItemPage() {
       getData();
     }
   }, [currentItem]);
+
+  const { status } = useSession({ required: true });
+  if (status !== "authenticated") {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>

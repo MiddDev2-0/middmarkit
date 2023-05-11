@@ -2,6 +2,9 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 
+import SearchBar from "@/components/SearchBar";
+import { Typography } from "@mui/material";
+
 import CssBaseline from "@mui/material/CssBaseline";
 
 import Stack from "@mui/material/Stack";
@@ -9,7 +12,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 
 import Container from "@mui/material/Container";
-
 import LoginWidgetComponent from "@/components/LoginWidget";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -17,14 +19,22 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function AppBarComponent({}) {
+export default function AppBarComponent({ search }) {
   const theme = createTheme();
-  const { data: session } = useSession({ required: true });
+  const { data: session } = useSession();
   const router = useRouter();
+  console.log("router");
+  console.log(router);
   // states to highlight the button that is clicked
-  const [homeVariant, setHomeVariant] = useState("contained");
-  const [sellVariant, setSellVariant] = useState("outlined");
-  const [itemsVariant, setItemsVariant] = useState("outlined");
+  const [homeVariant, setHomeVariant] = useState(
+    router.pathname === "/" ? "contained" : "outlined"
+  );
+  const [sellVariant, setSellVariant] = useState(
+    router.pathname === "/items/new" ? "contained" : "outlined"
+  );
+  const [itemsVariant, setItemsVariant] = useState(
+    router.pathname === "/users/[...id]" ? "contained" : "outlined"
+  );
 
   const handleClick = (button) => {
     if (button === "sell") {
@@ -53,10 +63,13 @@ export default function AppBarComponent({}) {
       <AppBar position="relative">
         <Toolbar>
           <LoginWidgetComponent />
-          {/* <LoginWidget /> */}
-          {/* <Typography variant="h6" color="inherit" noWrap>
-            View Account Info
-          </Typography> */}
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+          />
+          {router.pathname === "/" && <SearchBar search={search} />}
         </Toolbar>
       </AppBar>
       <main>
@@ -80,7 +93,6 @@ export default function AppBarComponent({}) {
               <Button variant={sellVariant} onClick={() => handleClick("sell")}>
                 Sell
               </Button>
-
               {!!session && !!session.user && (
                 <Button
                   variant={itemsVariant}

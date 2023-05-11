@@ -1,17 +1,12 @@
 import { useSession } from "next-auth/react";
 import * as React from "react";
-
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
-
 import Box from "@mui/material/Box";
-
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import LoginWidget from "@/components/LoginWidget";
-
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -31,29 +26,15 @@ function Copyright() {
   );
 }
 
-// const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 const theme = createTheme();
 
-export default function Authentication() {
-  const { data: status } = useSession({ required: true }); //session
-
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-
-  return <Album LoginWidgetComponent={LoginWidget} />;
-}
-
-export function Album({}) {
+export default function Album({}) {
   const router = useRouter();
-  // const [currentItem,setCurrentItem] = useState();
   const [items, setItems] = useState([]);
-  const { data: session } = useSession();
   const [availableItems, setAvailableItems] = useState([]);
   const [unavailableItems, setUnavailableItems] = useState([]);
 
-  console.log(session);
+  const { data: session } = useSession({ required: true });
 
   const complete = (insertedItem) => {
     const newItems = items.map((item) => {
@@ -65,6 +46,7 @@ export function Album({}) {
   useEffect(() => {
     if (session) {
       if (session.user) {
+        console.log(session.user);
         const getData = async () => {
           const response = await fetch(`/api/users/${session.user.id}`, {
             method: "GET",
@@ -88,10 +70,15 @@ export function Album({}) {
     console.log(items);
     if (items) {
       items.forEach((item) => {
-        item.isAvailable === 0 ? unavailable.push(item) : available.push(item);
+        if (Boolean(item.isAvailable) === false && !item.adminRemoved) {
+          unavailable.push(item);
+        } else if (Boolean(item.isAvailable) === true && !item.adminRemoved) {
+          available.push(item);
+        }
       });
-      console.log(available);
+
       setAvailableItems(available);
+
       setUnavailableItems(unavailable);
     }
   }, [items]);
@@ -100,7 +87,6 @@ export function Album({}) {
     if (button === "View item") {
       router.push(`/items/${id}`);
     }
-
     if (button === "sell") {
       router.push("/sellerpage");
     }
@@ -126,7 +112,7 @@ export function Album({}) {
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
             {availableItems.map((item) => (
-              <Grid key={item.id} xs={12} sm={6} md={4}>
+              <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard
                   item={item}
                   handleClick={handleClick}
@@ -146,7 +132,7 @@ export function Album({}) {
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
             {unavailableItems.map((item) => (
-              <Grid key={item.id} xs={12} sm={6} md={4}>
+              <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard
                   item={item}
                   handleClick={handleClick}
