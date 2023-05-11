@@ -1,3 +1,4 @@
+import ItemShape from "./ItemShape";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
@@ -34,3 +35,7 @@ export default function IndividualItemView({ item }) {
     </Grid>
   );
 }
+
+IndividualItemView.propTypes = {
+  item: ItemShape,
+};

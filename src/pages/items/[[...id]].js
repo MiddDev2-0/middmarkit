@@ -54,6 +54,9 @@ export default function ItemPage() {
           throw new Error(response.statusText);
         }
         const data = await response.json();
+        console.log("user:");
+        console.log(data);
+
         setUser(data);
       };
       getData();
