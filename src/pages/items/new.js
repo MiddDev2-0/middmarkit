@@ -1,7 +1,6 @@
-//import PropTypes from "prop-types";
 import SellerForm from "../../components/SellerForm";
 import { useSession } from "next-auth/react";
-// import styles from "../styles/SellerForm.module.css";
+import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 
 export default function SellerPage({}) {
@@ -11,10 +10,18 @@ export default function SellerPage({}) {
     // handle the logic of saving the new
     itemList.push(newItem);
   };
-  const { data: status } = useSession({ required: true }); //session
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
+
+  const { data: status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      // The user is not authenticated, handle it here.
+      if (status !== "authenticated") {
+        signIn("google");
+        return <div>Loading...</div>;
+      }
+    },
+  });
+
   return (
     <div>
       <main>
