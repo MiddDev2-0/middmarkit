@@ -12,6 +12,7 @@ import { useState } from "react";
 import InterestForm from "@/components/InterestForm";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { signIn } from "next-auth/react";
 import * as React from "react";
 
 export default function ItemPage() {
@@ -57,10 +58,16 @@ export default function ItemPage() {
     }
   }, [currentItem]);
 
-  const { status } = useSession({ required: true });
-  if (status !== "authenticated") {
-    return <div>Loading...</div>;
-  }
+  const { data: status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      // The user is not authenticated, handle it here.
+      if (status !== "authenticated") {
+        signIn("google");
+        return <div>Loading...</div>;
+      }
+    },
+  });
 
   return (
     <div>
