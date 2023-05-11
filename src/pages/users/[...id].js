@@ -54,7 +54,6 @@ export default function Album({}) {
             console.log("error");
             throw new Error(response.statusText);
           }
-          console.log(session.user);
           if (router.asPath !== `/users/${session.user.id}`) {
             router.push(`/users/${session.user.id}`);
           }

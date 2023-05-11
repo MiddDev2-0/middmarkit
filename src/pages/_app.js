@@ -15,7 +15,6 @@ import { useRouter } from "next/router";
 
 import PropTypes from "prop-types";
 
-
 const clientSideEmotionCache = createEmotionCache();
 
 const Footer = styled("footer")(({ theme: styledTheme }) => ({
