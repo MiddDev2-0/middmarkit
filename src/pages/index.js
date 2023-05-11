@@ -129,17 +129,13 @@ export function Album({ searchKey }) {
     }
   };
 
-  const sortedItems = Array.from(newItems).sort((a, b) =>
-    b.datePosted.localeCompare(a.datePosted)
-  );
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {/* <AppBar position="relative">
         <Toolbar>
           <LoginWidgetComponent />
-
+          
         </Toolbar>
       </AppBar> */}
       <main>
@@ -170,7 +166,7 @@ export function Album({ searchKey }) {
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
-            {sortedItems.map((item) => (
+            {newItems.map((item) => (
               <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard
                   item={item}
