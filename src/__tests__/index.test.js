@@ -27,7 +27,7 @@ describe("End-to-end testing for index.js", () => {
     fetchMock.reset();
   });
 
-  test.skip("Renders the heading", async () => {
+  test("Renders the heading", async () => {
     render(<Album LoginWidgetComponent={() => {}} />);
     const heading = await screen.findByText(/Midd Markit/);
     expect(heading).toBeInTheDocument();

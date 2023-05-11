@@ -5,6 +5,8 @@ import InputBase from "@mui/material/InputBase";
 //import Box from "@mui/material/Box";
 //import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -51,8 +53,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchBar({ search }) {
-  //const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
   const [searchKey, setSearchKey] = useState("");
+
+  useEffect(() => {
+    if (router !== "/") {
+      setSearchKey("");
+    }
+  }, [router, setSearchKey]);
 
   return (
     <Search>
