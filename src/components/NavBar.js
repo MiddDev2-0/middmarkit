@@ -59,12 +59,7 @@ export default function AppBarComponent({ search, searchKey }) {
           }}
         >
           <Container maxWidth="sm">
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
+            <Stack sx={{}} direction="row" spacing={2} justifyContent="center">
               <Button
                 variant={router.pathname === "/" ? "contained" : "outlined"}
                 onClick={() => handleClick("home")}
