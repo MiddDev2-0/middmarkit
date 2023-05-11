@@ -21,6 +21,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 import ItemCard from "@/components/ItemCard";
+import PropTypes from "prop-types";
 
 function Copyright() {
   const newLocal = "https://mui.com/";
@@ -195,3 +196,7 @@ export default function Album({ searchKey }) {
     </ThemeProvider>
   );
 }
+
+Album.propTypes = {
+  searchKey: PropTypes.string,
+};

@@ -149,13 +149,13 @@ export default function SellerForm({}) {
             color="primary"
             aria-label="upload picture"
             component="label"
+            onClick={handleOpenBackdrop}
           >
             <input
               hidden
               accept="image/*"
               type="file"
               onChange={handleFileUpload}
-              onClick={handleOpenBackdrop}
             />
             <PhotoCamera />
           </IconButton>

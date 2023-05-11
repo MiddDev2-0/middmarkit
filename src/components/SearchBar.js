@@ -5,6 +5,7 @@ import InputBase from "@mui/material/InputBase";
 //import Box from "@mui/material/Box";
 //import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
+import PropTypes from "prop-types";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -75,3 +76,7 @@ export default function SearchBar({ search }) {
     </Search>
   );
 }
+
+SearchBar.propTypes = {
+  search: PropTypes.func.isRequired,
+};
