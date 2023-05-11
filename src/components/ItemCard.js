@@ -143,7 +143,6 @@ export default function ItemCard({
             size="medium"
             onClick={() => markAsSold("relist")}
           >
-            {" "}
             Relist
           </Button>
         )}
