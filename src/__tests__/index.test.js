@@ -5,7 +5,7 @@ import mockRouter from "next-router-mock";
 
 describe.skip("End-to-end testing for index.js", () => {
   beforeEach(() => {
-    jest.useFakeTimers();
+    //jest.useFakeTimers();
     fetchMock.get("/", () => {
       return {
         item: {
@@ -21,11 +21,11 @@ describe.skip("End-to-end testing for index.js", () => {
     });
   });
 
-  afterEach(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
-    fetchMock.reset();
-  });
+  // afterEach(() => {
+  //   jest.runOnlyPendingTimers();
+  //   jest.useRealTimers();
+  //   fetchMock.reset();
+  // });
 
   test("Renders the heading", async () => {
     render(<Album LoginWidgetComponent={() => {}} />);
