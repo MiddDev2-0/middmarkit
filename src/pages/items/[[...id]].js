@@ -16,10 +16,33 @@ import { signIn } from "next-auth/react";
 import * as React from "react";
 
 export default function ItemPage() {
-  const [user, setUser] = useState();
+  const [seller, setSeller] = useState();
   const router = useRouter();
   const { id } = router.query;
   const [currentItem, setCurrentItem] = useState();
+  const { data: session } = useSession();
+  const [buyer, setBuyer] = useState();
+
+  useEffect(() => {
+    console.log(session);
+    if (session) {
+      if (session.user) {
+        const getData = async () => {
+          const response = await fetch(`/api/users/${session.user.id}`, {
+            method: "GET",
+          });
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          setBuyer(data);
+          console.log("buyer");
+          console.log(buyer);
+        };
+        getData();
+      }
+    }
+  }, [session]);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -37,6 +60,7 @@ export default function ItemPage() {
             router.push(`/`);
           }
           setCurrentItem(data);
+          console.log(data);
         };
         getData();
       } else {
@@ -55,10 +79,10 @@ export default function ItemPage() {
           throw new Error(response.statusText);
         }
         const data = await response.json();
-        console.log("user:");
+        console.log("seller:");
         console.log(data);
 
-        setUser(data);
+        setSeller(data);
       };
       getData();
     }
@@ -80,10 +104,11 @@ export default function ItemPage() {
       <div>{currentItem && <IndividualItemView item={currentItem} />}</div>
       <div>
         {currentItem &&
-          user &&
-          currentItem.sellerId !== user.id &&
-          currentItem.isAvailable(
-            <InterestForm item={currentItem} seller={user} />
+          seller &&
+          buyer &&
+          seller.id !== buyer.id &&
+          currentItem.isAvailable && (
+            <InterestForm item={currentItem} seller={seller} />
           )}
       </div>
     </div>
