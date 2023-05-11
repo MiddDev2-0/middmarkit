@@ -32,7 +32,7 @@ export default function ItemPage() {
             throw new Error(response.statusText);
           }
           const data = await response.json();
-          if (data.isAvailable !== Boolean(1)) {
+          if (Boolean(data.isAvailable) === false) {
             router.push(`/`);
           }
           setCurrentItem(data);
