@@ -117,7 +117,7 @@ export default function ItemCard({
       />
       {bottomtext()}
       <CardActions>
-        {!sold && !item.adminRemoved && (
+        {!item.adminRemoved && (
           <Button
             size="small"
             onClick={() => {
