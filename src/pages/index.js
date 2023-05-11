@@ -136,7 +136,7 @@ export default function Album({ searchKey }) {
       {/* <AppBar position="relative">
         <Toolbar>
           <LoginWidgetComponent />
-          
+
         </Toolbar>
       </AppBar> */}
       <main>
@@ -160,12 +160,12 @@ export default function Album({ searchKey }) {
             </Typography>
           </Container>
         </Box>
-        <Container sx={{ py: 8 }} maxWidth="md">
+        <Container sx={{ py: 8 }}>
           {/* End hero unit */}
           <Grid
             container
             spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}
+            columns={{ xs: 12, sm: 12, md: 12 }}
           >
             {newItems.map((item) => (
               <Grid item key={item.id} xs={12} sm={6} md={4}>
