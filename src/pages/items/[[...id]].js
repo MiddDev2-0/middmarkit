@@ -32,6 +32,9 @@ export default function ItemPage() {
             throw new Error(response.statusText);
           }
           const data = await response.json();
+          if (data.isAvailable !== Boolean(1)) {
+            router.push(`/`);
+          }
           setCurrentItem(data);
         };
         getData();

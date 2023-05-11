@@ -23,8 +23,6 @@ export default function AppBarComponent({ search }) {
   const theme = createTheme();
   const { data: session } = useSession();
   const router = useRouter();
-  console.log("router");
-  console.log(router);
   // states to highlight the button that is clicked
   const [homeVariant, setHomeVariant] = useState(
     router.pathname === "/" ? "contained" : "outlined"
