@@ -3,10 +3,9 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-
 import CardContent from "@mui/material/CardContent";
-// import { userAgent } from "next/server";
-// import { useSession } from "next-auth/react";
+import PropTypes from "prop-types";
+import ItemShape from "./ItemShape";
 
 export default function ItemCard({
   item,
@@ -151,3 +150,11 @@ export default function ItemCard({
     </Card>
   );
 }
+
+ItemCard.propTypes = {
+  item: ItemShape,
+  handleClick: PropTypes.func.isRequired,
+  page: PropTypes.string,
+  sold: PropTypes.string,
+  complete: PropTypes.func,
+};

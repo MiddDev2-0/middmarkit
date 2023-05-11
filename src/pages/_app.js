@@ -9,8 +9,12 @@ import Head from "next/head";
 import { styled } from "@mui/material/styles";
 import { SessionProvider } from "next-auth/react";
 import NavBar from "@/components/NavBar";
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+
+import PropTypes from "prop-types";
+
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -65,3 +69,9 @@ export default function App({
     </CacheProvider>
   );
 }
+
+App.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  pageProps: PropTypes.shape({}),
+  emotionCache: PropTypes.func,
+};
