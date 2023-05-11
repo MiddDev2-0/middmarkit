@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { useSession } from "next-auth/react";
+import ItemShape from "./ItemShape";
+import UserShape from "./UserShape";
 
 export default function InterestForm({ seller, item }) {
   const [contents, setContents] = useState("");
@@ -68,3 +70,8 @@ export default function InterestForm({ seller, item }) {
     </div>
   );
 }
+
+InterestForm.propTypes = {
+  seller: UserShape,
+  item: ItemShape,
+};

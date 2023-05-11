@@ -29,7 +29,22 @@ export default function LoginWidget() {
   } else {
     return (
       <div>
-        <button onClick={() => signIn("google")}>Sign in</button>
+        <p>
+          <Button
+            sx={{
+              color: "primary",
+              backgroundColor: "#FFFFFF",
+              ":hover": {
+                backgroundColor: "#FFFFFF",
+                color: "primary",
+              },
+            }}
+            variant="outlined"
+            onClick={() => signIn("google")}
+          >
+            Sign in
+          </Button>{" "}
+        </p>
       </div>
     );
   }

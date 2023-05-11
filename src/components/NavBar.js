@@ -17,43 +17,21 @@ import LoginWidgetComponent from "@/components/LoginWidget";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
-export default function AppBarComponent({ search }) {
+export default function AppBarComponent({ search, searchKey }) {
   const theme = createTheme();
   const { data: session } = useSession();
   const router = useRouter();
-  console.log("router");
-  console.log(router);
-  // states to highlight the button that is clicked
-  const [homeVariant, setHomeVariant] = useState(
-    router.pathname === "/" ? "contained" : "outlined"
-  );
-  const [sellVariant, setSellVariant] = useState(
-    router.pathname === "/items/new" ? "contained" : "outlined"
-  );
-  const [itemsVariant, setItemsVariant] = useState(
-    router.pathname === "/users/[...id]" ? "contained" : "outlined"
-  );
 
   const handleClick = (button) => {
     if (button === "sell") {
       router.push("/items/new");
-      setSellVariant("contained");
-      setHomeVariant("outlined");
-      setItemsVariant("outlined");
     }
     if (button === "home") {
       router.push("/");
-      setHomeVariant("contained");
-      setSellVariant("outlined");
-      setItemsVariant("outlined");
     }
     if (button === "user items" && !!session && !!session.user) {
       router.push(`/users/${session.user.id}`);
-      setItemsVariant("contained");
-      setSellVariant("outlined");
-      setHomeVariant("outlined");
     }
   };
 
@@ -69,7 +47,7 @@ export default function AppBarComponent({ search }) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           />
-          {router.pathname === "/" && <SearchBar search={search} />}
+          <SearchBar searchKey={searchKey} search={search} />
         </Toolbar>
       </AppBar>
       <main>
@@ -87,15 +65,27 @@ export default function AppBarComponent({ search }) {
               spacing={2}
               justifyContent="center"
             >
-              <Button variant={homeVariant} onClick={() => handleClick("home")}>
+              <Button
+                variant={router.pathname === "/" ? "contained" : "outlined"}
+                onClick={() => handleClick("home")}
+              >
                 Home
               </Button>
-              <Button variant={sellVariant} onClick={() => handleClick("sell")}>
+              <Button
+                variant={
+                  router.pathname === "/items/new" ? "contained" : "outlined"
+                }
+                onClick={() => handleClick("sell")}
+              >
                 Sell
               </Button>
               {!!session && !!session.user && (
                 <Button
-                  variant={itemsVariant}
+                  variant={
+                    router.pathname === "/users/[...id]"
+                      ? "contained"
+                      : "outlined"
+                  }
                   onClick={() => handleClick("user items")}
                 >
                   My items

@@ -33,6 +33,9 @@ export default function ItemPage() {
             throw new Error(response.statusText);
           }
           const data = await response.json();
+          if (Boolean(data.isAvailable) === false) {
+            router.push(`/`);
+          }
           setCurrentItem(data);
         };
         getData();
@@ -52,6 +55,9 @@ export default function ItemPage() {
           throw new Error(response.statusText);
         }
         const data = await response.json();
+        console.log("user:");
+        console.log(data);
+
         setUser(data);
       };
       getData();
@@ -73,9 +79,12 @@ export default function ItemPage() {
     <div>
       <div>{currentItem && <IndividualItemView item={currentItem} />}</div>
       <div>
-        {currentItem && user && (
-          <InterestForm item={currentItem} seller={user} />
-        )}
+        {currentItem &&
+          user &&
+          currentItem.sellerId !== user.id &&
+          currentItem.isAvailable(
+            <InterestForm item={currentItem} seller={user} />
+          )}
       </div>
     </div>
   );
