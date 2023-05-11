@@ -3,10 +3,9 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-
 import CardContent from "@mui/material/CardContent";
-// import { userAgent } from "next/server";
-// import { useSession } from "next-auth/react";
+import PropTypes from "prop-types";
+import ItemShape from "./ItemShape";
 
 export default function ItemCard({
   item,
@@ -79,14 +78,14 @@ export default function ItemCard({
             {item.name}
           </Typography>
           <Typography align="center">${item.price}</Typography>
-          <Typography align="center" noWrap sx={{ width: "100%" }}>
+          <Typography align="center" noWrap>
             {item.description}
           </Typography>
         </CardContent>
       );
     } else if (!!sold && !item.adminRemoved) {
       return (
-        <CardContent sx={{}}>
+        <CardContent>
           <Typography gutterBottom variant="h3" component="h2" align="center">
             SOLD
           </Typography>
@@ -98,12 +97,10 @@ export default function ItemCard({
   return (
     <Card
       sx={{
-        height: "100%",
         display: "flex",
         flexDirection: "column",
         backgroundColor: sold ? "#CECFD0" : "#FFFFFF",
-        height: "100%",
-        "&:hover": { border: "5px solid #CECFD0" },
+        // "&:hover": { border: "5px solid #CECFD0" },
       }}
     >
       <CardMedia
@@ -119,7 +116,9 @@ export default function ItemCard({
       <CardActions>
         {!item.adminRemoved && (
           <Button
-            size="small"
+            size="large"
+            variant="outlined"
+            sx={{ width: "80%" }}
             onClick={() => {
               handleClick("View item", item.id);
             }}
@@ -129,7 +128,7 @@ export default function ItemCard({
         )}
         {page === "user" && !sold && !item.adminRemoved && (
           <Button
-            size="small"
+            size="large"
             onClick={() => {
               markAsSold();
             }}
@@ -139,15 +138,24 @@ export default function ItemCard({
         )}
         {isReviewer && !sold && !item.adminRemoved && (
           <Button
-            size="small"
+            color="warning"
+            size="large"
             onClick={() => {
               removeItem();
             }}
           >
-            Remove Item
+            Remove
           </Button>
         )}
       </CardActions>
     </Card>
   );
 }
+
+ItemCard.propTypes = {
+  item: ItemShape,
+  handleClick: PropTypes.func.isRequired,
+  page: PropTypes.string,
+  sold: PropTypes.string,
+  complete: PropTypes.func,
+};
