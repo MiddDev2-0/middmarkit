@@ -122,7 +122,7 @@ export default function LoginWidget() {
               backgroundColor: "#FFFFFF",
               ":hover": {
                 backgroundColor: "#FFFFFF",
-                color: "primary",
+                pt: "4px",
               },
             }}
             variant="outlined"
