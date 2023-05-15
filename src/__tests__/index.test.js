@@ -61,12 +61,6 @@ describe("Client-side testing for index.js", () => {
     expect(screen.getByText(/Midd Markit/)).toBeInTheDocument();
   });
 
-  // test("Renders the heading", async () => {
-  //   render(<Album LoginWidgetComponent={() => {}} />);
-  //   const heading = await screen.findByText(/Midd Markit/);
-  //   expect(heading).toBeInTheDocument();
-  // });
-
   test("Clicking 'Sell' button navigates to seller page", async () => {
     SessionProvider.mockImplementation(({ children }) => (
       <mock-provider>{children}</mock-provider>
