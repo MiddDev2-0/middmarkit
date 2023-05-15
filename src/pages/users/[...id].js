@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
+import { signIn } from "next-auth/react";
 import ItemCard from "@/components/ItemCard";
 
 function Copyright() {
@@ -34,7 +35,14 @@ export default function Album({}) {
   const [availableItems, setAvailableItems] = useState([]);
   const [unavailableItems, setUnavailableItems] = useState([]);
 
-  const { data: session } = useSession({ required: true });
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      // The user is not authenticated, handle it here.
+      signIn("google");
+      return <div>Loading...</div>;
+    },
+  });
 
   const complete = (insertedItem) => {
     const newItems = items.map((item) => {
@@ -46,7 +54,6 @@ export default function Album({}) {
   useEffect(() => {
     if (session) {
       if (session.user) {
-        console.log(session.user);
         const getData = async () => {
           const response = await fetch(`/api/users/${session.user.id}`, {
             method: "GET",
@@ -54,6 +61,9 @@ export default function Album({}) {
           if (!response.ok) {
             console.log("error");
             throw new Error(response.statusText);
+          }
+          if (router.asPath !== `/users/${session.user.id}`) {
+            router.push(`/users/${session.user.id}`);
           }
           const data = await response.json();
           setItems(data.items);
@@ -66,8 +76,6 @@ export default function Album({}) {
   useEffect(() => {
     const available = [];
     const unavailable = [];
-    console.log("user page items");
-    console.log(items);
     if (items) {
       items.forEach((item) => {
         if (Boolean(item.isAvailable) === false && !item.adminRemoved) {
@@ -76,9 +84,7 @@ export default function Album({}) {
           available.push(item);
         }
       });
-
       setAvailableItems(available);
-
       setUnavailableItems(unavailable);
     }
   }, [items]);
