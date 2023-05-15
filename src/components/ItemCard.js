@@ -15,10 +15,15 @@ export default function ItemCard({
   complete,
   isReviewer,
 }) {
-  const markAsSold = () => {
+  const markAsSold = (status) => {
     const getData = async () => {
       const newItem = { ...item };
-      newItem.isAvailable = false;
+      if (status === "sold") {
+        newItem.isAvailable = false;
+      } else if (status === "relist") {
+        newItem.isAvailable = true;
+      }
+
       console.log(newItem);
       const response = await fetch(`/api/items/${item.id}`, {
         method: "PUT",
@@ -64,42 +69,12 @@ export default function ItemCard({
     getData();
   };
 
-  const bottomtext = () => {
-    if (!sold && !item.adminRemoved) {
-      return (
-        <CardContent sx={{}}>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="h2"
-            align="center"
-            noWrap
-          >
-            {item.name}
-          </Typography>
-          <Typography align="center">${item.price}</Typography>
-          <Typography align="center" noWrap>
-            {item.description}
-          </Typography>
-        </CardContent>
-      );
-    } else if (!!sold && !item.adminRemoved) {
-      return (
-        <CardContent>
-          <Typography gutterBottom variant="h3" component="h2" align="center">
-            SOLD
-          </Typography>
-        </CardContent>
-      );
-    }
-  };
-
   return (
     <Card
       sx={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: sold ? "#CECFD0" : "#FFFFFF",
+
         // "&:hover": { border: "5px solid #CECFD0" },
       }}
     >
@@ -112,13 +87,26 @@ export default function ItemCard({
         image={`https://res.cloudinary.com/middmarkit/image/upload/${item.images}`}
         alt="random"
       />
-      {bottomtext()}
+      <CardContent sx={{}}>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="h2"
+          align="center"
+          noWrap
+        >
+          {item.name}
+        </Typography>
+        <Typography align="center">${item.price}</Typography>
+        <Typography align="center" noWrap>
+          {item.description}
+        </Typography>
+      </CardContent>
       <CardActions>
-        {!sold && !item.adminRemoved && (
+        {!item.adminRemoved && (
           <Button
-            size="large"
+            size="medium"
             variant="outlined"
-            sx={{ width: "80%" }}
             onClick={() => {
               handleClick("View item", item.id);
             }}
@@ -128,9 +116,10 @@ export default function ItemCard({
         )}
         {page === "user" && !sold && !item.adminRemoved && (
           <Button
-            size="large"
+            size="medium"
+            color="warning"
             onClick={() => {
-              markAsSold();
+              markAsSold("sold");
             }}
           >
             Mark as sold
@@ -145,6 +134,16 @@ export default function ItemCard({
             }}
           >
             Remove
+          </Button>
+        )}
+
+        {sold && (
+          <Button
+            color="warning"
+            size="medium"
+            onClick={() => markAsSold("relist")}
+          >
+            Relist
           </Button>
         )}
       </CardActions>

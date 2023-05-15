@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
+import { signIn } from "next-auth/react";
 import ItemCard from "@/components/ItemCard";
 
 function Copyright() {
@@ -34,7 +35,14 @@ export default function Album({}) {
   const [availableItems, setAvailableItems] = useState([]);
   const [unavailableItems, setUnavailableItems] = useState([]);
 
-  const { data: session } = useSession({ required: true });
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      // The user is not authenticated, handle it here.
+      signIn("google");
+      return <div>Loading...</div>;
+    },
+  });
 
   const complete = (insertedItem) => {
     const newItems = items.map((item) => {
@@ -54,7 +62,6 @@ export default function Album({}) {
             console.log("error");
             throw new Error(response.statusText);
           }
-          console.log(session.user);
           if (router.asPath !== `/users/${session.user.id}`) {
             router.push(`/users/${session.user.id}`);
           }
