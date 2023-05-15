@@ -1,20 +1,33 @@
 import Album from "@/pages";
 import App from "@/pages/_app";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { useSession, SessionProvider } from "next-auth/react";
+import fetchMock from "fetch-mock-jest";
+import mockRouter from "next-router-mock";
 
 jest.mock("next/router", () => require("next-router-mock"));
 jest.mock("next-auth/react");
 
 describe("Client-side testing for index.js", () => {
+  beforeEach(() => {
+    fetchMock.get("/api/users/1", () => {
+      return {
+        firstName: "Alina",
+        lastName: "Zatzick",
+        email: "azatzick@middlebury.edu",
+        reviewerStatus: true,
+      };
+    });
+    fetchMock.get("/api/items", () => {
+      return [];
+    });
+  });
   afterEach(() => {
-  jest.resetAllMocks();
+    jest.resetAllMocks();
+    fetchMock.reset();
   });
 
   test("Render app with session provider", () => {
-    // When rendering _app, (or any component containing the SessionProvider component)
-    // we need to mock the provider to prevent NextAuth from attempting to make API requests
-    // for the session.
     SessionProvider.mockImplementation(({ children }) => (
       <mock-provider>{children}</mock-provider>
     ));
@@ -27,22 +40,26 @@ describe("Client-side testing for index.js", () => {
     });
 
     // Set the session prop expected by our _app component
-    render(<App pageProps={{ session: undefined }} />);
-    expect(screen.getByText(/Midd Markit/i)).toBeInTheDocument();
+    render(<App Component={Album} pageProps={{ session: undefined }} />);
+    expect(
+      screen.getByText(
+        /Welcome to MiddMarkit! This is a web application where you can buy and sell items on the Middlebury Campus/i
+      )
+    ).toBeInTheDocument();
   });
 
-  // test("Renders secure portions of page when logged in", async () => {
-  //   useSession.mockReturnValue({
-  //     data: {
-  //       user: { id: 1 },
-  //       expires: new Date(Date.now() + 2 * 86400).toISOString(),
-  //     },
-  //     status: "authenticated",
-  //   });
-  //   render(<Album />);
-  //   expect(useSession).toBeCalledWith({required: true});
-  //   expect(screen.getByText(/Midd Markit/)).toBeInTheDocument();
-  // });
+  test("Renders secure portions of page when logged in", async () => {
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
+    render(<Album />);
+    expect(useSession).toBeCalled();
+    expect(screen.getByText(/Midd Markit/)).toBeInTheDocument();
+  });
 
   // test("Renders the heading", async () => {
   //   render(<Album LoginWidgetComponent={() => {}} />);
@@ -50,10 +67,20 @@ describe("Client-side testing for index.js", () => {
   //   expect(heading).toBeInTheDocument();
   // });
 
-//   test("Clicking 'Sell' button navigates to seller page", () => {
-//     render(<Album LoginWidgetComponent={() => {}} />);
-//     const button = screen.getByRole("button", { name: /Sell/i });
-//     fireEvent.click(button);
-//     expect(mockRouter.asPath).toBe("/sellerpage");
-//   });
+  test("Clicking 'Sell' button navigates to seller page", async () => {
+    SessionProvider.mockImplementation(({ children }) => (
+      <mock-provider>{children}</mock-provider>
+    ));
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
+    render(<App Component={Album} pageProps={{ session: undefined }} />);
+    const button = await screen.findByRole("button", { name: /Sell/i });
+    fireEvent.click(button);
+    expect(mockRouter.asPath).toBe("/items/new");
+  });
 });
