@@ -9,6 +9,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
+import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
 
 import Logout from "@mui/icons-material/Logout";
 
@@ -37,7 +38,10 @@ export default function LoginWidget() {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-              <Avatar />
+              <AccountCircleSharpIcon
+                sx={{ color: "white" }}
+                fontSize="large"
+              />
             </IconButton>
           </Tooltip>
         </Box>
