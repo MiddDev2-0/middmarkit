@@ -1,42 +1,80 @@
+import Album from "@/pages";
+import App from "@/pages/_app";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Album } from "@/pages";
-//import fetchMock from "fetch-mock-jest";
+import { useSession, SessionProvider } from "next-auth/react";
+import fetchMock from "fetch-mock-jest";
 import mockRouter from "next-router-mock";
 
-describe.skip("End-to-end testing for index.js", () => {
-  // beforeEach(() => {
-  //   //jest.useFakeTimers();
-  //   fetchMock.get("/", () => {
-  //     return {
-  //       item: {
-  //         id: 1,
-  //         description: "This is a mahogany brown round bed side table",
-  //         price: 12,
-  //         sellerEmail: "mtarantola@middlebury.edu",
-  //         datePosted: "2016-12-07T23:22:33.357Z",
-  //         isAvailable: true,
-  //         images: "/Images/1.jpg",
-  //       },
-  //     };
-  //   });
-  // });
+jest.mock("next/router", () => require("next-router-mock"));
+jest.mock("next-auth/react");
 
-  // afterEach(() => {
-  //   jest.runOnlyPendingTimers();
-  //   jest.useRealTimers();
-  //   fetchMock.reset();
-  // });
-
-  test.skip("Renders the heading", async () => {
-    render(<Album LoginWidgetComponent={() => {}} />);
-    const heading = await screen.findByText(/Midd Markit/);
-    expect(heading).toBeInTheDocument();
+describe("Client-side testing for index.js", () => {
+  beforeEach(() => {
+    fetchMock.get("/api/users/1", () => {
+      return {
+        firstName: "Alina",
+        lastName: "Zatzick",
+        email: "azatzick@middlebury.edu",
+        reviewerStatus: true,
+      };
+    });
+    fetchMock.get("/api/items", () => {
+      return [];
+    });
+  });
+  afterEach(() => {
+    jest.resetAllMocks();
+    fetchMock.reset();
   });
 
-  test.skip("Clicking 'Sell' button navigates to seller page", () => {
-    render(<Album LoginWidgetComponent={() => {}} />);
-    const button = screen.getByRole("button", { name: /Sell/i });
+  test("Render app with session provider", () => {
+    SessionProvider.mockImplementation(({ children }) => (
+      <mock-provider>{children}</mock-provider>
+    ));
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
+
+    // Set the session prop expected by our _app component
+    render(<App Component={Album} pageProps={{ session: undefined }} />);
+    expect(
+      screen.getByText(
+        /Welcome to MiddMarkit! This is a web application where you can buy and sell items on the Middlebury Campus/i
+      )
+    ).toBeInTheDocument();
+  });
+
+  test("Renders secure portions of page when logged in", async () => {
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
+    render(<Album />);
+    expect(useSession).toBeCalled();
+    expect(screen.getByText(/Midd Markit/)).toBeInTheDocument();
+  });
+
+  test("Clicking 'Sell' button navigates to seller page", async () => {
+    SessionProvider.mockImplementation(({ children }) => (
+      <mock-provider>{children}</mock-provider>
+    ));
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
+    render(<App Component={Album} pageProps={{ session: undefined }} />);
+    const button = await screen.findByRole("button", { name: /Sell/i });
     fireEvent.click(button);
-    expect(mockRouter.asPath).toBe("/sellerpage");
+    expect(mockRouter.asPath).toBe("/items/new");
   });
 });
