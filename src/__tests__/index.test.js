@@ -1,58 +1,80 @@
+import Album from "@/pages";
+import App from "@/pages/_app";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Album } from "@/pages";
-//import { useRouter } from "next/router";
+import { useSession, SessionProvider } from "next-auth/react";
+import fetchMock from "fetch-mock-jest";
+import mockRouter from "next-router-mock";
 
 jest.mock("next/router", () => require("next-router-mock"));
+jest.mock("next-auth/react");
 
-describe.skip("End-to-end testing for index.js", () => {
-  test("Renders the heading", () => {
-    render(<Album LoginWidgetComponent={() => {}} />);
-    const heading = screen.getByText(/Welcome to MiddMarkit!/i);
-    expect(heading).toBeInTheDocument();
+describe("Client-side testing for index.js", () => {
+  beforeEach(() => {
+    fetchMock.get("/api/users/1", () => {
+      return {
+        firstName: "Alina",
+        lastName: "Zatzick",
+        email: "azatzick@middlebury.edu",
+        reviewerStatus: true,
+      };
+    });
+    fetchMock.get("/api/items", () => {
+      return [];
+    });
+  });
+  afterEach(() => {
+    jest.resetAllMocks();
+    fetchMock.reset();
   });
 
-  test("Clicking 'Sell' button navigates to seller page", () => {
-    const pushMock = jest.fn();
-    const useRouterMock = jest.spyOn(require("next/router"), "useRouter");
-    useRouterMock.mockImplementation(() => ({
-      push: pushMock,
-    }));
-    render(<Album LoginWidgetComponent={() => {}} />);
-    const button = screen.getByRole("button", { name: /Sell/i });
+  test("Render app with session provider", () => {
+    SessionProvider.mockImplementation(({ children }) => (
+      <mock-provider>{children}</mock-provider>
+    ));
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
+
+    // Set the session prop expected by our _app component
+    render(<App Component={Album} pageProps={{ session: undefined }} />);
+    expect(
+      screen.getByText(
+        /Welcome to MiddMarkit! This is a web application where you can buy and sell items on the Middlebury Campus/i
+      )
+    ).toBeInTheDocument();
+  });
+
+  test("Renders secure portions of page when logged in", async () => {
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
+    render(<Album />);
+    expect(useSession).toBeCalled();
+    expect(screen.getByText(/Midd Markit/)).toBeInTheDocument();
+  });
+
+  test("Clicking 'Sell' button navigates to seller page", async () => {
+    SessionProvider.mockImplementation(({ children }) => (
+      <mock-provider>{children}</mock-provider>
+    ));
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
+    render(<App Component={Album} pageProps={{ session: undefined }} />);
+    const button = await screen.findByRole("button", { name: /Sell/i });
     fireEvent.click(button);
-
-    expect(pushMock).toHaveBeenCalledWith("/sellerpage");
-
-    useRouterMock.mockRestore();
+    expect(mockRouter.asPath).toBe("/items/new");
   });
-
-  // test("Clicking 'Home' button navigates to home page", () => {
-  //   const pushMock = jest.fn();
-  //   const useRouterMock = jest.spyOn(require("next/router"), "useRouter");
-  //   useRouterMock.mockImplementation(() => ({
-  //     push: pushMock,
-  //   }));
-  //   render(<Album />);
-  //   const button = screen.getByRole("button", { name: /Home/i });
-  //   fireEvent.click(button);
-
-  //   expect(pushMock).toHaveBeenCalledWith("/");
-
-  //   useRouterMock.mockRestore();
-  // });
-
-  // test("Clicking item card navigates to item page", () => {
-  //   const pushMock = jest.fn();
-  //   const useRouterMock = jest.spyOn(require("next/router"), "useRouter");
-  //   useRouterMock.mockImplementation(() => ({
-  //     push: pushMock,
-  //   }));
-  //   render(<Album />);
-  //   const card = screen.getByRole("img", { name: /Heading 1/i });
-  //   fireEvent.click(card);
-
-  //   expect(pushMock).toHaveBeenCalledWith("/itempage");
-
-  //   useRouterMock.mockRestore();
-  // });
 });

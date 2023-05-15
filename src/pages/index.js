@@ -14,13 +14,14 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import LoginWidget from "@/components/LoginWidget";
+//import LoginWidget from "@/components/LoginWidget";
 
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
 
 import ItemCard from "@/components/ItemCard";
+import PropTypes from "prop-types";
 
 function Copyright() {
   const newLocal = "https://mui.com/";
@@ -40,16 +41,16 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function Authentication(props) {
-  const { data: status } = useSession({ required: true }); //session
+// export default function Authentication(props) {
+//   const { data: status } = useSession({ required: true }); //session
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-  return <Album LoginWidgetComponent={LoginWidget} {...props} />;
-}
+//   if (status === "loading") {
+//     return <div>Loading...</div>;
+//   }
+//   return <Album LoginWidgetComponent={LoginWidget} {...props} />;
+// }
 
-export function Album({ searchKey }) {
+export default function Album({ searchKey }) {
   const router = useRouter();
   const [items, setItems] = useState([]);
   const { data: session } = useSession();
@@ -129,13 +130,16 @@ export function Album({ searchKey }) {
     }
   };
 
+  const sortedItems = Array.from(newItems).sort((a, b) =>
+    b.datePosted.localeCompare(a.datePosted)
+  );
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {/* <AppBar position="relative">
         <Toolbar>
           <LoginWidgetComponent />
-          
+
         </Toolbar>
       </AppBar> */}
       <main>
@@ -159,14 +163,14 @@ export function Album({ searchKey }) {
             </Typography>
           </Container>
         </Box>
-        <Container sx={{ py: 8 }} maxWidth="md">
+        <Container sx={{ py: 8 }}>
           {/* End hero unit */}
           <Grid
             container
             spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 4, sm: 8, md: 12 }}
+            columns={{ xs: 12, sm: 12, md: 12 }}
           >
-            {newItems.map((item) => (
+            {sortedItems.map((item) => (
               <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard
                   item={item}
@@ -195,3 +199,7 @@ export function Album({ searchKey }) {
     </ThemeProvider>
   );
 }
+
+Album.propTypes = {
+  searchKey: PropTypes.string,
+};
