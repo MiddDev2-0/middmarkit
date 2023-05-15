@@ -25,7 +25,6 @@ import Backdrop from "@mui/material/Backdrop";
 
 const theme = createTheme();
 
-// const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
 const cloud_name = "middmarkit";
 const api_key = "765198598371986";
 const upload_preset = "ucwgvyiu";
@@ -83,14 +82,10 @@ export default function SellerForm({}) {
     formData.append("upload_preset", upload_preset);
     formData.append("api_key", api_key);
 
-    // eslint-disable-next-line no-unused-vars
-    const cloudinaryResponse = fetch(
-      `https://api.cloudinary.com/v1_1/${cloud_name}/auto/upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    )
+    fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/auto/upload`, {
+      method: "POST",
+      body: formData,
+    })
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
