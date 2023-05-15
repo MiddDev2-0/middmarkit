@@ -46,7 +46,6 @@ export default function Album({}) {
   useEffect(() => {
     if (session) {
       if (session.user) {
-        console.log(session.user);
         const getData = async () => {
           const response = await fetch(`/api/users/${session.user.id}`, {
             method: "GET",
@@ -54,6 +53,10 @@ export default function Album({}) {
           if (!response.ok) {
             console.log("error");
             throw new Error(response.statusText);
+          }
+          console.log(session.user);
+          if (router.asPath !== `/users/${session.user.id}`) {
+            router.push(`/users/${session.user.id}`);
           }
           const data = await response.json();
           setItems(data.items);
@@ -66,8 +69,6 @@ export default function Album({}) {
   useEffect(() => {
     const available = [];
     const unavailable = [];
-    console.log("user page items");
-    console.log(items);
     if (items) {
       items.forEach((item) => {
         if (Boolean(item.isAvailable) === false && !item.adminRemoved) {
@@ -76,9 +77,7 @@ export default function Album({}) {
           available.push(item);
         }
       });
-
       setAvailableItems(available);
-
       setUnavailableItems(unavailable);
     }
   }, [items]);

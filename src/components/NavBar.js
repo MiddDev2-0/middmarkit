@@ -19,7 +19,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function AppBarComponent({ search }) {
+export default function AppBarComponent({ search, searchKey }) {
   const theme = createTheme();
   const { data: session } = useSession();
   const router = useRouter();
@@ -69,7 +69,7 @@ export default function AppBarComponent({ search }) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           />
-          {router.pathname === "/" && <SearchBar search={search} />}
+          <SearchBar searchKey={searchKey} search={search} />
         </Toolbar>
       </AppBar>
       <main>
