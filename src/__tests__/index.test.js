@@ -1,6 +1,6 @@
 import Album from "@/pages";
 import App from "@/pages/_app";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import { useSession, SessionProvider } from "next-auth/react";
 import fetchMock from "fetch-mock-jest";
 import mockRouter from "next-router-mock";
@@ -27,7 +27,7 @@ describe("Client-side testing for index.js", () => {
     fetchMock.reset();
   });
 
-  test("Render app with session provider", () => {
+  test("Render app with session provider", async () => {
     SessionProvider.mockImplementation(({ children }) => (
       <mock-provider>{children}</mock-provider>
     ));
@@ -46,6 +46,10 @@ describe("Client-side testing for index.js", () => {
         /Welcome to MiddMarkit! This is a web application where you can buy and sell items on the Middlebury Campus/i
       )
     ).toBeInTheDocument();
+
+    await act(async () => {
+      await new Promise(process.nextTick);
+    });
   });
 
   test("Renders secure portions of page when logged in", async () => {
@@ -59,6 +63,10 @@ describe("Client-side testing for index.js", () => {
     render(<Album />);
     expect(useSession).toBeCalled();
     expect(screen.getByText(/Midd Markit/)).toBeInTheDocument();
+
+    await act(async () => {
+      await new Promise(process.nextTick);
+    });
   });
 
   test("Clicking 'Sell' button navigates to seller page", async () => {
@@ -76,5 +84,9 @@ describe("Client-side testing for index.js", () => {
     const button = await screen.findByRole("button", { name: /Sell/i });
     fireEvent.click(button);
     expect(mockRouter.asPath).toBe("/items/new");
+
+    await act(async () => {
+      await new Promise(process.nextTick);
+    });
   });
 });
