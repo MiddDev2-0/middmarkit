@@ -8,7 +8,7 @@ import mockRouter from "next-router-mock";
 jest.mock("next/router", () => require("next-router-mock"));
 jest.mock("next-auth/react");
 
-describe("SellerForm and SellerPage tests", () => {
+describe("End-to-End testing for seller page", () => {
   beforeEach(() => {
     fetchMock.get("api/items/new", () => {
       return [];
@@ -39,7 +39,6 @@ describe("SellerForm and SellerPage tests", () => {
       status: "authenticated",
     });
     render(<SellerPage />);
-    //expect(useSession).toBeCalledWith({ required: true });
     expect(screen.getByText(/Sell your stuff!/i)).toBeInTheDocument();
   });
 
