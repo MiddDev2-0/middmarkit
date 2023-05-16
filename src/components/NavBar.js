@@ -54,8 +54,8 @@ export default function AppBarComponent({ search, searchKey }) {
         <Box
           sx={{
             bgcolor: "background.paper",
-            pt: 8,
-            pb: 6,
+            pt: 3,
+            pb: 2,
           }}
         >
           <Container maxWidth="sm">
@@ -76,6 +76,7 @@ export default function AppBarComponent({ search, searchKey }) {
               </Button>
               {!!session && !!session.user && (
                 <Button
+                  size="large"
                   variant={
                     router.pathname === "/users/[...id]"
                       ? "contained"
