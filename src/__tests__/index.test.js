@@ -42,9 +42,7 @@ describe("Client-side testing for index.js", () => {
     // Set the session prop expected by our _app component
     render(<App Component={Album} pageProps={{ session: undefined }} />);
     expect(
-      screen.getByText(
-        /Welcome to MiddMarkit! This is a web application where you can buy and sell items on the Middlebury Campus/i
-      )
+      screen.getByText(/Buy and Sell Your Stuff on Middlebury Campus!/i)
     ).toBeInTheDocument();
   });
 
