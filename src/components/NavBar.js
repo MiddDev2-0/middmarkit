@@ -47,7 +47,10 @@ export default function AppBarComponent({ search, searchKey }) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           />
-          <SearchBar searchKey={searchKey} search={search} />
+          {(router.pathname === "/users/[...id]" ||
+            router.pathname === "/") && (
+            <SearchBar searchKey={searchKey} search={search} />
+          )}
         </Toolbar>
       </AppBar>
       <main>
