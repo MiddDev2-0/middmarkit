@@ -1,7 +1,5 @@
 # Project Skeleton
 
-TODO: Implement CI badges, provide a link to the deployed version of your application, and provide a brief description of the application functionality.
-
 ## Creation
 
 This project skeleton has been setup similar to our assignments and practicals. It is a Next.JS application, created with create-next-app `💻 npx create-next-app@latest`, which uses Jest and Testing Library for testing, ESLint for static analysis, Prettier for styling, and is configured to use GitHub actions for testing pull requests.
@@ -30,6 +28,6 @@ This applications aims to create a secure online marketplace for Middlebury Coll
 
 ###### Application Link
 
-https://middmarkit.fly.dev
+https://killington.csci312.dev/
 
 [![Node.js CI](https://github.com/csci312a-s23/project-killington/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/csci312a-s23/project-killington/actions/workflows/node.js.yml)
