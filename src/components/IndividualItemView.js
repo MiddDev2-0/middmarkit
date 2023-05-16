@@ -7,11 +7,14 @@ import Container from "@mui/material/Container";
 import { Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 export default function IndividualItemView({ item }) {
   const cloud_name = "middmarkit";
   const public_id = item.images;
   const router = useRouter();
+
+  const { data: session } = useSession();
 
   return (
     <Grid container spacing={2} justifyContent="center" justify="center">
@@ -35,15 +38,17 @@ export default function IndividualItemView({ item }) {
           <Typography variant="subtitle1" align="left">
             {item.description}
           </Typography>
-          <Button
-            size="medium"
-            variant="outlined"
-            onClick={() => {
-              router.push(`/items/${item.id}/edit`);
-            }}
-          >
-            Edit item
-          </Button>
+          {session && item && session.user.id === item.sellerId && (
+            <Button
+              size="medium"
+              variant="outlined"
+              onClick={() => {
+                router.push(`/items/${item.id}/edit`);
+              }}
+            >
+              Edit item
+            </Button>
+          )}
         </Container>
       </Grid>
     </Grid>

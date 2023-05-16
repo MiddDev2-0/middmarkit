@@ -55,6 +55,15 @@ export default function Editor({ item }) {
   }, [name, description, price, imageId]);
 
   useEffect(() => {
+    if (item) {
+      setName(item.name);
+      setPrice(item.price);
+      setDescription(item.description);
+      setImageId(item.images);
+    }
+  }, [item]);
+
+  useEffect(() => {
     if (session) {
       if (session.user) {
         const getData = async () => {
@@ -100,7 +109,10 @@ export default function Editor({ item }) {
       description: description,
       price: Math.round(+price),
       sellerId: seller.id,
+      datePosted: new Date().toISOString(),
+      isAvailable: true,
       images: imageId,
+      adminRemoved: false,
     };
     console.log(updatedItem);
 
@@ -115,22 +127,13 @@ export default function Editor({ item }) {
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
 
-    router.push(`/`);
+    router.push(`/items/${item.id}`);
+    //router.push(`items/${item.id}/`);
   };
 
   const handleCancel = () => {
     router.push(`/`);
   };
-
-  console.log(item);
-  useEffect(() => {
-    if (item) {
-      setName(item.name);
-      setPrice(item.price);
-      setDescription(item.description);
-      setImageId(item.images);
-    }
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
