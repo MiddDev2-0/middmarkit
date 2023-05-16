@@ -96,7 +96,8 @@ export default function Album({ searchKey }) {
   if (searchKey) {
     newItems = items.filter(
       (item) =>
-        item.name.includes(searchKey) || item.description.includes(searchKey)
+        item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchKey.toLowerCase())
     );
   }
 
