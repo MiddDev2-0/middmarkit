@@ -2,7 +2,7 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import SellerPage from "@/pages/items/new";
 
-describe.skip("SellerPage", () => {
+describe("SellerPage", () => {
   it("renders the sell stuff title", () => {
     const { getByText } = render(<SellerPage />);
     expect(getByText(/Sell your item:/i)).toBeInTheDocument();

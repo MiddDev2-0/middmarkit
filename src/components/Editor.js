@@ -128,7 +128,6 @@ export default function Editor({ item }) {
       .catch((error) => console.log(error));
 
     router.push(`/items/${item.id}`);
-    //router.push(`items/${item.id}/`);
   };
 
   const handleCancel = () => {

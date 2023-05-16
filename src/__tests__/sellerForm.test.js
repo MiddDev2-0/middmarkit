@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import SellerForm from "../components/SellerForm";
 
-describe.skip("SellerForm", () => {
+describe("SellerForm", () => {
   test("renders all input fields", () => {
     render(<SellerForm />);
     expect(screen.getByPlaceholderText("Item Name")).toBeInTheDocument();
