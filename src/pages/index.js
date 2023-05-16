@@ -96,7 +96,8 @@ export default function Album({ searchKey }) {
   if (searchKey) {
     newItems = items.filter(
       (item) =>
-        item.name.includes(searchKey) || item.description.includes(searchKey)
+        item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchKey.toLowerCase())
     );
   }
 
@@ -147,8 +148,8 @@ export default function Album({ searchKey }) {
         <Box
           sx={{
             bgcolor: "background.paper",
-            pt: 8,
-            pb: 6,
+            pt: "20px",
+            pb: "20px",
           }}
         >
           <Container maxWidth="sm">
@@ -158,12 +159,11 @@ export default function Album({ searchKey }) {
               color="text.secondary"
               paragraph
             >
-              Welcome to MiddMarkit! This is a web application where you can buy
-              and sell items on the Middlebury Campus
+              Buy and Sell Your Stuff on Middlebury Campus!
             </Typography>
           </Container>
         </Box>
-        <Container sx={{ py: 8 }}>
+        <Container sx={{ py: 0 }}>
           {/* End hero unit */}
           <Grid
             container

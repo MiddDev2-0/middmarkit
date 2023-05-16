@@ -29,7 +29,7 @@ function Copyright() {
 
 const theme = createTheme();
 
-export default function Album({}) {
+export default function Album({ searchKey }) {
   const router = useRouter();
   const [items, setItems] = useState([]);
   const [availableItems, setAvailableItems] = useState([]);
@@ -89,6 +89,21 @@ export default function Album({}) {
     }
   }, [items]);
 
+  let newAvailItems = availableItems;
+  let newUnavailItems = unavailableItems;
+  if (searchKey) {
+    newAvailItems = availableItems.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchKey.toLowerCase())
+    );
+    newUnavailItems = unavailableItems.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchKey.toLowerCase())
+    );
+  }
+
   const handleClick = (button, id) => {
     if (button === "View item") {
       router.push(`/items/${id}`);
@@ -117,7 +132,7 @@ export default function Album({}) {
 
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
-            {availableItems.map((item) => (
+            {newAvailItems.map((item) => (
               <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard
                   item={item}
@@ -137,7 +152,7 @@ export default function Album({}) {
 
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
-            {unavailableItems.map((item) => (
+            {newUnavailItems.map((item) => (
               <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard
                   item={item}

@@ -47,24 +47,22 @@ export default function AppBarComponent({ search, searchKey }) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           />
-          <SearchBar searchKey={searchKey} search={search} />
+          {(router.pathname === "/users/[...id]" ||
+            router.pathname === "/") && (
+            <SearchBar searchKey={searchKey} search={search} />
+          )}
         </Toolbar>
       </AppBar>
       <main>
         <Box
           sx={{
             bgcolor: "background.paper",
-            pt: 8,
-            pb: 6,
+            pt: 3,
+            pb: 2,
           }}
         >
           <Container maxWidth="sm">
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
+            <Stack sx={{}} direction="row" spacing={2} justifyContent="center">
               <Button
                 variant={router.pathname === "/" ? "contained" : "outlined"}
                 onClick={() => handleClick("home")}
@@ -81,6 +79,7 @@ export default function AppBarComponent({ search, searchKey }) {
               </Button>
               {!!session && !!session.user && (
                 <Button
+                  size="large"
                   variant={
                     router.pathname === "/users/[...id]"
                       ? "contained"
