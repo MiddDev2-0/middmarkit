@@ -33,13 +33,3 @@ describe("IndividualItemView", () => {
     expect(getByText(/Test Description/)).toBeInTheDocument();
   });
 });
-
-// describe("InterestForm", () => {
-//     test("generates email contents", () => {
-//       const buyerEmail = "john@example.com";
-//       const item = { name: "Test Item", sellerId: 1 };
-//       const { getByLabelText } = render(<InterestForm buyerEmail={buyerEmail} item={item} />);
-//       const contentsInput = getByLabelText(/Contents/);
-//       expect(contentsInput).toHaveValue(`Hi , \n \nI'm interested in buying your item (Test Item). My bid is __$__. Please let me know if this works for you. \n\nThanks, \n`);
-//     });
-//   });

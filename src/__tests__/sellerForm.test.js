@@ -1,20 +1,97 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import SellerForm from "../components/SellerForm";
+import SellerPage from "@/pages/items/new";
+import fetchMock from "fetch-mock-jest";
+import { useSession, SessionProvider } from "next-auth/react";
+import mockRouter from "next-router-mock";
 
-describe.skip("SellerForm", () => {
-  test("renders all input fields", () => {
-    render(<SellerForm />);
-    expect(screen.getByPlaceholderText("Item Name")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Item Price")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Item Description")).toBeInTheDocument();
+jest.mock("next/router", () => require("next-router-mock"));
+jest.mock("next-auth/react");
+
+describe("SellerForm and SellerPage tests", () => {
+  beforeEach(() => {
+    fetchMock.get("api/items/new", () => {
+      return [];
+    });
+    fetchMock.get("api/users/1", () => {
+      return {
+        firstName: "Alina",
+        lastName: "Zatzick",
+        email: "azatzick@middlebury.edu",
+        reviewerStatus: true,
+      };
+    });
+  });
+  afterEach(() => {
+    jest.resetAllMocks();
+    fetchMock.reset();
   });
 
-  test("enables the Save button only when all fields are populated", () => {
+  test("Client side rendering of seller form and seller page", () => {
+    SessionProvider.mockImplementation(({ children }) => (
+      <mock-provider>{children}</mock-provider>
+    ));
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
+    render(<SellerPage />);
+    //expect(useSession).toBeCalledWith({ required: true });
+    expect(screen.getByText(/Sell your stuff!/i)).toBeInTheDocument();
+  });
+
+  test("Save button disabled when fields are empty", () => {
+    SessionProvider.mockImplementation(({ children }) => (
+      <mock-provider>{children}</mock-provider>
+    ));
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
     render(<SellerForm />);
-    const nameInput = screen.getByPlaceholderText("Item Name");
-    const priceInput = screen.getByPlaceholderText("Item Price");
-    const descriptionInput = screen.getByPlaceholderText("Item Description");
-    const saveButton = screen.getByRole("button", { name: "Save" });
+    const saveButton = screen.getByRole("button", { name: "Post your item!" });
+    expect(saveButton).toBeDisabled();
+  });
+
+  test("clicking Cancel button navigates to home page", async () => {
+    SessionProvider.mockImplementation(({ children }) => (
+      <mock-provider>{children}</mock-provider>
+    ));
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
+    render(<SellerForm />);
+    const button = await screen.findByRole("button", { name: /Cancel/i });
+    fireEvent.click(button);
+    expect(mockRouter.asPath).toBe("/");
+  });
+
+  test.skip("enables the Save button when all fields are populated", () => {
+    SessionProvider.mockImplementation(({ children }) => (
+      <mock-provider>{children}</mock-provider>
+    ));
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
+    render(<SellerForm />);
+    const nameInput = screen.getByDisplayValue("Item Name");
+    const priceInput = screen.getByDisplayValue("Price");
+    const descriptionInput = screen.getByDisplayValue("Description");
+    const saveButton = screen.getByRole("button", { name: "POST YOUR ITEM!" });
 
     //the Save button should be disabled
     expect(saveButton).toBeDisabled();
@@ -28,5 +105,22 @@ describe.skip("SellerForm", () => {
 
     // Save button should be enabled now
     expect(saveButton).toBeEnabled();
+  });
+
+  test.skip("renders all input fields", () => {
+    SessionProvider.mockImplementation(({ children }) => (
+      <mock-provider>{children}</mock-provider>
+    ));
+    useSession.mockReturnValue({
+      data: {
+        user: { id: 1 },
+        expires: new Date(Date.now() + 2 * 86400).toISOString(),
+      },
+      status: "authenticated",
+    });
+    render(<SellerPage />);
+    expect(screen.getByPlaceholderText("Item Name")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Price")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Description")).toBeInTheDocument();
   });
 });
