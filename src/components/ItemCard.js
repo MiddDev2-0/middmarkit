@@ -44,11 +44,19 @@ export default function ItemCard({
     getData();
   };
 
-  const removeItem = () => {
+  const removeItem = (status) => {
     const getData = async () => {
       const newItem = { ...item };
-      newItem.adminRemoved = true;
-      newItem.isAvailable = Boolean(newItem.isAvailable);
+
+      if (status === "remove") {
+        newItem.adminRemoved = true;
+        newItem.isAvailable = Boolean(newItem.isAvailable);
+      }
+      if (status === "relist") {
+        newItem.adminRemoved = false;
+        newItem.isAvailable = Boolean(true);
+      }
+
       console.log(JSON.stringify(newItem));
       const response = await fetch(`/api/items/${item.id}`, {
         method: "PUT",
@@ -103,7 +111,7 @@ export default function ItemCard({
         </Typography>
       </CardContent>
       <CardActions>
-        {!item.adminRemoved && (
+        {
           <Button
             size="medium"
             variant="outlined"
@@ -113,7 +121,7 @@ export default function ItemCard({
           >
             View item
           </Button>
-        )}
+        }
         {page === "user" && !sold && !item.adminRemoved && (
           <Button
             size="medium"
@@ -130,7 +138,7 @@ export default function ItemCard({
             color="warning"
             size="large"
             onClick={() => {
-              removeItem();
+              removeItem("remove");
             }}
           >
             Remove
@@ -142,6 +150,16 @@ export default function ItemCard({
             color="warning"
             size="medium"
             onClick={() => markAsSold("relist")}
+          >
+            Relist
+          </Button>
+        )}
+
+        {page === "remove" && (
+          <Button
+            color="warning"
+            size="medium"
+            onClick={() => removeItem("relist")}
           >
             Relist
           </Button>
