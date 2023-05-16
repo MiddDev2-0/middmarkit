@@ -41,6 +41,7 @@ export default function IndividualItemView({ item }) {
           {session && item && session.user.id === item.sellerId && (
             <Button
               size="medium"
+              sx={{ my: 2 }}
               variant="outlined"
               onClick={() => {
                 router.push(`/items/${item.id}/edit`);
