@@ -77,6 +77,22 @@ export default function ItemCard({
     getData();
   };
 
+  const remove_button = () => {
+    if (isReviewer && !sold && !item.adminRemoved) {
+      return (
+        <Button
+          color="warning"
+          size="large"
+          onClick={() => {
+            removeItem("remove");
+          }}
+        >
+          Remove
+        </Button>
+      );
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -133,18 +149,7 @@ export default function ItemCard({
             Mark as sold
           </Button>
         )}
-        {isReviewer && !sold && !item.adminRemoved && (
-          <Button
-            color="warning"
-            size="large"
-            onClick={() => {
-              removeItem("remove");
-            }}
-          >
-            Remove
-          </Button>
-        )}
-
+        {remove_button()}
         {sold && (
           <Button
             color="warning"
