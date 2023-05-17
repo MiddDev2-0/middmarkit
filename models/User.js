@@ -15,7 +15,6 @@ export default class User extends BaseModel {
     return {
       type: "object",
       required: ["googleId"],
-      // , "firstName", "lastName", "email"],
 
       properties: {
         id: { type: "integer" },
