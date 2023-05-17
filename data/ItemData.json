@@ -31,16 +31,5 @@
     "isAvailable": true,
     "images": "listings/hknhfywitr2u5i9dpj68",
     "adminRemoved": false
-  },
-  {
-    "id": 4,
-    "name": "Poster",
-    "description": "poster by really famous artist",
-    "price": 300,
-    "sellerEmail": "mcordeiro@middlebury.edu",
-    "datePosted": "2016-12-07T23:22:33.357Z",
-    "isAvailable": true,
-    "images": "listings/igcyn5wksqm2xyurxyeg",
-    "adminRemoved": false
   }
 ]
