@@ -24,7 +24,6 @@ export default function ItemCard({
         newItem.isAvailable = true;
       }
 
-      console.log(newItem);
       const response = await fetch(`/api/items/${item.id}`, {
         method: "PUT",
         body: JSON.stringify(newItem),
@@ -38,18 +37,24 @@ export default function ItemCard({
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      // console.log(`marking as sold: ${data}`);
+
       complete(data);
     };
     getData();
   };
 
-  const removeItem = () => {
+  const removeItem = (status) => {
     const getData = async () => {
       const newItem = { ...item };
-      newItem.adminRemoved = true;
-      newItem.isAvailable = Boolean(newItem.isAvailable);
-      console.log(JSON.stringify(newItem));
+
+      if (status === "remove") {
+        newItem.adminRemoved = true;
+        newItem.isAvailable = Boolean(newItem.isAvailable);
+      }
+      if (status === "relist") {
+        newItem.adminRemoved = false;
+        newItem.isAvailable = Boolean(true);
+      }
       const response = await fetch(`/api/items/${item.id}`, {
         method: "PUT",
         body: JSON.stringify(newItem),
@@ -63,10 +68,25 @@ export default function ItemCard({
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      // console.log(`marking as sold: ${data}`);
       complete(data);
     };
     getData();
+  };
+
+  const remove_button = () => {
+    if (isReviewer && !sold && !item.adminRemoved) {
+      return (
+        <Button
+          color="warning"
+          size="large"
+          onClick={() => {
+            removeItem("remove");
+          }}
+        >
+          Remove
+        </Button>
+      );
+    }
   };
 
   return (
@@ -103,7 +123,7 @@ export default function ItemCard({
         </Typography>
       </CardContent>
       <CardActions>
-        {!item.adminRemoved && (
+        {
           <Button
             size="medium"
             variant="outlined"
@@ -113,7 +133,7 @@ export default function ItemCard({
           >
             View item
           </Button>
-        )}
+        }
         {page === "user" && !sold && !item.adminRemoved && (
           <Button
             size="medium"
@@ -125,23 +145,22 @@ export default function ItemCard({
             Mark as sold
           </Button>
         )}
-        {isReviewer && !sold && !item.adminRemoved && (
-          <Button
-            color="warning"
-            size="large"
-            onClick={() => {
-              removeItem();
-            }}
-          >
-            Remove
-          </Button>
-        )}
-
+        {remove_button()}
         {sold && (
           <Button
             color="warning"
             size="medium"
             onClick={() => markAsSold("relist")}
+          >
+            Relist
+          </Button>
+        )}
+
+        {page === "remove" && (
+          <Button
+            color="warning"
+            size="medium"
+            onClick={() => removeItem("relist")}
           >
             Relist
           </Button>

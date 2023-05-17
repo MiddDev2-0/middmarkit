@@ -66,7 +66,7 @@ export default function InterestForm({ seller, item }) {
           onChange={(event) => setContents(event.target.value)}
         />
       </div>
-      <Button>{mailForm()}</Button>
+      <Button variant="outlined">{mailForm()}</Button>
     </div>
   );
 }

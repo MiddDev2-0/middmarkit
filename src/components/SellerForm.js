@@ -88,7 +88,6 @@ export default function SellerForm({}) {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
         setImageId(response.public_id);
         handleCloseBackdrop();
       });
@@ -105,7 +104,6 @@ export default function SellerForm({}) {
       images: imageId,
       adminRemoved: false,
     };
-    console.log(newItem);
 
     //BAD REQUEST ERROR:
 

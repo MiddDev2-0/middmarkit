@@ -22,7 +22,6 @@ const handler = nc({ onError })
   .delete(async (req, res) => {
     const item = await Item.query().deleteById(req.query.id);
     if (item) {
-      console.log(item);
       res.status(200).json({ message: "Item deleted successfully" });
     } else {
       res.status(400).end("item not found");

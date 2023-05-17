@@ -17,15 +17,21 @@ import LoginWidgetComponent from "@/components/LoginWidget";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function AppBarComponent({ search, searchKey }) {
   const theme = createTheme();
   const { data: session } = useSession();
   const router = useRouter();
+  const [user, setUser] = useState();
 
   const handleClick = (button) => {
     if (button === "sell") {
       router.push("/items/new");
+    }
+    if (button === "remove") {
+      router.push("/items/removed");
     }
     if (button === "home") {
       router.push("/");
@@ -34,6 +40,25 @@ export default function AppBarComponent({ search, searchKey }) {
       router.push(`/users/${session.user.id}`);
     }
   };
+
+  useEffect(() => {
+    if (session) {
+      if (session.user) {
+        const getData = async () => {
+          const response = await fetch(`/api/users/${session.user.id}`, {
+            method: "GET",
+          });
+          if (!response.ok) {
+            console.log("error");
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          setUser(data);
+        };
+        getData();
+      }
+    }
+  }, [session]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -90,6 +115,22 @@ export default function AppBarComponent({ search, searchKey }) {
                   My items
                 </Button>
               )}
+              {!!session &&
+                !!session.user &&
+                !!user &&
+                !!user.reviewerStatus && (
+                  <Button
+                    size="large"
+                    variant={
+                      router.pathname === "/items/removed"
+                        ? "contained"
+                        : "outlined"
+                    }
+                    onClick={() => handleClick("remove")}
+                  >
+                    Removed Items
+                  </Button>
+                )}
             </Stack>
           </Container>
         </Box>

@@ -24,7 +24,6 @@ export default function ItemPage() {
   const [buyer, setBuyer] = useState();
 
   useEffect(() => {
-    console.log(session);
     if (session) {
       if (session.user) {
         const getData = async () => {
@@ -36,8 +35,6 @@ export default function ItemPage() {
           }
           const data = await response.json();
           setBuyer(data);
-          console.log("buyer");
-          console.log(buyer);
         };
         getData();
       }
@@ -56,11 +53,15 @@ export default function ItemPage() {
             throw new Error(response.statusText);
           }
           const data = await response.json();
-          if (Boolean(data.isAvailable) === false) {
-            router.push(`/`);
+          if (buyer) {
+            if (
+              Boolean(data.isAvailable) === false &&
+              data.sellerId !== buyer.id
+            ) {
+              router.push(`/`);
+            }
           }
           setCurrentItem(data);
-          console.log(data);
         };
         getData();
       } else {
@@ -79,9 +80,6 @@ export default function ItemPage() {
           throw new Error(response.statusText);
         }
         const data = await response.json();
-        console.log("seller:");
-        console.log(data);
-
         setSeller(data);
       };
       getData();

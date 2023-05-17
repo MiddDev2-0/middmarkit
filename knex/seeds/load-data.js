@@ -9,7 +9,6 @@ const createItem = (knex, item, userEmail) => {
     .where("email", userEmail)
     .first()
     .then((userInfo) => {
-      console.log(userInfo);
       return knex("Item").insert({
         name: item.name,
         description: item.description,
