@@ -54,7 +54,6 @@ export default function AppBarComponent({ search, searchKey }) {
           }
           const data = await response.json();
           setUser(data);
-          console.log(user);
         };
         getData();
       }

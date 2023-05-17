@@ -1,4 +1,5 @@
 // import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
@@ -33,15 +34,8 @@ export default function Album({}) {
   const router = useRouter();
   const [items, setItems] = useState([]);
   const [removedItems, setRemovedItems] = useState([]);
-
-  //   const { data: session } = useSession({
-  //     required: true,
-  //     onUnauthenticated() {
-  //       // The user is not authenticated, handle it here.
-  //       signIn("google");
-  //       return <div>Loading...</div>;
-  //     },
-  //   });
+  const { data: session } = useSession();
+  const [user, setUser] = useState();
 
   const complete = (insertedItem) => {
     const newItems = items.map((item) => {
@@ -49,6 +43,26 @@ export default function Album({}) {
     });
     setItems(newItems);
   };
+
+  useEffect(() => {
+    if (session) {
+      if (session.user) {
+        const getData = async () => {
+          const response = await fetch(`/api/users/${session.user.id}`, {
+            method: "GET",
+          });
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          console.log(data);
+          setUser(data.reviewerStatus);
+          console.log(user);
+        };
+        getData();
+      }
+    }
+  }, [session]);
 
   useEffect(() => {
     const getData = async () => {
@@ -60,10 +74,15 @@ export default function Album({}) {
         throw new Error(response.statusText);
       }
       const data = await response.json();
+      if (user) {
+        if (Boolean(user) === false) {
+          router.push(`/`);
+        }
+      }
       setItems(data);
     };
     getData();
-  }, []);
+  }, [session]);
 
   useEffect(() => {
     const removed = items.filter((item) => Boolean(item.adminRemoved) === true);
@@ -86,11 +105,7 @@ export default function Album({}) {
           color="text.secondary"
           paragraph
         >
-          My Listed Items
-        </Typography>
-
-        <Typography variant="h5" align="left" color="text.secondary" paragraph>
-          Available Items
+          Removed Items
         </Typography>
 
         <Container sx={{ py: 8 }} maxWidth="md">
