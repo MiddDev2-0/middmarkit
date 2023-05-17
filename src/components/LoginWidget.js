@@ -95,26 +95,6 @@ export default function LoginWidget() {
           </MenuItem>
         </Menu>
       </React.Fragment>
-
-      // <div>
-      //   <p>
-      //     Signed in as {session.user.email}{" "}
-      //     <Button
-      //       sx={{
-      //         color: "primary",
-      //         backgroundColor: "#FFFFFF",
-      //         ":hover": {
-      //           backgroundColor: "#FFFFFF",
-      //           color: "primary",
-      //         },
-      //       }}
-      //       variant="outlined"
-      //       onClick={signOut}
-      //     >
-      //       Sign out
-      //     </Button>{" "}
-      //   </p>
-      // </div>
     );
   } else {
     return (

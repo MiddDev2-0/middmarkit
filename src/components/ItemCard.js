@@ -94,14 +94,11 @@ export default function ItemCard({
       sx={{
         display: "flex",
         flexDirection: "column",
-
-        // "&:hover": { border: "5px solid #CECFD0" },
       }}
     >
       <CardMedia
         component="img"
         sx={{
-          // 16:9
           pt: "5.25%",
         }}
         image={`https://res.cloudinary.com/middmarkit/image/upload/${item.images}`}

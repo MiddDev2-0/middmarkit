@@ -1,10 +1,6 @@
 import { useSession } from "next-auth/react";
 import * as React from "react";
 
-// import Card from "@mui/material/Card";
-// import CardActions from "@mui/material/CardActions";
-// import CardContent from "@mui/material/CardContent";
-// import CardMedia from "@mui/material/CardMedia";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 
@@ -40,15 +36,6 @@ function Copyright() {
 // const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
-
-// export default function Authentication(props) {
-//   const { data: status } = useSession({ required: true }); //session
-
-//   if (status === "loading") {
-//     return <div>Loading...</div>;
-//   }
-//   return <Album LoginWidgetComponent={LoginWidget} {...props} />;
-// }
 
 export default function Album({ searchKey }) {
   const router = useRouter();
