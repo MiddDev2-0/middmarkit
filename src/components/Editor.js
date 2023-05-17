@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import styles from "../styles/SellerForm.module.css";
 // import PropTypes from "prop-types";
-import { useEffect } from "react";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -29,7 +28,7 @@ const cloud_name = "middmarkit";
 const api_key = "765198598371986";
 const upload_preset = "ucwgvyiu";
 
-export default function SellerForm({}) {
+export default function Editor({ item }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [imageId, setImageId] = useState(undefined);
@@ -54,6 +53,15 @@ export default function SellerForm({}) {
       name !== "" && description !== "" && price !== "" && imageId !== undefined
     );
   }, [name, description, price, imageId]);
+
+  useEffect(() => {
+    if (item) {
+      setName(item.name);
+      setPrice(item.price);
+      setDescription(item.description);
+      setImageId(item.images);
+    }
+  }, [item]);
 
   useEffect(() => {
     if (session) {
@@ -94,8 +102,9 @@ export default function SellerForm({}) {
       });
   };
 
-  const handlePost = () => {
-    const newItem = {
+  const handleSave = () => {
+    const updatedItem = {
+      ...item,
       name: name,
       description: description,
       price: Math.round(+price),
@@ -105,20 +114,20 @@ export default function SellerForm({}) {
       images: imageId,
       adminRemoved: false,
     };
-    console.log(newItem);
+    console.log(updatedItem);
 
     //BAD REQUEST ERROR:
 
-    fetch("/api/items", {
-      method: "POST",
+    fetch(`/api/items/${updatedItem.id}`, {
+      method: "PUT",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(newItem),
+      body: JSON.stringify(updatedItem),
     })
       .then((resp) => resp.json())
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
 
-    router.push(`/`);
+    router.push(`/items/${item.id}`);
   };
 
   const handleCancel = () => {
@@ -217,10 +226,10 @@ export default function SellerForm({}) {
               fullWidth
               variant="contained"
               sx={{ mt: 4, mb: 2 }}
-              onClick={handlePost}
+              onClick={handleSave}
               disabled={!allFieldsPopulated}
             >
-              Post your item!
+              Save your item!
             </Button>
             <Button sx={{ mt: 2, mb: 2 }} onClick={handleCancel}>
               Cancel
