@@ -24,7 +24,6 @@ export default function ItemCard({
         newItem.isAvailable = true;
       }
 
-      console.log(newItem);
       const response = await fetch(`/api/items/${item.id}`, {
         method: "PUT",
         body: JSON.stringify(newItem),
@@ -38,7 +37,7 @@ export default function ItemCard({
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      // console.log(`marking as sold: ${data}`);
+
       complete(data);
     };
     getData();
@@ -56,8 +55,6 @@ export default function ItemCard({
         newItem.adminRemoved = false;
         newItem.isAvailable = Boolean(true);
       }
-
-      console.log(JSON.stringify(newItem));
       const response = await fetch(`/api/items/${item.id}`, {
         method: "PUT",
         body: JSON.stringify(newItem),
@@ -71,7 +68,6 @@ export default function ItemCard({
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      // console.log(`marking as sold: ${data}`);
       complete(data);
     };
     getData();
