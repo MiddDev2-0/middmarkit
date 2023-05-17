@@ -34,8 +34,15 @@ export default function Album({}) {
   const router = useRouter();
   const [items, setItems] = useState([]);
   const [removedItems, setRemovedItems] = useState([]);
-  const { data: session } = useSession();
-  const [user, setUser] = useState();
+
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      // The user is not authenticated, handle it here.
+      signIn("google");
+      return <div>Loading...</div>;
+    },
+  });
 
   const complete = (insertedItem) => {
     const newItems = items.map((item) => {
@@ -55,9 +62,9 @@ export default function Album({}) {
             throw new Error(response.statusText);
           }
           const data = await response.json();
-          console.log(data);
-          setUser(data.reviewerStatus);
-          console.log(user);
+          if (Boolean(data.reviewerStatus) === false) {
+            router.push("/");
+          }
         };
         getData();
       }
@@ -74,11 +81,6 @@ export default function Album({}) {
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      if (user) {
-        if (Boolean(user) === false) {
-          router.push(`/`);
-        }
-      }
       setItems(data);
     };
     getData();
