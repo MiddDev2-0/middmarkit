@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { signIn, useSession } from "next-auth/react";
 import Button from "@mui/material/Button";
+import { Typography } from "@mui/material";
 
 export default function SignInPage() {
   const { data: session } = useSession();
@@ -10,23 +11,20 @@ export default function SignInPage() {
     router.push("/");
   } else {
     return (
-      <div>
-        <p>
-          <Button
-            sx={{
-              color: "primary",
-              backgroundColor: "#FFFFFF",
-              ":hover": {
-                backgroundColor: "#FFFFFF",
-                pt: "4px",
-              },
-            }}
-            variant="outlined"
-            onClick={() => signIn("google")}
-          >
-            Sign in
-          </Button>{" "}
-        </p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <Typography style={{ margin: "1rem" }}>
+          Sign in with your @middlebury.edu email to view and sell items! {":)"}
+        </Typography>
+        <Button variant="outlined" onClick={() => signIn("google")}>
+          Sign in
+        </Button>{" "}
       </div>
     );
   }

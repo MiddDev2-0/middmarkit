@@ -109,8 +109,12 @@ export default function Album({ searchKey }) {
   };
 
   const handleClick = (button, id) => {
-    if (button === "View item") {
+    if (button === "View item" && !!session) {
       router.push(`/items/${id}`);
+    }
+
+    if (button === "View item" && !session) {
+      router.push(`/users/signin`);
     }
 
     if (button === "sell") {
