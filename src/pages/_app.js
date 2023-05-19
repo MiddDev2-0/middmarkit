@@ -63,7 +63,7 @@ export default function App({
             </SessionProvider>
           </Container>
         </main>
-        <Footer>CS312 Final Project</Footer>
+        <Footer> {":)"}</Footer>
       </ThemeProvider>
     </CacheProvider>
   );
