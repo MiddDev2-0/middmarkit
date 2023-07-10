@@ -45,6 +45,9 @@ export default function SellerForm({}) {
     setOpen(true);
   };
 
+  const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUD_NAME;
+  const CLOUD_API_KEY = process.env.NEXT_PUBLIC_CLOUD_API_KEY;
+  const UPLOAD_PRESET = process.env.NEXT_PUBLIC_UPLOAD_PRESET;
   useEffect(() => {
     setAllFieldsPopulated(
       name !== "" && description !== "" && price !== "" && imageId !== undefined
@@ -75,16 +78,13 @@ export default function SellerForm({}) {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("process.env.UPLOAD_PRESET", process.env.UPLOAD_PRESET);
-    formData.append("api_key", process.env.CLOUD_API_KEY);
+    formData.append("upload_preset", UPLOAD_PRESET);
+    formData.append("api_key", CLOUD_API_KEY);
 
-    fetch(
-      `https://api.cloudinary.com/v1_1/${process.env.process.env.CLOUD_NAME}/auto/upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    )
+    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {
+      method: "POST",
+      body: formData,
+    })
       .then((res) => res.json())
       .then((response) => {
         setImageId(response.public_id);
