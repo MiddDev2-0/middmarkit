@@ -78,13 +78,16 @@ export default function Editor({ item }) {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", UPLOAD_PRESET);
-    formData.append("api_key", CLOUD_API_KEY);
+    formData.append("process.env.UPLOAD_PRESET", process.env.UPLOAD_PRESET);
+    formData.append("api_key", process.env.CLOUD_API_KEY);
 
-    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {
-      method: "POST",
-      body: formData,
-    })
+    fetch(
+      `https://api.cloudinary.com/v1_1/${process.env.CLOUD_NAME}/auto/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
       .then((res) => res.json())
       .then((response) => {
         console.log(response);
@@ -166,7 +169,7 @@ export default function Editor({ item }) {
               maxWidth={"400px"}
               component="img"
               alt="The house from the offer."
-              src={`https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${imageId}`}
+              src={`https://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/${imageId}`}
             />
           )}
 
