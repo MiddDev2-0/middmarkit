@@ -19,10 +19,6 @@ import Backdrop from "@mui/material/Backdrop";
 
 const theme = createTheme();
 
-const cloud_name = "middmarkit";
-const api_key = "765198598371986";
-const upload_preset = "ucwgvyiu";
-
 export default function Editor({ item }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -83,9 +79,9 @@ export default function Editor({ item }) {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", upload_preset);
-    formData.append("api_key", api_key);
+    formData.append("api_key", CLOUD_API_KEY);
 
-    fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/auto/upload`, {
+    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {
       method: "POST",
       body: formData,
     })
@@ -170,7 +166,7 @@ export default function Editor({ item }) {
               maxWidth={"400px"}
               component="img"
               alt="The house from the offer."
-              src={`https://res.cloudinary.com/${cloud_name}/image/upload/${imageId}`}
+              src={`https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${imageId}`}
             />
           )}
 
