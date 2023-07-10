@@ -24,7 +24,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Backdrop from "@mui/material/Backdrop";
 
 const theme = createTheme();
-const upload_preset = "ucwgvyiu";
 
 export default function SellerForm({}) {
   const [name, setName] = useState("");
@@ -76,7 +75,7 @@ export default function SellerForm({}) {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", upload_preset);
+    formData.append("upload_preset", UPLOAD_PRESET);
     formData.append("api_key", CLOUD_API_KEY);
 
     fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {

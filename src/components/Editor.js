@@ -78,7 +78,7 @@ export default function Editor({ item }) {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", upload_preset);
+    formData.append("upload_preset", UPLOAD_PRESET);
     formData.append("api_key", CLOUD_API_KEY);
 
     fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {
