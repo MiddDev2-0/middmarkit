@@ -27,11 +27,15 @@ export default function AppBarComponent({ search, searchKey }) {
   const [user, setUser] = useState();
 
   const handleClick = (button) => {
-    if (button === "sell" && !!session) {
+    // DISABLE LOGIN
+    // if (button === "sell" && !!session) {
+    //   router.push("/items/new");
+    // }
+    // if (button === "sell" && !session) {
+    //   router.push("/users/signin");
+    // }
+    if (button === "sell") {
       router.push("/items/new");
-    }
-    if (button === "sell" && !session) {
-      router.push("/users/signin");
     }
     if (button === "remove") {
       router.push("/items/removed");

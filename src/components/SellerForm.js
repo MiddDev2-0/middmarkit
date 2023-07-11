@@ -93,11 +93,15 @@ export default function SellerForm({}) {
   };
 
   const handlePost = () => {
+    //DISABLE LOGIN (to prevent seller error)
+    console.log(seller);
     const newItem = {
       name: name,
       description: description,
       price: Math.round(+price),
-      sellerId: seller.id,
+      // sellerId: seller.id,
+      // DISABLE LOGIN
+      sellerId: 1,
       datePosted: new Date().toISOString(),
       isAvailable: true,
       images: imageId,
