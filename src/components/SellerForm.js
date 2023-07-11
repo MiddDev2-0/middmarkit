@@ -45,9 +45,9 @@ export default function SellerForm({}) {
     setOpen(true);
   };
 
-  const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUD_NAME;
-  const CLOUD_API_KEY = process.env.NEXT_PUBLIC_CLOUD_API_KEY;
-  const UPLOAD_PRESET = process.env.NEXT_PUBLIC_UPLOAD_PRESET;
+  const CLOUD_NAME = "middmarkit";
+  const CLOUD_API_KEY = 156477741622781;
+  const UPLOAD_PRESET = "ucwgvyiu";
   useEffect(() => {
     setAllFieldsPopulated(
       name !== "" && description !== "" && price !== "" && imageId !== undefined
@@ -93,18 +93,22 @@ export default function SellerForm({}) {
   };
 
   const handlePost = () => {
+    //DISABLE LOGIN (to prevent seller error)
+    console.log(seller);
     const newItem = {
       name: name,
       description: description,
       price: Math.round(+price),
-      sellerId: seller.id,
+      // sellerId: seller.id,
+      // DISABLE LOGIN
+      sellerId: 1,
       datePosted: new Date().toISOString(),
       isAvailable: true,
       images: imageId,
       adminRemoved: false,
     };
 
-    //BAD REQUEST ERROR:
+    //BAD REQUEST ERROR
 
     fetch("/api/items", {
       method: "POST",
