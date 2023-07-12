@@ -46,7 +46,7 @@ export default function InterestForm({ seller, item }) {
   useEffect(() => {
     if (seller && buyer) {
       setContents(
-        `Hi ${seller.firstName}! \n \nI'm interested in buying your item (${item.name}). Is it still available? \n\nThanks, \n${buyer.firstName}`
+        `Hi ${seller.firstName}! \n \nI'm interested in buying the ${item.name} that you are selling on middmarkit. Is it still available? \n\nThanks! \n${buyer.firstName}`
       );
     }
   }, [buyer, item, seller]);

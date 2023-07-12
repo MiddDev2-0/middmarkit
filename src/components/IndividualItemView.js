@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 export default function IndividualItemView({ item }) {
   const public_id = item.images;
   const router = useRouter();
+  const CLOUD_NAME = "middmarkit";
 
   const { data: session } = useSession();
 
@@ -22,7 +23,7 @@ export default function IndividualItemView({ item }) {
           <CardMedia
             component="img"
             style={{ height: "400" }}
-            image={`https://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/${public_id}`}
+            image={`https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${public_id}`}
           />
         </Card>
       </Grid>
