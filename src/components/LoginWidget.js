@@ -11,18 +11,43 @@ import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
 
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useEffect } from "react";
+
 import Logout from "@mui/icons-material/Logout";
 
 export default function LoginWidget() {
   const { data: session } = useSession();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const router = useRouter();
+  const [user, setUser] = useState();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  useEffect(() => {
+    if (session) {
+      if (session.user) {
+        const getData = async () => {
+          const response = await fetch(`/api/users/${session.user.id}`, {
+            method: "GET",
+          });
+          if (!response.ok) {
+            console.log("error");
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          setUser(data);
+        };
+        getData();
+      }
+    }
+  }, [session]);
 
   if (session) {
     return (
@@ -92,6 +117,20 @@ export default function LoginWidget() {
               <Logout fontSize="small" />
             </ListItemIcon>
             Logout
+          </MenuItem>
+          <MenuItem>
+            {!!session && !!session.user && !!user && !!user.reviewerStatus && (
+              <Button
+                variant={
+                  router.pathname === "/items/removed"
+                    ? "contained"
+                    : "outlined"
+                }
+                onClick={() => router.push("/items/removed")}
+              >
+                Removed Items
+              </Button>
+            )}
           </MenuItem>
         </Menu>
       </React.Fragment>

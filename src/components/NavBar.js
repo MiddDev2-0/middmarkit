@@ -14,13 +14,10 @@ import LoginWidgetComponent from "@/components/LoginWidget";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { useEffect } from "react";
 
 export default function AppBarComponent({ search, searchKey }) {
   const { data: session } = useSession();
   const router = useRouter();
-  const [user, setUser] = useState();
 
   const handleClick = (button) => {
     if (button === "sell" && !!session) {
@@ -28,9 +25,6 @@ export default function AppBarComponent({ search, searchKey }) {
     }
     if (button === "sell" && !session) {
       router.push("/users/signin");
-    }
-    if (button === "remove") {
-      router.push("/items/removed");
     }
     if (button === "home") {
       router.push("/");
@@ -40,28 +34,9 @@ export default function AppBarComponent({ search, searchKey }) {
     }
   };
 
-  useEffect(() => {
-    if (session) {
-      if (session.user) {
-        const getData = async () => {
-          const response = await fetch(`/api/users/${session.user.id}`, {
-            method: "GET",
-          });
-          if (!response.ok) {
-            console.log("error");
-            throw new Error(response.statusText);
-          }
-          const data = await response.json();
-          setUser(data);
-        };
-        getData();
-      }
-    }
-  }, [session]);
-
   return (
     <>
-      <AppBar position="relative">
+      <AppBar position="relative" sx={{ width: "100%" }}>
         <Toolbar>
           <LoginWidgetComponent />
           <Typography
@@ -111,19 +86,6 @@ export default function AppBarComponent({ search, searchKey }) {
                 onClick={() => handleClick("user items")}
               >
                 My items
-              </Button>
-            )}
-            {!!session && !!session.user && !!user && !!user.reviewerStatus && (
-              <Button
-                size="large"
-                variant={
-                  router.pathname === "/items/removed"
-                    ? "contained"
-                    : "outlined"
-                }
-                onClick={() => handleClick("remove")}
-              >
-                Removed Items
               </Button>
             )}
           </Stack>
