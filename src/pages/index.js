@@ -9,8 +9,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-//import LoginWidget from "@/components/LoginWidget";
 
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -32,10 +30,6 @@ function Copyright() {
     </Typography>
   );
 }
-
-// const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-const theme = createTheme();
 
 export default function Album({ searchKey }) {
   const router = useRouter();
@@ -126,16 +120,9 @@ export default function Album({ searchKey }) {
     b.datePosted.localeCompare(a.datePosted)
   );
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <CssBaseline />
-      {/* <AppBar position="relative">
-        <Toolbar>
-          <LoginWidgetComponent />
-
-        </Toolbar>
-      </AppBar> */}
       <main>
-        {/* Hero unit */}
         <Box
           sx={{
             bgcolor: "background.paper",
@@ -187,7 +174,7 @@ export default function Album({ searchKey }) {
         <Copyright />
       </Box>
       {/* End footer */}
-    </ThemeProvider>
+    </>
   );
 }
 
