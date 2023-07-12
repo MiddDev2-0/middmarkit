@@ -82,6 +82,7 @@ export default function LoginWidget() {
               overflow: "visible",
               filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
               mt: 1.5,
+              ml: 2,
               "& .MuiAvatar-root": {
                 width: 32,
                 height: 32,
@@ -93,7 +94,7 @@ export default function LoginWidget() {
                 display: "block",
                 position: "absolute",
                 top: 0,
-                left: 20,
+                left: 220,
                 width: 10,
                 height: 10,
                 bgcolor: "background.paper",

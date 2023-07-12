@@ -36,19 +36,20 @@ export default function AppBarComponent({ search, searchKey }) {
 
   return (
     <>
-      <AppBar position="relative" sx={{ width: "100%" }}>
-        <Toolbar>
-          <LoginWidgetComponent />
+      <AppBar position="relative" sx={{ p: 0, m: 0, width: "100%" }}>
+        <Toolbar disableGutters>
           <Typography
             variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          />
+            sx={{ flexGrow: 1, px: [1, 2, 3], fontSize: [20, 24] }}
+          >
+            middmarkit
+          </Typography>
+          <Typography noWrap sx={{ flexGrow: 1 }} />
           {(router.pathname === "/users/[...id]" ||
             router.pathname === "/") && (
             <SearchBar searchKey={searchKey} search={search} />
           )}
+          <LoginWidgetComponent />
         </Toolbar>
       </AppBar>
 
@@ -59,7 +60,7 @@ export default function AppBarComponent({ search, searchKey }) {
           pb: 2,
         }}
       >
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
           <Stack sx={{}} direction="row" spacing={2} justifyContent="center">
             <Button
               variant={router.pathname === "/" ? "contained" : "outlined"}
@@ -77,7 +78,6 @@ export default function AppBarComponent({ search, searchKey }) {
             </Button>
             {!!session && !!session.user && (
               <Button
-                size="large"
                 variant={
                   router.pathname === "/users/[...id]"
                     ? "contained"

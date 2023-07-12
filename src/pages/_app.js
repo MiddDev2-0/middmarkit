@@ -46,7 +46,13 @@ export default function App({
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Container disableGutters>
+        <Container
+          disableGutters
+          maxWidth="xl"
+          sx={{
+            px: 0,
+          }}
+        >
           <SessionProvider session={session}>
             <NavBar searchKey={searchKey} search={search} />
             <Component {...pageProps} searchKey={searchKey} />
