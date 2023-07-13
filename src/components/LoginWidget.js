@@ -94,7 +94,7 @@ export default function LoginWidget() {
                 display: "block",
                 position: "absolute",
                 top: 0,
-                left: 220,
+                left: 223,
                 width: 10,
                 height: 10,
                 bgcolor: "background.paper",
