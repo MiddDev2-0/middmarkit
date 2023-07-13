@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 
 import Container from "@mui/material/Container";
-import LoginWidgetComponent from "@/components/LoginWidget";
+import LoginWidget from "@/components/LoginWidget";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -37,19 +37,22 @@ export default function AppBarComponent({ search, searchKey }) {
   return (
     <>
       <AppBar position="relative" sx={{ p: 0, m: 0, width: "100%" }}>
-        <Toolbar disableGutters sx={{ "& > *": { px: [0, 1] } }}>
+        <Toolbar disableGutters>
           <Typography
             variant="h6"
             sx={{ flexGrow: 1, pl: [1, 1.5], fontSize: [20, 24] }}
           >
             middmarkit
           </Typography>
-          <Typography noWrap sx={{ flexGrow: 1 }} />
-          {(router.pathname === "/users/[...id]" ||
-            router.pathname === "/") && (
-            <SearchBar searchKey={searchKey} search={search} />
-          )}
-          <LoginWidgetComponent />
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {(router.pathname === "/users/[...id]" ||
+              router.pathname === "/") && (
+              <Box sx={{ flex: 1, pr: !!session ? 1 : [2, 3] }}>
+                <SearchBar searchKey={searchKey} search={search} />
+              </Box>
+            )}
+            <LoginWidget />
+          </Box>
         </Toolbar>
       </AppBar>
 

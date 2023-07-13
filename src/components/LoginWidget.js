@@ -144,6 +144,7 @@ export default function LoginWidget() {
             sx={{
               color: "primary",
               backgroundColor: "#FFFFFF",
+              mr: [1, 2],
               ":hover": {
                 backgroundColor: "#FFFFFF",
                 pt: "4px",
