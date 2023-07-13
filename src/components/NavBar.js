@@ -5,26 +5,19 @@ import Button from "@mui/material/Button";
 import SearchBar from "@/components/SearchBar";
 import { Typography } from "@mui/material";
 
-import CssBaseline from "@mui/material/CssBaseline";
-
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 
 import Container from "@mui/material/Container";
-import LoginWidgetComponent from "@/components/LoginWidget";
+import LoginWidget from "@/components/LoginWidget";
 
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { useEffect } from "react";
 
 export default function AppBarComponent({ search, searchKey }) {
-  const theme = createTheme();
   const { data: session } = useSession();
   const router = useRouter();
-  const [user, setUser] = useState();
 
   const handleClick = (button) => {
     if (button === "sell" && !!session) {
@@ -32,9 +25,6 @@ export default function AppBarComponent({ search, searchKey }) {
     }
     if (button === "sell" && !session) {
       router.push("/users/signin");
-    }
-    if (button === "remove") {
-      router.push("/items/removed");
     }
     if (button === "home") {
       router.push("/");
@@ -44,100 +34,66 @@ export default function AppBarComponent({ search, searchKey }) {
     }
   };
 
-  useEffect(() => {
-    if (session) {
-      if (session.user) {
-        const getData = async () => {
-          const response = await fetch(`/api/users/${session.user.id}`, {
-            method: "GET",
-          });
-          if (!response.ok) {
-            console.log("error");
-            throw new Error(response.statusText);
-          }
-          const data = await response.json();
-          setUser(data);
-        };
-        getData();
-      }
-    }
-  }, [session]);
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
-          <LoginWidgetComponent />
+    <>
+      <AppBar position="relative" sx={{ p: 0, m: 0, width: "100%" }}>
+        <Toolbar disableGutters>
           <Typography
             variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          />
-          {(router.pathname === "/users/[...id]" ||
-            router.pathname === "/") && (
-            <SearchBar searchKey={searchKey} search={search} />
-          )}
+            sx={{ flexGrow: 1, pl: [1, 1.5], fontSize: [20, 24] }}
+          >
+            middmarkit
+          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            {(router.pathname === "/users/[...id]" ||
+              router.pathname === "/") && (
+              <Box sx={{ flex: 1, pr: !!session ? 1 : [2, 3] }}>
+                <SearchBar searchKey={searchKey} search={search} />
+              </Box>
+            )}
+            <LoginWidget />
+          </Box>
         </Toolbar>
       </AppBar>
-      <main>
-        <Box
-          sx={{
-            bgcolor: "background.paper",
-            pt: 3,
-            pb: 2,
-          }}
-        >
-          <Container maxWidth="sm">
-            <Stack sx={{}} direction="row" spacing={2} justifyContent="center">
-              <Button
-                variant={router.pathname === "/" ? "contained" : "outlined"}
-                onClick={() => handleClick("home")}
-              >
-                Home
-              </Button>
+
+      <Box
+        sx={{
+          bgcolor: "background.paper",
+          pt: 3,
+          pb: 2,
+        }}
+      >
+        <Container maxWidth="md">
+          <Stack sx={{}} direction="row" spacing={2} justifyContent="center">
+            <Button
+              variant={router.pathname === "/" ? "contained" : "outlined"}
+              onClick={() => handleClick("home")}
+            >
+              Home
+            </Button>
+            <Button
+              variant={
+                router.pathname === "/items/new" ? "contained" : "outlined"
+              }
+              onClick={() => handleClick("sell")}
+            >
+              Sell
+            </Button>
+            {!!session && !!session.user && (
               <Button
                 variant={
-                  router.pathname === "/items/new" ? "contained" : "outlined"
+                  router.pathname === "/users/[...id]"
+                    ? "contained"
+                    : "outlined"
                 }
-                onClick={() => handleClick("sell")}
+                onClick={() => handleClick("user items")}
               >
-                Sell
+                My items
               </Button>
-              {!!session && !!session.user && (
-                <Button
-                  size="large"
-                  variant={
-                    router.pathname === "/users/[...id]"
-                      ? "contained"
-                      : "outlined"
-                  }
-                  onClick={() => handleClick("user items")}
-                >
-                  My items
-                </Button>
-              )}
-              {!!session &&
-                !!session.user &&
-                !!user &&
-                !!user.reviewerStatus && (
-                  <Button
-                    size="large"
-                    variant={
-                      router.pathname === "/items/removed"
-                        ? "contained"
-                        : "outlined"
-                    }
-                    onClick={() => handleClick("remove")}
-                  >
-                    Removed Items
-                  </Button>
-                )}
-            </Stack>
-          </Container>
-        </Box>
-      </main>
-    </ThemeProvider>
+            )}
+          </Stack>
+        </Container>
+      </Box>
+    </>
   );
 }

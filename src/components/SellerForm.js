@@ -10,7 +10,6 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useRouter } from "next/router";
@@ -19,8 +18,6 @@ import { useSession } from "next-auth/react";
 
 import CircularProgress from "@mui/material/CircularProgress";
 import Backdrop from "@mui/material/Backdrop";
-
-const theme = createTheme();
 
 export default function SellerForm({}) {
   const [name, setName] = useState("");
@@ -120,7 +117,7 @@ export default function SellerForm({}) {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -222,6 +219,6 @@ export default function SellerForm({}) {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
+    </>
   );
 }

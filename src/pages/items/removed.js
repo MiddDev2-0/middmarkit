@@ -7,11 +7,9 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
-// import { signIn } from "next-auth/react";
 import ItemCard from "@/components/ItemCard";
 
 function Copyright() {
@@ -27,8 +25,6 @@ function Copyright() {
     </Typography>
   );
 }
-
-const theme = createTheme();
 
 export default function Album({}) {
   const router = useRouter();
@@ -98,7 +94,7 @@ export default function Album({}) {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <CssBaseline />
       <main>
         <Typography
@@ -139,6 +135,6 @@ export default function Album({}) {
         <Copyright />
       </Box>
       {/* End footer */}
-    </ThemeProvider>
+    </>
   );
 }

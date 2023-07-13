@@ -11,18 +11,43 @@ import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
 
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useEffect } from "react";
+
 import Logout from "@mui/icons-material/Logout";
 
 export default function LoginWidget() {
   const { data: session } = useSession();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const router = useRouter();
+  const [user, setUser] = useState();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  useEffect(() => {
+    if (session) {
+      if (session.user) {
+        const getData = async () => {
+          const response = await fetch(`/api/users/${session.user.id}`, {
+            method: "GET",
+          });
+          if (!response.ok) {
+            console.log("error");
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          setUser(data);
+        };
+        getData();
+      }
+    }
+  }, [session]);
 
   if (session) {
     return (
@@ -57,6 +82,7 @@ export default function LoginWidget() {
               overflow: "visible",
               filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
               mt: 1.5,
+              ml: 2,
               "& .MuiAvatar-root": {
                 width: 32,
                 height: 32,
@@ -68,7 +94,7 @@ export default function LoginWidget() {
                 display: "block",
                 position: "absolute",
                 top: 0,
-                left: 20,
+                left: 223,
                 width: 10,
                 height: 10,
                 bgcolor: "background.paper",
@@ -93,6 +119,20 @@ export default function LoginWidget() {
             </ListItemIcon>
             Logout
           </MenuItem>
+          <MenuItem>
+            {!!session && !!session.user && !!user && !!user.reviewerStatus && (
+              <Button
+                variant={
+                  router.pathname === "/items/removed"
+                    ? "contained"
+                    : "outlined"
+                }
+                onClick={() => router.push("/items/removed")}
+              >
+                Removed Items
+              </Button>
+            )}
+          </MenuItem>
         </Menu>
       </React.Fragment>
     );
@@ -104,6 +144,7 @@ export default function LoginWidget() {
             sx={{
               color: "primary",
               backgroundColor: "#FFFFFF",
+              mr: [1, 2],
               ":hover": {
                 backgroundColor: "#FFFFFF",
                 pt: "4px",

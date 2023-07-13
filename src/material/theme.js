@@ -25,6 +25,13 @@ const theme = createTheme({
   typography: {
     fontFamily: roboto.style.fontFamily,
   },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        size: "small", // Set the default button size to medium
+      },
+    },
+  },
 });
 
 export default theme;
