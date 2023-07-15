@@ -43,6 +43,30 @@ export default function ItemCard({
     getData();
   };
 
+  const postItem = () => {
+    const getData = async () => {
+      const newItem = { ...item };
+      newItem.adminApproved = true;
+      newItem.isAvailable = Boolean(newItem.isAvailable);
+      const response = await fetch(`/api/items/${item.id}`, {
+        method: "PUT",
+        body: JSON.stringify(newItem),
+        headers: new Headers({
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }),
+      });
+      if (!response.ok) {
+        console.log("error");
+        throw new Error(response.statusText);
+      }
+      const data = await response.json();
+      complete(data);
+    };
+    getData();
+    console.log("Post!");
+  };
+
   const removeRelistItem = (status) => {
     const getData = async () => {
       const newItem = { ...item };
@@ -161,6 +185,17 @@ export default function ItemCard({
             onClick={() => removeRelistItem("relist")}
           >
             Relist
+          </Button>
+        )}
+
+        {page === "approve" && (
+          <Button
+            color="success"
+            size="medium"
+            variant="outlined"
+            onClick={() => postItem()}
+          >
+            Post
           </Button>
         )}
       </CardActions>
