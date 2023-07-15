@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import * as React from "react";
-
+import { Pagination, Stack } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 
@@ -36,6 +36,10 @@ export default function Album({ searchKey }) {
   const [items, setItems] = useState([]);
   const { data: session } = useSession();
   const [isReviewer, setIsReviewer] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 50;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = currentPage * itemsPerPage;
 
   useEffect(() => {
     if (session) {
@@ -119,48 +123,67 @@ export default function Album({ searchKey }) {
   const sortedItems = Array.from(newItems).sort((a, b) =>
     b.datePosted.localeCompare(a.datePosted)
   );
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+  const itemsToRender = sortedItems.slice(startIndex, endIndex);
+
   return (
     <>
       <CssBaseline />
-      <main>
-        <Box
-          sx={{
-            bgcolor: "background.paper",
-            pt: "20px",
-            pb: "20px",
-          }}
-        >
-          <Container maxWidth="sm">
-            <Typography
-              variant="h5"
-              align="center"
-              color="text.secondary"
-              paragraph
-            >
-              Buy and Sell Your Stuff on Middlebury Campus!
-            </Typography>
-          </Container>
-        </Box>
-        <Container sx={{ py: 0 }}>
-          {/* End hero unit */}
-          <Grid
-            container
-            spacing={{ xs: 2, md: 3 }}
-            columns={{ xs: 12, sm: 12, md: 12 }}
+      <Box
+        sx={{
+          bgcolor: "background.paper",
+          pt: "20px",
+          pb: "20px",
+        }}
+      >
+        <Container maxWidth="sm">
+          <Typography
+            variant="h5"
+            align="center"
+            color="text.secondary"
+            paragraph
           >
-            {sortedItems.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4}>
-                <ItemCard
-                  item={item}
-                  handleClick={handleClick}
-                  complete={complete}
-                  isReviewer={isReviewer}
-                />
-              </Grid>
-            ))}
-          </Grid>
+            Buy and Sell Your Stuff on Middlebury Campus!
+          </Typography>
         </Container>
-      </main>
+      </Box>
+      <Container sx={{ py: 0 }}>
+        {/* End hero unit */}
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 12, sm: 12, md: 12 }}
+        >
+          {itemsToRender.map((item) => (
+            <Grid item key={item.id} xs={12} sm={6} md={4}>
+              <ItemCard
+                item={item}
+                handleClick={handleClick}
+                complete={complete}
+                isReviewer={isReviewer}
+              />
+            </Grid>
+          ))}
+        </Grid>
+        <Stack
+          spacing={2}
+          direction="row"
+          justifyContent="center"
+          sx={{ mt: 3 }}
+        >
+          <Pagination
+            count={Math.ceil(sortedItems.length / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+            showFirstButton
+            showLastButton
+          />
+        </Stack>
+      </Container>
       {/* Footer */}
       <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
         <Typography
