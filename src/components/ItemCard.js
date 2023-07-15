@@ -43,7 +43,31 @@ export default function ItemCard({
     getData();
   };
 
-  const removeItem = (status) => {
+  const postItem = () => {
+    const getData = async () => {
+      const newItem = { ...item };
+      newItem.adminApproved = true;
+      newItem.isAvailable = Boolean(newItem.isAvailable);
+      const response = await fetch(`/api/items/${item.id}`, {
+        method: "PUT",
+        body: JSON.stringify(newItem),
+        headers: new Headers({
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }),
+      });
+      if (!response.ok) {
+        console.log("error");
+        throw new Error(response.statusText);
+      }
+      const data = await response.json();
+      complete(data);
+    };
+    getData();
+    console.log("Post!");
+  };
+
+  const removeRelistItem = (status) => {
     const getData = async () => {
       const newItem = { ...item };
 
@@ -53,6 +77,7 @@ export default function ItemCard({
       }
       if (status === "relist") {
         newItem.adminRemoved = false;
+        newItem.adminApproved = true;
         newItem.isAvailable = Boolean(true);
       }
       const response = await fetch(`/api/items/${item.id}`, {
@@ -74,13 +99,13 @@ export default function ItemCard({
   };
 
   const remove_button = () => {
-    if (isReviewer && !sold && !item.adminRemoved) {
+    if ((isReviewer && !sold && !item.adminRemoved) || page === "unapproved") {
       return (
         <Button
           color="warning"
           size="large"
           onClick={() => {
-            removeItem("remove");
+            removeRelistItem("remove");
           }}
         >
           Remove
@@ -143,6 +168,7 @@ export default function ItemCard({
           </Button>
         )}
         {remove_button()}
+
         {sold && (
           <Button
             color="warning"
@@ -153,13 +179,25 @@ export default function ItemCard({
           </Button>
         )}
 
+        {/* for admins to relist the item after removing it, this also automatically approves it*/}
         {page === "remove" && (
           <Button
             color="warning"
             size="medium"
-            onClick={() => removeItem("relist")}
+            onClick={() => removeRelistItem("relist")}
           >
             Relist
+          </Button>
+        )}
+
+        {page === "unapproved" && (
+          <Button
+            color="success"
+            size="medium"
+            variant="outlined"
+            onClick={() => postItem()}
+          >
+            Post
           </Button>
         )}
       </CardActions>

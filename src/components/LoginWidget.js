@@ -133,6 +133,20 @@ export default function LoginWidget() {
               </Button>
             )}
           </MenuItem>
+          <MenuItem>
+            {!!session && !!session.user && !!user && !!user.reviewerStatus && (
+              <Button
+                variant={
+                  router.pathname === "/items/unapproved"
+                    ? "contained"
+                    : "outlined"
+                }
+                onClick={() => router.push("/items/unapproved")}
+              >
+                Approve Items
+              </Button>
+            )}
+          </MenuItem>
         </Menu>
       </React.Fragment>
     );
