@@ -70,7 +70,8 @@ export default function Album({ searchKey }) {
       const data = await response.json();
 
       const newData = data.filter(
-        (item) => !item.adminRemoved && !!item.isAvailable
+        (item) =>
+          !item.adminRemoved && !!item.isAvailable && !!item.adminApproved
       );
       setItems(newData);
     };

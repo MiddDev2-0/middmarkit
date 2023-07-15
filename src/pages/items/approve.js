@@ -29,7 +29,7 @@ function Copyright() {
 export default function Album({}) {
   const router = useRouter();
   const [items, setItems] = useState([]);
-  const [removedItems, setRemovedItems] = useState([]);
+  const [unapprovedItems, setUnapprovedItems] = useState([]);
 
   const { data: session } = useSession({
     required: true,
@@ -83,8 +83,10 @@ export default function Album({}) {
   }, [session]);
 
   useEffect(() => {
-    const removed = items.filter((item) => Boolean(item.adminRemoved) === true);
-    setRemovedItems(removed);
+    const unapproved = items.filter(
+      (item) => Boolean(item.adminApproved) === false
+    );
+    setUnapprovedItems(unapproved);
   }, [items]);
 
   const handleClick = (button, id) => {
@@ -103,17 +105,17 @@ export default function Album({}) {
           color="text.secondary"
           paragraph
         >
-          Removed Items
+          Approve Items to Post
         </Typography>
 
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
-            {removedItems.map((item) => (
+            {unapprovedItems.map((item) => (
               <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard
                   item={item}
                   handleClick={handleClick}
-                  page="remove"
+                  page="approve"
                   setItems={setItems}
                   complete={complete}
                 />

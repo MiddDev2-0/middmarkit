@@ -43,7 +43,7 @@ export default function ItemCard({
     getData();
   };
 
-  const removeItem = (status) => {
+  const removeRelistItem = (status) => {
     const getData = async () => {
       const newItem = { ...item };
 
@@ -74,13 +74,13 @@ export default function ItemCard({
   };
 
   const remove_button = () => {
-    if (isReviewer && !sold && !item.adminRemoved) {
+    if ((isReviewer && !sold && !item.adminRemoved) || page === "approve") {
       return (
         <Button
           color="warning"
           size="large"
           onClick={() => {
-            removeItem("remove");
+            removeRelistItem("remove");
           }}
         >
           Remove
@@ -143,6 +143,7 @@ export default function ItemCard({
           </Button>
         )}
         {remove_button()}
+
         {sold && (
           <Button
             color="warning"
@@ -152,12 +153,12 @@ export default function ItemCard({
             Relist
           </Button>
         )}
-
+        {/* for admins to relist the item after removing it*/}
         {page === "remove" && (
           <Button
             color="warning"
             size="medium"
-            onClick={() => removeItem("relist")}
+            onClick={() => removeRelistItem("relist")}
           >
             Relist
           </Button>
