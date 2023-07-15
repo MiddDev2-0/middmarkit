@@ -77,6 +77,7 @@ export default function ItemCard({
       }
       if (status === "relist") {
         newItem.adminRemoved = false;
+        newItem.adminApproved = true;
         newItem.isAvailable = Boolean(true);
       }
       const response = await fetch(`/api/items/${item.id}`, {
@@ -98,7 +99,7 @@ export default function ItemCard({
   };
 
   const remove_button = () => {
-    if ((isReviewer && !sold && !item.adminRemoved) || page === "approve") {
+    if ((isReviewer && !sold && !item.adminRemoved) || page === "unapproved") {
       return (
         <Button
           color="warning"
@@ -177,7 +178,8 @@ export default function ItemCard({
             Relist
           </Button>
         )}
-        {/* for admins to relist the item after removing it*/}
+
+        {/* for admins to relist the item after removing it, this also automatically approves it*/}
         {page === "remove" && (
           <Button
             color="warning"
@@ -188,7 +190,7 @@ export default function ItemCard({
           </Button>
         )}
 
-        {page === "approve" && (
+        {page === "unapproved" && (
           <Button
             color="success"
             size="medium"

@@ -84,7 +84,9 @@ export default function Album({}) {
 
   useEffect(() => {
     const unapproved = items.filter(
-      (item) => Boolean(item.adminApproved) === false
+      (item) =>
+        Boolean(item.adminApproved) === false &&
+        Boolean(item.adminRemoved) !== true
     );
     setUnapprovedItems(unapproved);
   }, [items]);
@@ -115,7 +117,7 @@ export default function Album({}) {
                 <ItemCard
                   item={item}
                   handleClick={handleClick}
-                  page="approve"
+                  page="unapproved"
                   setItems={setItems}
                   complete={complete}
                 />

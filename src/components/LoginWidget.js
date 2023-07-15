@@ -137,11 +137,11 @@ export default function LoginWidget() {
             {!!session && !!session.user && !!user && !!user.reviewerStatus && (
               <Button
                 variant={
-                  router.pathname === "/items/approve"
+                  router.pathname === "/items/unapproved"
                     ? "contained"
                     : "outlined"
                 }
-                onClick={() => router.push("/items/approve")}
+                onClick={() => router.push("/items/unapproved")}
               >
                 Approve Items
               </Button>
