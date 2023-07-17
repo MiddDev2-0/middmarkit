@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import ItemShape from "./ItemShape";
 
 const API_VERSION = "v17.0";
-const CLOUD_NAME = "middmarkit";
 
 export default function ItemCard({
   item,
@@ -90,7 +89,7 @@ export default function ItemCard({
     getData();
 
     const formData = {
-      image_url: `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${item.images}`,
+      image_url: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/${item.images}`,
       caption: `${item.name}\n${item.description}\nPrice: ${item.price}`,
       access_token: process.env.NEXT_PUBLIC_IG_ACCESS_TOKEN,
     };
@@ -212,7 +211,7 @@ export default function ItemCard({
             size="medium"
             variant="outlined"
             onClick={() => {
-              handleClick("View item", item);
+              handleClick("View item", item.id);
             }}
           >
             View item
