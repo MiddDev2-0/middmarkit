@@ -212,7 +212,7 @@ export default function ItemCard({
             size="medium"
             variant="outlined"
             onClick={() => {
-              handleClick("View item", item);
+              handleClick("View item", item.id);
             }}
           >
             View item
