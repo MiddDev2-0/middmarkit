@@ -110,7 +110,7 @@ export default function ItemCard({
         const creationId = data.id;
         const formDataPublish = {
           creation_id: creationId,
-          access_token: NEXT_PUBLIC_IG_ACCESS_TOKEN,
+          access_token: process.env.NEXT_PUBLIC_IG_ACCESS_TOKEN,
         };
         const optionsPublish = {
           method: "POST",
