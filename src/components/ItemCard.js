@@ -262,7 +262,7 @@ export default function ItemCard({
           </Button>
         )}
 
-        {
+        {isReviewer && (
           <Button
             color="success"
             size="medium"
@@ -271,7 +271,7 @@ export default function ItemCard({
           >
             Unapprove
           </Button>
-        }
+        )}
       </CardActions>
     </Card>
   );
