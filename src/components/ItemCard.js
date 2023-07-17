@@ -7,6 +7,8 @@ import CardContent from "@mui/material/CardContent";
 import PropTypes from "prop-types";
 import ItemShape from "./ItemShape";
 
+const API_VERSION = "v17.0";
+
 export default function ItemCard({
   item,
   handleClick,
@@ -23,7 +25,6 @@ export default function ItemCard({
       } else if (status === "relist") {
         newItem.isAvailable = true;
       }
-
       const response = await fetch(`/api/items/${item.id}`, {
         method: "PUT",
         body: JSON.stringify(newItem),
@@ -38,6 +39,28 @@ export default function ItemCard({
       }
       const data = await response.json();
 
+      complete(data);
+    };
+    getData();
+  };
+  const unApproveItem = () => {
+    const getData = async () => {
+      const newItem = { ...item };
+      newItem.adminApproved = false;
+      newItem.isAvailable = Boolean(newItem.isAvailable);
+      const response = await fetch(`/api/items/${item.id}`, {
+        method: "PUT",
+        body: JSON.stringify(newItem),
+        headers: new Headers({
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }),
+      });
+      if (!response.ok) {
+        console.log("error");
+        throw new Error(response.statusText);
+      }
+      const data = await response.json();
       complete(data);
     };
     getData();
@@ -64,7 +87,45 @@ export default function ItemCard({
       complete(data);
     };
     getData();
-    console.log("Post!");
+
+    const formData = {
+      image_url: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/${item.images}`,
+      caption: `${item.name}\n${item.description}\nPrice: ${item.price}`,
+      access_token: process.env.NEXT_PUBLIC_IG_ACCESS_TOKEN,
+    };
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    };
+
+    const container = `https://graph.facebook.com/v11.0/${process.env.NEXT_PUBLIC_IG_USER_ID}/media`;
+
+    fetch(container, options)
+      .then((response) => response.json())
+      .then((data) => {
+        const creationId = data.id;
+        const formDataPublish = {
+          creation_id: creationId,
+          access_token: NEXT_PUBLIC_IG_ACCESS_TOKEN,
+        };
+        const optionsPublish = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formDataPublish),
+        };
+        const sendinstagram = `https://graph.facebook.com/${API_VERSION}/${process.env.NEXT_PUBLIC_IG_USER_ID}/media_publish`;
+
+        return fetch(sendinstagram, optionsPublish);
+      })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
   };
 
   const removeRelistItem = (status) => {
@@ -198,6 +259,17 @@ export default function ItemCard({
             onClick={() => postItem()}
           >
             Post
+          </Button>
+        )}
+
+        {isReviewer && (
+          <Button
+            color="success"
+            size="medium"
+            variant="outlined"
+            onClick={() => unApproveItem()}
+          >
+            Unapprove
           </Button>
         )}
       </CardActions>
