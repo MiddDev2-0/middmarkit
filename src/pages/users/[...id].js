@@ -25,6 +25,43 @@ function Copyright() {
     </Typography>
   );
 }
+const ItemSection = ({
+  title,
+  items,
+  handleClick,
+  setItems,
+  complete,
+  sold,
+}) => (
+  <>
+    <Typography
+      variant="h5"
+      align="left"
+      color="text.secondary"
+      paragraph
+      sx={{ mt: 4 }}
+    >
+      {title}
+    </Typography>
+
+    <Container sx={{ py: 4 }} maxWidth="md">
+      <Grid container spacing={3}>
+        {items.map((item) => (
+          <Grid item key={item.id} xs={12} sm={6} md={4}>
+            <ItemCard
+              item={item}
+              handleClick={handleClick}
+              page="user"
+              setItems={setItems}
+              complete={complete}
+              sold={sold}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
+  </>
+);
 
 export default function Album({ searchKey }) {
   const router = useRouter();
@@ -132,79 +169,42 @@ export default function Album({ searchKey }) {
   return (
     <>
       <CssBaseline />
-      <main>
-        <Typography
-          variant="h4"
-          align="center"
-          color="text.secondary"
-          paragraph
-        >
-          My Listed Items
-        </Typography>
 
-        <Typography variant="h5" align="left" color="text.secondary" paragraph>
-          Available Items
-        </Typography>
-
-        <Container sx={{ py: 8 }} maxWidth="md">
-          <Grid container spacing={4}>
-            {newAvailItems.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4}>
-                <ItemCard
-                  item={item}
-                  handleClick={handleClick}
-                  page="user"
-                  setItems={setItems}
-                  complete={complete}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-
-        <Typography variant="h5" align="left" color="text.secondary" paragraph>
-          Items Pending Approval
-        </Typography>
-
-        <Container sx={{ py: 8 }} maxWidth="md">
-          <Grid container spacing={4}>
-            {newPendingItems.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4}>
-                <ItemCard
-                  item={item}
-                  handleClick={handleClick}
-                  page="user"
-                  setItems={setItems}
-                  complete={complete}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-
-        <Typography variant="h5" align="left" color="text.secondary" paragraph>
-          Sold Items
-        </Typography>
-
-        <Container sx={{ py: 8 }} maxWidth="md">
-          <Grid container spacing={4}>
-            {newUnavailItems.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4}>
-                <ItemCard
-                  item={item}
-                  handleClick={handleClick}
-                  page="user"
-                  sold="sold"
-                  setItems={setItems}
-                  complete={complete}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </main>
+      <Typography
+        variant="h4"
+        align="center"
+        color="text.secondary"
+        paragraph
+        sx={{ mt: 4 }}
+      >
+        My Listed Items
+      </Typography>
+      <Container sx={{ mb: 4 }}>
+        <ItemSection
+          title="Available Items"
+          items={newAvailItems}
+          handleClick={handleClick}
+          setItems={setItems}
+          complete={complete}
+        />
+        <ItemSection
+          title="Items Pending Approval"
+          items={newPendingItems}
+          handleClick={handleClick}
+          setItems={setItems}
+          complete={complete}
+        />
+        <ItemSection
+          title="Sold Items"
+          items={newUnavailItems}
+          handleClick={handleClick}
+          setItems={setItems}
+          complete={complete}
+          sold="sold"
+        />
+      </Container>
       {/* Footer */}
-      <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
+      <Box sx={{ bgcolor: "background.paper", py: 6 }} component="footer">
         <Typography
           variant="subtitle1"
           align="center"
