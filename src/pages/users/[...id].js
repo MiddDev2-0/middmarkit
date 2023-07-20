@@ -114,16 +114,16 @@ export default function Album({ searchKey }) {
     const pending = [];
     if (items) {
       items.forEach((item) => {
-        if (Boolean(item.isAvailable) === false && !item.adminRemoved) {
+        if (!item.isAvailable && !item.adminRemoved) {
           unavailable.push(item);
         } else if (
-          Boolean(item.isAvailable) === true &&
+          !!item.isAvailable &&
           !item.adminRemoved &&
           !!item.adminApproved
         ) {
           available.push(item);
         } else if (
-          Boolean(item.adminApproved) === false &&
+          !item.adminApproved &&
           !item.adminRemoved &&
           !!item.isAvailable
         ) {
