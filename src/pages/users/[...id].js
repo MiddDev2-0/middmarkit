@@ -31,6 +31,7 @@ export default function Album({ searchKey }) {
   const [items, setItems] = useState([]);
   const [availableItems, setAvailableItems] = useState([]);
   const [unavailableItems, setUnavailableItems] = useState([]);
+  const [pendingItems, setPendingItems] = useState([]);
 
   const { data: session } = useSession({
     required: true,
@@ -73,21 +74,34 @@ export default function Album({ searchKey }) {
   useEffect(() => {
     const available = [];
     const unavailable = [];
+    const pending = [];
     if (items) {
       items.forEach((item) => {
         if (Boolean(item.isAvailable) === false && !item.adminRemoved) {
           unavailable.push(item);
-        } else if (Boolean(item.isAvailable) === true && !item.adminRemoved) {
+        } else if (
+          Boolean(item.isAvailable) === true &&
+          !item.adminRemoved &&
+          !!item.adminApproved
+        ) {
           available.push(item);
+        } else if (
+          Boolean(item.adminApproved) === false &&
+          !item.adminRemoved &&
+          !!item.isAvailable
+        ) {
+          pending.push(item);
         }
       });
       setAvailableItems(available);
       setUnavailableItems(unavailable);
+      setPendingItems(pending);
     }
   }, [items]);
 
   let newAvailItems = availableItems;
   let newUnavailItems = unavailableItems;
+  let newPendingItems = pendingItems;
   if (searchKey) {
     newAvailItems = availableItems.filter(
       (item) =>
@@ -95,6 +109,11 @@ export default function Album({ searchKey }) {
         item.description.toLowerCase().includes(searchKey.toLowerCase())
     );
     newUnavailItems = unavailableItems.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchKey.toLowerCase())
+    );
+    newPendingItems = pendingApproval.filter(
       (item) =>
         item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
         item.description.toLowerCase().includes(searchKey.toLowerCase())
@@ -130,6 +149,26 @@ export default function Album({ searchKey }) {
         <Container sx={{ py: 8 }} maxWidth="md">
           <Grid container spacing={4}>
             {newAvailItems.map((item) => (
+              <Grid item key={item.id} xs={12} sm={6} md={4}>
+                <ItemCard
+                  item={item}
+                  handleClick={handleClick}
+                  page="user"
+                  setItems={setItems}
+                  complete={complete}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+
+        <Typography variant="h5" align="left" color="text.secondary" paragraph>
+          Items Pending Approval
+        </Typography>
+
+        <Container sx={{ py: 8 }} maxWidth="md">
+          <Grid container spacing={4}>
+            {newPendingItems.map((item) => (
               <Grid item key={item.id} xs={12} sm={6} md={4}>
                 <ItemCard
                   item={item}
