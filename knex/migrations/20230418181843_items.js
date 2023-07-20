@@ -25,7 +25,7 @@ exports.up = function (knex) {
         .inTable("User")
         .onDelete("CASCADE");
       table.string("datePosted").notNullable();
-      table.boolean("isAvailable").notNullable();
+      table.boolean("isAvailable").notNullable().defaultTo(true);
       table.string("images").notNullable();
       table.boolean("adminRemoved").notNullable();
     }),

@@ -25,12 +25,50 @@ function Copyright() {
     </Typography>
   );
 }
+const ItemSection = ({
+  title,
+  items,
+  handleClick,
+  setItems,
+  complete,
+  sold,
+}) => (
+  <>
+    <Typography
+      variant="h5"
+      align="left"
+      color="text.secondary"
+      paragraph
+      sx={{ mt: 4 }}
+    >
+      {title}
+    </Typography>
+
+    <Container sx={{ py: 4 }} maxWidth="md">
+      <Grid container spacing={3}>
+        {items.map((item) => (
+          <Grid item key={item.id} xs={12} sm={6} md={4}>
+            <ItemCard
+              item={item}
+              handleClick={handleClick}
+              page="user"
+              setItems={setItems}
+              complete={complete}
+              sold={sold}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
+  </>
+);
 
 export default function Album({ searchKey }) {
   const router = useRouter();
   const [items, setItems] = useState([]);
   const [availableItems, setAvailableItems] = useState([]);
   const [unavailableItems, setUnavailableItems] = useState([]);
+  const [pendingItems, setPendingItems] = useState([]);
 
   const { data: session } = useSession({
     required: true,
@@ -73,21 +111,34 @@ export default function Album({ searchKey }) {
   useEffect(() => {
     const available = [];
     const unavailable = [];
+    const pending = [];
     if (items) {
       items.forEach((item) => {
         if (Boolean(item.isAvailable) === false && !item.adminRemoved) {
           unavailable.push(item);
-        } else if (Boolean(item.isAvailable) === true && !item.adminRemoved) {
+        } else if (
+          Boolean(item.isAvailable) === true &&
+          !item.adminRemoved &&
+          !!item.adminApproved
+        ) {
           available.push(item);
+        } else if (
+          Boolean(item.adminApproved) === false &&
+          !item.adminRemoved &&
+          !!item.isAvailable
+        ) {
+          pending.push(item);
         }
       });
       setAvailableItems(available);
       setUnavailableItems(unavailable);
+      setPendingItems(pending);
     }
   }, [items]);
 
   let newAvailItems = availableItems;
   let newUnavailItems = unavailableItems;
+  let newPendingItems = pendingItems;
   if (searchKey) {
     newAvailItems = availableItems.filter(
       (item) =>
@@ -95,6 +146,11 @@ export default function Album({ searchKey }) {
         item.description.toLowerCase().includes(searchKey.toLowerCase())
     );
     newUnavailItems = unavailableItems.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchKey.toLowerCase())
+    );
+    newPendingItems = pendingApproval.filter(
       (item) =>
         item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
         item.description.toLowerCase().includes(searchKey.toLowerCase())
@@ -113,59 +169,42 @@ export default function Album({ searchKey }) {
   return (
     <>
       <CssBaseline />
-      <main>
-        <Typography
-          variant="h4"
-          align="center"
-          color="text.secondary"
-          paragraph
-        >
-          My Listed Items
-        </Typography>
 
-        <Typography variant="h5" align="left" color="text.secondary" paragraph>
-          Available Items
-        </Typography>
-
-        <Container sx={{ py: 8 }} maxWidth="md">
-          <Grid container spacing={4}>
-            {newAvailItems.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4}>
-                <ItemCard
-                  item={item}
-                  handleClick={handleClick}
-                  page="user"
-                  setItems={setItems}
-                  complete={complete}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-
-        <Typography variant="h5" align="left" color="text.secondary" paragraph>
-          Sold Items
-        </Typography>
-
-        <Container sx={{ py: 8 }} maxWidth="md">
-          <Grid container spacing={4}>
-            {newUnavailItems.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4}>
-                <ItemCard
-                  item={item}
-                  handleClick={handleClick}
-                  page="user"
-                  sold="sold"
-                  setItems={setItems}
-                  complete={complete}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </main>
+      <Typography
+        variant="h4"
+        align="center"
+        color="text.secondary"
+        paragraph
+        sx={{ mt: 4 }}
+      >
+        My Listed Items
+      </Typography>
+      <Container sx={{ mb: 4 }}>
+        <ItemSection
+          title="Available Items"
+          items={newAvailItems}
+          handleClick={handleClick}
+          setItems={setItems}
+          complete={complete}
+        />
+        <ItemSection
+          title="Items Pending Approval"
+          items={newPendingItems}
+          handleClick={handleClick}
+          setItems={setItems}
+          complete={complete}
+        />
+        <ItemSection
+          title="Sold Items"
+          items={newUnavailItems}
+          handleClick={handleClick}
+          setItems={setItems}
+          complete={complete}
+          sold="sold"
+        />
+      </Container>
       {/* Footer */}
-      <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
+      <Box sx={{ bgcolor: "background.paper", py: 6 }} component="footer">
         <Typography
           variant="subtitle1"
           align="center"
