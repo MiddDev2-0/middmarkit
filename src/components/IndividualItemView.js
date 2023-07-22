@@ -6,16 +6,13 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export default function IndividualItemView({ item }) {
+  const { data: session } = useSession();
   const public_id = item.images;
   const router = useRouter();
-  const CLOUD_NAME = "middmarkit";
-
-  const { data: session } = useSession();
-
   return (
     <Grid container spacing={2} justifyContent="center" justify="center">
       <Grid item xs={12} sm="auto" alignItems="center">
@@ -23,7 +20,7 @@ export default function IndividualItemView({ item }) {
           <CardMedia
             component="img"
             style={{ height: "400" }}
-            image={`https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${public_id}`}
+            image={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/${public_id}`}
           />
         </Card>
       </Grid>

@@ -16,10 +16,6 @@ import { useSession } from "next-auth/react";
 import CircularProgress from "@mui/material/CircularProgress";
 import Backdrop from "@mui/material/Backdrop";
 
-const CLOUD_NAME = "middmarkit";
-const CLOUD_API_KEY = 156477741622781;
-const UPLOAD_PRESET = "ucwgvyiu";
-
 export default function Editor({ item }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -79,16 +75,21 @@ export default function Editor({ item }) {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("UPLOAD_PRESET", UPLOAD_PRESET);
-    formData.append("api_key", CLOUD_API_KEY);
+    formData.append(
+      "upload_preset",
+      process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PRESET
+    );
+    formData.append("api_key", process.env.NEXT_PUBLIC_CLOUD_API_KEY);
 
-    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {
-      method: "POST",
-      body: formData,
-    })
+    fetch(
+      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_process.env.NEXT_PUBLIC_CLOUD_NAME}/auto/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
         setImageId(response.public_id);
         handleCloseBackdrop();
       });
@@ -106,7 +107,6 @@ export default function Editor({ item }) {
       images: imageId,
       adminRemoved: false,
     };
-    console.log(updatedItem);
 
     //BAD REQUEST ERROR:
 
@@ -119,7 +119,7 @@ export default function Editor({ item }) {
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
 
-    router.push(`/items/${item.id}`);
+    router.push(`/users/${session.id}`);
   };
 
   const handleCancel = () => {
@@ -132,14 +132,14 @@ export default function Editor({ item }) {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 3,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
           <Typography component="h1" variant="h5">
-            Sell your stuff!
+            Edit Your Item
           </Typography>
           <IconButton
             color="primary"
@@ -167,7 +167,7 @@ export default function Editor({ item }) {
               maxWidth={"400px"}
               component="img"
               alt="The house from the offer."
-              src={`https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${imageId}`}
+              src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/${imageId}`}
             />
           )}
 
@@ -184,6 +184,12 @@ export default function Editor({ item }) {
                   autoFocus
                   value={name}
                   onChange={(event) => setName(event.target.value)}
+                  inputProps={{
+                    maxLength: 30,
+                  }}
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -217,13 +223,17 @@ export default function Editor({ item }) {
               type="button"
               fullWidth
               variant="contained"
-              sx={{ mt: 4, mb: 2 }}
+              sx={{ mt: 3, mb: 2 }}
               onClick={handleSave}
               disabled={!allFieldsPopulated}
             >
               Save your item!
             </Button>
-            <Button sx={{ mt: 2, mb: 2 }} onClick={handleCancel}>
+            <Typography component="h6">
+              After saving your changes, your item will be reviewed and reposted
+              within 48 hours!
+            </Typography>
+            <Button sx={{ mt: 2, mb: 2, ml: -1 }} onClick={handleCancel}>
               Cancel
             </Button>
           </Box>
