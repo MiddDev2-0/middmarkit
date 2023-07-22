@@ -39,9 +39,6 @@ export default function SellerForm({}) {
     setOpen(true);
   };
 
-  const CLOUD_NAME = "middmarkit";
-  const CLOUD_API_KEY = 156477741622781;
-  const UPLOAD_PRESET = "ucwgvyiu";
   useEffect(() => {
     setAllFieldsPopulated(
       name !== "" && description !== "" && price !== "" && imageId !== undefined
@@ -72,13 +69,19 @@ export default function SellerForm({}) {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", UPLOAD_PRESET);
-    formData.append("api_key", CLOUD_API_KEY);
+    formData.append(
+      "upload_preset",
+      process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PRESET
+    );
+    formData.append("api_key", process.env.NEXT_PUBLIC_CLOUD_API_KEY);
 
-    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {
-      method: "POST",
-      body: formData,
-    })
+    fetch(
+      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/auto/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
       .then((res) => res.json())
       .then((response) => {
         setImageId(response.public_id);
@@ -157,7 +160,7 @@ export default function SellerForm({}) {
               maxWidth={"400px"}
               component="img"
               alt="The house from the offer."
-              src={`https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${imageId}`}
+              src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/${imageId}`}
             />
           )}
 
