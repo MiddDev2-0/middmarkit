@@ -79,7 +79,7 @@ export default function Editor({ item }) {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("UPLOAD_PRESET", UPLOAD_PRESET);
+    formData.append("upload_preset", UPLOAD_PRESET);
     formData.append("api_key", CLOUD_API_KEY);
 
     fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {
@@ -88,7 +88,6 @@ export default function Editor({ item }) {
     })
       .then((res) => res.json())
       .then((response) => {
-        console.log(response);
         setImageId(response.public_id);
         handleCloseBackdrop();
       });
@@ -106,7 +105,6 @@ export default function Editor({ item }) {
       images: imageId,
       adminRemoved: false,
     };
-    console.log(updatedItem);
 
     //BAD REQUEST ERROR:
 
@@ -119,7 +117,7 @@ export default function Editor({ item }) {
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
 
-    router.push(`/items/${item.id}`);
+    router.push(`/users/${session.id}`);
   };
 
   const handleCancel = () => {
@@ -132,14 +130,14 @@ export default function Editor({ item }) {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 3,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
           <Typography component="h1" variant="h5">
-            Sell your stuff!
+            Edit Your Item
           </Typography>
           <IconButton
             color="primary"
@@ -184,6 +182,12 @@ export default function Editor({ item }) {
                   autoFocus
                   value={name}
                   onChange={(event) => setName(event.target.value)}
+                  inputProps={{
+                    maxLength: 30,
+                  }}
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -217,13 +221,17 @@ export default function Editor({ item }) {
               type="button"
               fullWidth
               variant="contained"
-              sx={{ mt: 4, mb: 2 }}
+              sx={{ mt: 3, mb: 2 }}
               onClick={handleSave}
               disabled={!allFieldsPopulated}
             >
               Save your item!
             </Button>
-            <Button sx={{ mt: 2, mb: 2 }} onClick={handleCancel}>
+            <Typography component="h6">
+              After saving your changes, your item will be reviewed and reposted
+              within 48 hours!
+            </Typography>
+            <Button sx={{ mt: 2, mb: 2, ml: -1 }} onClick={handleCancel}>
               Cancel
             </Button>
           </Box>

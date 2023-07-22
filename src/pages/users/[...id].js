@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
+import Divider from "@mui/material/Divider";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -35,7 +36,7 @@ const ItemSection = ({
 }) => (
   <>
     <Typography
-      variant="h5"
+      variant="h6"
       align="left"
       color="text.secondary"
       paragraph
@@ -170,13 +171,7 @@ export default function Album({ searchKey }) {
     <>
       <CssBaseline />
 
-      <Typography
-        variant="h4"
-        align="center"
-        color="text.secondary"
-        paragraph
-        sx={{ mt: 4 }}
-      >
+      <Typography variant="h4" align="center" paragraph sx={{ mt: 3 }}>
         My Listed Items
       </Typography>
       <Container sx={{ mb: 4 }}>
@@ -187,6 +182,7 @@ export default function Album({ searchKey }) {
           setItems={setItems}
           complete={complete}
         />
+        <Divider sx={{ my: 2 }} />
         <ItemSection
           title="Items Pending Approval"
           items={newPendingItems}
@@ -194,6 +190,7 @@ export default function Album({ searchKey }) {
           setItems={setItems}
           complete={complete}
         />
+        <Divider sx={{ my: 2 }} />
         <ItemSection
           title="Sold Items"
           items={newUnavailItems}
