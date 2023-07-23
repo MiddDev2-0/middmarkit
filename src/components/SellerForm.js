@@ -1,6 +1,4 @@
 import { useState } from "react";
-// import styles from "../styles/SellerForm.module.css";
-// import PropTypes from "prop-types";
 import { useEffect } from "react";
 import * as React from "react";
 import Button from "@mui/material/Button";
@@ -14,6 +12,12 @@ import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useRouter } from "next/router";
 
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 import { useSession } from "next-auth/react";
 
 import CircularProgress from "@mui/material/CircularProgress";
@@ -26,24 +30,11 @@ export default function SellerForm({}) {
   const [price, setPrice] = useState("");
   const [allFieldsPopulated, setAllFieldsPopulated] = useState(false);
   const router = useRouter();
-
-  const [seller, setSeller] = useState();
   const { data: session } = useSession();
+  const [seller, setSeller] = useState();
 
   const [open, setOpen] = React.useState(false);
-
-  const handleCloseBackdrop = () => {
-    setOpen(false);
-  };
-  const handleOpenBackdrop = () => {
-    setOpen(true);
-  };
-
-  useEffect(() => {
-    setAllFieldsPopulated(
-      name !== "" && description !== "" && price !== "" && imageId !== undefined
-    );
-  }, [name, description, price, imageId]);
+  const [openPop, setOpenPop] = React.useState(false);
 
   useEffect(() => {
     if (session) {
@@ -58,15 +49,32 @@ export default function SellerForm({}) {
           }
           const data = await response.json();
           setSeller(data);
+          console.log(data.firstName);
         };
         getData();
       }
     }
   }, [session]);
 
+  const handleCloseBackdrop = () => {
+    setOpen(false);
+  };
+  const handleOpenBackdrop = () => {
+    setOpen(true);
+  };
+
+  const handleClickOpen = () => {
+    setOpenPop(true);
+  };
+
+  useEffect(() => {
+    setAllFieldsPopulated(
+      name !== "" && description !== "" && price !== "" && imageId !== undefined
+    );
+  }, [name, description, price, imageId]);
+
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-
     const formData = new FormData();
     formData.append("file", file);
     formData.append(
@@ -101,8 +109,6 @@ export default function SellerForm({}) {
       adminRemoved: false,
     };
 
-    //BAD REQUEST ERROR
-
     fetch("/api/items", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -111,8 +117,7 @@ export default function SellerForm({}) {
       .then((resp) => resp.json())
       .then((data) => console.log(data))
       .catch((error) => console.log(error));
-
-    router.push(`/`);
+    handleClickOpen();
   };
 
   const handleCancel = () => {
@@ -222,7 +227,46 @@ export default function SellerForm({}) {
             >
               Post your item!
             </Button>
-            <Button sx={{ mt: 2, mb: 2, ml: -0.5 }} onClick={handleCancel}>
+
+            <Dialog
+              open={openPop}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Your item was submitted. It will be reviewed within 48 hours
+                  by our admins and then posted to the middmarkit website and
+                  Instagram page!
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "right",
+                }}
+              >
+                <Button
+                  onClick={() => router.push(`/users/${session.id}`)}
+                  color="primary"
+                  size="medium"
+                >
+                  My Items
+                </Button>
+                <Button
+                  onClick={() => router.reload}
+                  color="primary"
+                  variant="contained"
+                  size="large"
+                >
+                  Post Another Item
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Button sx={{ mt: 2, mb: 2 }} onClick={handleCancel}>
+
               Cancel
             </Button>
           </Box>
