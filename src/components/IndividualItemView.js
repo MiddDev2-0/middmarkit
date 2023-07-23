@@ -4,7 +4,7 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -24,14 +24,16 @@ export default function IndividualItemView({ item }) {
           />
         </Card>
       </Grid>
-      <Grid item xs={12} sm>
-        <Container>
-          <Typography variant="h4" align="left">
-            {item.name}
-          </Typography>
-          <Typography variant="h5" align="left">
-            ${item.price}
-          </Typography>
+      <Grid item xs={12} sx={{ pb: 3, pr: 3 }}>
+        <Container disableGutters sx={{ ml: 1 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography variant="h4" align="left" style={{ fontWeight: 300 }}>
+              {item.name}
+            </Typography>
+            <Typography variant="h4" align="right" style={{ fontWeight: 300 }}>
+              ${item.price}
+            </Typography>
+          </Box>
           <Typography variant="subtitle1" align="left">
             {item.description}
           </Typography>
