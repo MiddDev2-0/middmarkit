@@ -10,14 +10,7 @@ import { useRouter } from "next/router";
 
 const API_VERSION = "v17.0";
 
-export default function ItemCard({
-  item,
-  handleClick,
-  page,
-  sold,
-  complete,
-  isReviewer,
-}) {
+export default function ItemCard({ item, page, sold, complete, isReviewer }) {
   const router = useRouter();
   const markAsSold = (status) => {
     const getData = async () => {
@@ -194,34 +187,23 @@ export default function ItemCard({
         alt="random"
         onClick={() => router.push(`/items/${item.id}`)}
       />
-      <CardContent sx={{}}>
+      <CardContent
+        sx={{ display: "flex", justifyContent: "space-between", pb: 0 }}
+      >
         <Typography
           gutterBottom
-          variant="h5"
-          component="h2"
-          align="center"
+          variant="body2"
           noWrap
           onClick={() => router.push(`/items/${item.id}`)}
+          sx={{ flexGrow: 1, marginBottom: 0 }}
         >
           {item.name}
         </Typography>
-        <Typography align="center">${item.price}</Typography>
-        <Typography align="center" noWrap>
-          {item.description}
+        <Typography variant="body2" sx={{ marginLeft: "auto" }}>
+          ${item.price}
         </Typography>
       </CardContent>
       <CardActions>
-        {
-          <Button
-            size="medium"
-            variant="outlined"
-            onClick={() => {
-              handleClick("View item", item.id);
-            }}
-          >
-            View item
-          </Button>
-        }
         {page === "user" && !sold && !item.adminRemoved && (
           <Button
             size="medium"
@@ -267,7 +249,7 @@ export default function ItemCard({
           </Button>
         )}
 
-        {isReviewer && (
+        {isReviewer && page === "remove" && (
           <Button
             color="success"
             size="medium"
