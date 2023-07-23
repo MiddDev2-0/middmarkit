@@ -4,7 +4,6 @@ import { CacheProvider } from "@emotion/react";
 import theme from "../material/theme";
 import createEmotionCache from "../material/createEmotionCache";
 import Container from "@mui/material/Container";
-import { styled } from "@mui/material/styles";
 import { SessionProvider } from "next-auth/react";
 import NavBar from "@/components/NavBar";
 
@@ -14,15 +13,6 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 
 const clientSideEmotionCache = createEmotionCache();
-
-const Footer = styled("footer")(({ theme: styledTheme }) => ({
-  borderTop: "1px solid #eaeaea",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  marginTop: styledTheme.spacing(5),
-  paddingTop: styledTheme.spacing(2),
-}));
 
 export default function App({
   Component,
@@ -58,7 +48,6 @@ export default function App({
             <Component {...pageProps} searchKey={searchKey} />
           </SessionProvider>
         </Container>
-        <Footer> {":)"}</Footer>
       </ThemeProvider>
     </CacheProvider>
   );

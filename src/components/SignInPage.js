@@ -2,8 +2,9 @@ import * as React from "react";
 
 import { signIn, useSession } from "next-auth/react";
 import Button from "@mui/material/Button";
-import { Typography } from "@mui/material";
+import { CssBaseline, Typography, Container } from "@mui/material";
 import { useRouter } from "next/router";
+import Box from "@mui/material/Box";
 
 export default function SignInPage() {
   const { data: session } = useSession();
@@ -13,25 +14,35 @@ export default function SignInPage() {
     router.push("/");
   } else {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <Typography style={{ margin: "1rem" }}>
-          Sign in with your @middlebury.edu email to view and sell items!
-        </Typography>
-        <Button
-          size="medium"
-          variant="outlined"
-          onClick={() => signIn("google")}
-        >
-          Sign in
-        </Button>{" "}
-      </div>
+      <>
+        <CssBaseline />
+        <Container>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+            textAlign="center" // Center-align the text inside
+            minHeight="30vh"
+          >
+            <Typography variant="h4" sx={{ mt: 0 }}>
+              Join the Middlebury College Marketplace
+            </Typography>
+            <Typography variant="subtitle1" sx={{ mt: 1.5 }}>
+              Sign in now to post items and view what others are selling!
+            </Typography>
+
+            <Button
+              size="large"
+              variant="contained"
+              onClick={() => signIn("google")}
+              sx={{ mt: 3 }}
+            >
+              Sign in with @middlebury email!
+            </Button>
+          </Box>
+        </Container>
+      </>
     );
   }
 }
