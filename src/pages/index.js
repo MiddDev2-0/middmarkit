@@ -152,15 +152,17 @@ export default function Album({ searchKey }) {
           </Typography>
         </Container>
       </Box>
+
       <Container sx={{ py: 0 }}>
         {/* End hero unit */}
         <Grid
           container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 12, sm: 12, md: 12 }}
+          spacing={{ xs: 1, md: 3 }}
+          alignItems="center"
+          justify="center"
         >
           {itemsToRender.map((item) => (
-            <Grid item key={item.id} xs={12} sm={6} md={4}>
+            <Grid item key={item.id} xs={6} sm={4} md={3}>
               <ItemCard
                 item={item}
                 handleClick={handleClick}
