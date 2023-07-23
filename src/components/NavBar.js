@@ -41,6 +41,7 @@ export default function AppBarComponent({ search, searchKey }) {
           <Typography
             variant="h6"
             sx={{ flexGrow: 1, pl: [1, 1.5], fontSize: [20, 24] }}
+            onClick={() => router.push(`/`)}
           >
             middmarkit
           </Typography>
