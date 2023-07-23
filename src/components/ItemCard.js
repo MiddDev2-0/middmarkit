@@ -7,11 +7,22 @@ import CardContent from "@mui/material/CardContent";
 import PropTypes from "prop-types";
 import ItemShape from "./ItemShape";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const API_VERSION = "v17.0";
 
 export default function ItemCard({ item, page, sold, complete, isReviewer }) {
   const router = useRouter();
+  const { data: session } = useSession();
+  const handleToItems = () => {
+    if (!!session) {
+      router.push("/items/new");
+    }
+    if (!session) {
+      router.push("/users/signin");
+    }
+  };
+
   const markAsSold = (status) => {
     const getData = async () => {
       const newItem = { ...item };
@@ -185,7 +196,7 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
         }}
         image={`https://res.cloudinary.com/middmarkit/image/upload/${item.images}`}
         alt="random"
-        onClick={() => router.push(`/items/${item.id}`)}
+        onClick={() => handleToItems()}
       />
       <CardContent
         sx={{ display: "flex", justifyContent: "space-between", pb: 0 }}
@@ -194,7 +205,7 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
           gutterBottom
           variant="body2"
           noWrap
-          onClick={() => router.push(`/items/${item.id}`)}
+          onClick={() => handleToItems()}
           sx={{ flexGrow: 1, marginBottom: 0 }}
         >
           {item.name}
