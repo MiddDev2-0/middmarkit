@@ -182,6 +182,12 @@ export default function SellerForm({}) {
                   autoFocus
                   value={name}
                   onChange={(event) => setName(event.target.value)}
+                  inputProps={{
+                    maxLength: 30,
+                  }}
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -215,12 +221,13 @@ export default function SellerForm({}) {
               type="button"
               fullWidth
               variant="contained"
-              sx={{ mt: 4, mb: 2 }}
+              sx={{ mt: 3, mb: 2 }}
               onClick={handlePost}
               disabled={!allFieldsPopulated}
             >
               Post your item!
             </Button>
+
             <Dialog
               open={openPop}
               aria-labelledby="alert-dialog-title"
@@ -259,6 +266,7 @@ export default function SellerForm({}) {
               </DialogActions>
             </Dialog>
             <Button sx={{ mt: 2, mb: 2 }} onClick={handleCancel}>
+
               Cancel
             </Button>
           </Box>

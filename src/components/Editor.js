@@ -75,11 +75,13 @@ export default function Editor({ item }) {
 
     const formData = new FormData();
     formData.append("file", file);
+
     formData.append(
       "upload_preset",
       process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PRESET
     );
     formData.append("api_key", process.env.NEXT_PUBLIC_CLOUD_API_KEY);
+
 
     fetch(
       `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_process.env.NEXT_PUBLIC_CLOUD_NAME}/auto/upload`,
