@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import CardContent from "@mui/material/CardContent";
 import PropTypes from "prop-types";
 import ItemShape from "./ItemShape";
+import { useRouter } from "next/router";
 
 const API_VERSION = "v17.0";
 
@@ -17,6 +18,7 @@ export default function ItemCard({
   complete,
   isReviewer,
 }) {
+  const router = useRouter();
   const markAsSold = (status) => {
     const getData = async () => {
       const newItem = { ...item };
@@ -180,6 +182,7 @@ export default function ItemCard({
       sx={{
         display: "flex",
         flexDirection: "column",
+        cursor: "pointer",
       }}
     >
       <CardMedia
@@ -189,6 +192,7 @@ export default function ItemCard({
         }}
         image={`https://res.cloudinary.com/middmarkit/image/upload/${item.images}`}
         alt="random"
+        onClick={() => router.push(`/items/${item.id}`)}
       />
       <CardContent sx={{}}>
         <Typography
@@ -197,6 +201,7 @@ export default function ItemCard({
           component="h2"
           align="center"
           noWrap
+          onClick={() => router.push(`/items/${item.id}`)}
         >
           {item.name}
         </Typography>
