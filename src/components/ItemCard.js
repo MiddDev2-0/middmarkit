@@ -16,7 +16,7 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
   const { data: session } = useSession();
   const handleToItems = () => {
     if (!!session) {
-      router.push("/items/new");
+      router.push(`/items/${item.id}`);
     }
     if (!session) {
       router.push("/users/signin");

@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { signIn } from "next-auth/react";
 import * as React from "react";
+import { Container } from "@mui/material";
 
 export default function ItemPage() {
   const [seller, setSeller] = useState();
@@ -99,16 +100,18 @@ export default function ItemPage() {
 
   return (
     <div>
-      <div>{currentItem && <IndividualItemView item={currentItem} />}</div>
-      <div>
-        {currentItem &&
-          seller &&
-          buyer &&
-          seller.id !== buyer.id &&
-          currentItem.isAvailable && (
-            <InterestForm item={currentItem} seller={seller} />
-          )}
-      </div>
+      <Container>
+        <div>{currentItem && <IndividualItemView item={currentItem} />}</div>
+        <div>
+          {currentItem &&
+            seller &&
+            buyer &&
+            seller.id !== buyer.id &&
+            currentItem.isAvailable && (
+              <InterestForm item={currentItem} seller={seller} />
+            )}
+        </div>
+      </Container>
     </div>
   );
 }

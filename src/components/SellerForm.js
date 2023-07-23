@@ -130,13 +130,13 @@ export default function SellerForm({}) {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 2,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" color="secondary">
             Sell your stuff!
           </Typography>
           <IconButton
@@ -266,7 +266,6 @@ export default function SellerForm({}) {
               </DialogActions>
             </Dialog>
             <Button sx={{ mt: 2, mb: 2 }} onClick={handleCancel}>
-
               Cancel
             </Button>
           </Box>

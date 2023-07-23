@@ -171,7 +171,13 @@ export default function Album({ searchKey }) {
     <>
       <CssBaseline />
 
-      <Typography variant="h4" align="center" paragraph sx={{ mt: 3 }}>
+      <Typography
+        variant="h4"
+        align="center"
+        paragraph
+        sx={{ mt: 1 }}
+        color="secondary"
+      >
         My Listed Items
       </Typography>
       <Container sx={{ mb: 4 }}>
