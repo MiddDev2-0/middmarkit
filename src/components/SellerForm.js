@@ -256,7 +256,7 @@ export default function SellerForm({}) {
                   My Items
                 </Button>
                 <Button
-                  onClick={() => router.reload}
+                  onClick={() => router.reload()}
                   color="primary"
                   variant="contained"
                   size="large"

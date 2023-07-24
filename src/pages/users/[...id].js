@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { signIn } from "next-auth/react";
 import ItemCard from "@/components/ItemCard";
+import { Pagination, Stack } from "@mui/material";
 
 function Copyright() {
   const newLocal = "https://mui.com/";
@@ -70,6 +71,7 @@ export default function Album({ searchKey }) {
   const [availableItems, setAvailableItems] = useState([]);
   const [unavailableItems, setUnavailableItems] = useState([]);
   const [pendingItems, setPendingItems] = useState([]);
+  const itemsPerPage = 9; // You can adjust the number of items per page as per your preference.
 
   const { data: session } = useSession({
     required: true,
@@ -167,6 +169,30 @@ export default function Album({ searchKey }) {
     }
   };
 
+  // Available Items Pagination
+  const [currentPageAvailable, setCurrentPageAvailable] = useState(1);
+  // Ensure the same itemsPerPage value is used as in the "Available Items" section.
+
+  const handlePageChangeAvailable = (event, page) => {
+    setCurrentPageAvailable(page);
+  };
+
+  // Items Pending Approval Pagination
+  const [currentPagePending, setCurrentPagePending] = useState(1);
+  // Ensure the same itemsPerPage value is used as in the "Available Items" section.
+
+  const handlePageChangePending = (event, page) => {
+    setCurrentPagePending(page);
+  };
+
+  // Sold Items Pagination
+  const [currentPageSold, setCurrentPageSold] = useState(1);
+  // Ensure the same itemsPerPage value is used as in the "Available Items" section.
+
+  const handlePageChangeSold = (event, page) => {
+    setCurrentPageSold(page);
+  };
+
   return (
     <>
       <CssBaseline />
@@ -183,28 +209,86 @@ export default function Album({ searchKey }) {
       <Container sx={{ mb: 4 }}>
         <ItemSection
           title="Available Items"
-          items={newAvailItems}
+          items={newAvailItems.slice(
+            (currentPageAvailable - 1) * itemsPerPage,
+            currentPageAvailable * itemsPerPage
+          )}
           handleClick={handleClick}
           setItems={setItems}
           complete={complete}
         />
+        <Stack
+          spacing={2}
+          direction="row"
+          justifyContent="center"
+          sx={{ mt: 3 }}
+        >
+          <Pagination
+            count={Math.ceil(newAvailItems.length / itemsPerPage)}
+            page={currentPageAvailable}
+            onChange={handlePageChangeAvailable}
+            color="primary"
+            showFirstButton
+            showLastButton
+          />
+        </Stack>
+
         <Divider sx={{ my: 2 }} />
+
         <ItemSection
           title="Items Pending Approval"
-          items={newPendingItems}
+          items={newPendingItems.slice(
+            (currentPagePending - 1) * itemsPerPage,
+            currentPagePending * itemsPerPage
+          )}
           handleClick={handleClick}
           setItems={setItems}
           complete={complete}
         />
+        <Stack
+          spacing={2}
+          direction="row"
+          justifyContent="center"
+          sx={{ mt: 3 }}
+        >
+          <Pagination
+            count={Math.ceil(newPendingItems.length / itemsPerPage)}
+            page={currentPagePending}
+            onChange={handlePageChangePending}
+            color="primary"
+            showFirstButton
+            showLastButton
+          />
+        </Stack>
+
         <Divider sx={{ my: 2 }} />
+
         <ItemSection
-          title="Sold Items"
-          items={newUnavailItems}
+          title="Unavailable Items"
+          items={newUnavailItems.slice(
+            (currentPageSold - 1) * itemsPerPage,
+            currentPageSold * itemsPerPage
+          )}
           handleClick={handleClick}
           setItems={setItems}
           complete={complete}
           sold="sold"
         />
+        <Stack
+          spacing={2}
+          direction="row"
+          justifyContent="center"
+          sx={{ mt: 3 }}
+        >
+          <Pagination
+            count={Math.ceil(newUnavailItems.length / itemsPerPage)}
+            page={currentPageSold}
+            onChange={handlePageChangeSold}
+            color="primary"
+            showFirstButton
+            showLastButton
+          />
+        </Stack>
       </Container>
       {/* Footer */}
       <Box sx={{ bgcolor: "background.paper", py: 6 }} component="footer">
