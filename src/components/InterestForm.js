@@ -54,7 +54,7 @@ export default function InterestForm({ seller, item }) {
   return (
     <>
       <Box sx={{ mb: 3 }}>
-        <Typography sx={{ ml: 1 }} variant="h4">
+        <Typography sx={{ ml: 1 }} variant="h4" style={{ fontWeight: 400 }}>
           Email seller
         </Typography>
 
