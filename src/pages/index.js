@@ -79,6 +79,7 @@ export default function Album({ searchKey }) {
   }, []);
 
   let newItems = items;
+
   if (searchKey) {
     newItems = items.filter(
       (item) =>

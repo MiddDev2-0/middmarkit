@@ -130,13 +130,13 @@ export default function SellerForm({}) {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 2,
+            mt: 2,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h5" color="secondary">
+          <Typography component="h1" variant="h4" color="secondary">
             Sell your stuff!
           </Typography>
           <IconButton
@@ -221,6 +221,7 @@ export default function SellerForm({}) {
               type="button"
               fullWidth
               variant="contained"
+              size="large"
               sx={{ mt: 3, mb: 2 }}
               onClick={handlePost}
               disabled={!allFieldsPopulated}

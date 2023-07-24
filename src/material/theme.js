@@ -27,7 +27,9 @@ let theme = createTheme({
   },
   typography: {
     fontFamily: roboto.style.fontFamily,
-    fontWeightRegular: 300,
+    h4: {
+      fontWeight: 300,
+    },
   },
   components: {
     MuiButton: {

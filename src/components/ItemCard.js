@@ -187,6 +187,7 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
         display: "flex",
         flexDirection: "column",
         cursor: "pointer",
+        boxShadow: 2,
       }}
     >
       <CardMedia
