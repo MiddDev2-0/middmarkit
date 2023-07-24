@@ -23,6 +23,11 @@ export default function LoginWidget() {
   const router = useRouter();
   const [user, setUser] = useState();
 
+  const handleInstagramClick = () => {
+    const instagramPageUrl = "https://www.instagram.com/middmarkit/";
+    router.push(instagramPageUrl);
+  };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -112,7 +117,7 @@ export default function LoginWidget() {
             </Typography>
           </MenuItem>
 
-          <MenuItem>
+          <MenuItem onClick={() => handleInstagramClick()}>
             <ListItemIcon>
               <InstagramIcon color="grey" />
             </ListItemIcon>
