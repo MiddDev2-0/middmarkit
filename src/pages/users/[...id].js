@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useSession } from "next-auth/react";
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -178,7 +179,7 @@ export default function Album({ searchKey }) {
         item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
         item.description.toLowerCase().includes(searchKey.toLowerCase())
     );
-    newPendingItems = pendingApproval.filter(
+    newPendingItems = pendingItems.filter(
       (item) =>
         item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
         item.description.toLowerCase().includes(searchKey.toLowerCase())
@@ -331,3 +332,6 @@ export default function Album({ searchKey }) {
     </>
   );
 }
+Album.propTypes = {
+  searchKey: PropTypes.string,
+};

@@ -46,7 +46,8 @@ export default function AppBarComponent({ search, searchKey }) {
             middmarkit
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            {router.pathname === "/" && (
+            {(router.pathname === "/" ||
+              router.pathname.startsWith("/users/")) && (
               <Box sx={{ flex: 1, pr: !!session ? 1 : [2, 3] }}>
                 <SearchBar searchKey={searchKey} search={search} />
               </Box>
