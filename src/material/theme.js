@@ -16,7 +16,10 @@ let theme = createTheme({
       main: "#556cd6",
     },
     secondary: {
-      main: "#3D4157",
+      main: "#293B8A",
+    },
+    grey: {
+      main: "#666666",
     },
     error: {
       main: red.A400,
