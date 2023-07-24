@@ -16,7 +16,7 @@ let theme = createTheme({
       main: "#556cd6",
     },
     secondary: {
-      main: "#19857b",
+      main: "#3D4157",
     },
     error: {
       main: red.A400,
@@ -24,6 +24,7 @@ let theme = createTheme({
   },
   typography: {
     fontFamily: roboto.style.fontFamily,
+    fontWeightRegular: 300,
   },
   components: {
     MuiButton: {

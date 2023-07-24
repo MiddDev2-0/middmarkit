@@ -142,13 +142,8 @@ export default function Album({ searchKey }) {
         }}
       >
         <Container maxWidth="sm">
-          <Typography
-            variant="h5"
-            align="center"
-            color="text.secondary"
-            paragraph
-          >
-            Buy and Sell Your Stuff on Middlebury Campus!
+          <Typography variant="h4" align="center" paragraph color="secondary">
+            Welcome to the Middlebury Resale Community!
           </Typography>
         </Container>
       </Box>

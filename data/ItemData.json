@@ -1,32 +1,32 @@
 [
   {
-    "id": 7,
+    "id": 1,
     "name": "A really big brown table - hand crafted mahogany oak stained with Benjamin moore. family heirloom. Unique antique find!",
     "description": "A really big brown table - hand crafted mahogany oak stained with Benjamin moore. family heirloom. Unique antique find!",
     "price": 12,
-    "sellerEmail": "iverzone@middlebury.edu",
+    "sellerEmail": "mtarantola@middlebury.edu",
     "datePosted": "2016-12-07T23:22:33.357Z",
     "isAvailable": true,
     "images": "listings/igcyn5wksqm2xyurxyeg",
     "adminRemoved": false
   },
   {
-    "id": 7,
+    "id": 2,
     "name": "Chair",
     "description": "This is a chair",
     "price": 8,
-    "sellerEmail": "iverzone@middlebury.edu",
+    "sellerEmail": "ccassani@middlebury.edu",
     "datePosted": "2016-12-07T23:22:33.357Z",
     "isAvailable": true,
     "images": "listings/cfgevownlgvbxloaaajf",
     "adminRemoved": false
   },
   {
-    "id": 7,
+    "id": 3,
     "name": "Dresser",
     "description": "This is a dresser",
     "price": 10,
-    "sellerEmail": "iverzone@middlebury.edu",
+    "sellerEmail": "azatzick@middlebury.edu",
     "datePosted": "2016-12-07T23:22:33.357Z",
     "isAvailable": true,
     "images": "listings/hknhfywitr2u5i9dpj68",
