@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { signIn } from "next-auth/react";
 import ItemCard from "@/components/ItemCard";
-import { Pagination, Stack } from "@mui/material";
+import { Pagination, Stack, useMediaQuery } from "@mui/material";
 
 function Copyright() {
   const newLocal = "https://mui.com/";
@@ -45,11 +45,15 @@ const ItemSection = ({
     >
       {title}
     </Typography>
-
-    <Container sx={{ py: 4 }} maxWidth="md">
-      <Grid container spacing={3}>
+    <Container sx={{ py: 0 }}>
+      <Grid
+        container
+        spacing={{ xs: 1, md: 3 }}
+        alignItems="center"
+        justify="left"
+      >
         {items.map((item) => (
-          <Grid item key={item.id} xs={12} sm={6} md={4}>
+          <Grid item key={item.id} xs={4} sm={3} md={2}>
             <ItemCard
               item={item}
               handleClick={handleClick}
@@ -71,8 +75,7 @@ export default function Album({ searchKey }) {
   const [availableItems, setAvailableItems] = useState([]);
   const [unavailableItems, setUnavailableItems] = useState([]);
   const [pendingItems, setPendingItems] = useState([]);
-  const itemsPerPage = 9; // You can adjust the number of items per page as per your preference.
-
+  const [itemsPerPage, setItemsPerPage] = useState(3);
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
@@ -81,6 +84,28 @@ export default function Album({ searchKey }) {
       return <div>Loading...</div>;
     },
   });
+
+  // Use useMediaQuery to get the current screen size
+  const isExtraSmallScreen = useMediaQuery("(max-width: 599.95px)");
+  const isSmallScreen = useMediaQuery(
+    "(min-width: 600px) and (max-width: 959.95px)"
+  );
+  const isMediumScreen = useMediaQuery(
+    "(min-width: 960px) and (max-width: 1279.95px)"
+  );
+
+  // Update the number of items per page based on the screen size
+  useEffect(() => {
+    if (isExtraSmallScreen) {
+      setItemsPerPage(6);
+    } else if (isSmallScreen) {
+      setItemsPerPage(8);
+    } else if (isMediumScreen) {
+      setItemsPerPage(12);
+    } else {
+      setItemsPerPage(6);
+    }
+  }, [isExtraSmallScreen, isSmallScreen, isMediumScreen]);
 
   const complete = (insertedItem) => {
     const newItems = items.map((item) => {
