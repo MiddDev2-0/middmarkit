@@ -2,7 +2,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Button from "@mui/material/Button";
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -10,12 +9,12 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
-
-import Logout from "@mui/icons-material/Logout";
 
 export default function LoginWidget() {
   const { data: session } = useSession();
@@ -23,6 +22,11 @@ export default function LoginWidget() {
   const open = Boolean(anchorEl);
   const router = useRouter();
   const [user, setUser] = useState();
+
+  const handleInstagramClick = () => {
+    const instagramPageUrl = "https://www.instagram.com/middmarkit/";
+    router.push(instagramPageUrl);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -70,6 +74,7 @@ export default function LoginWidget() {
             </IconButton>
           </Tooltip>
         </Box>
+
         <Menu
           anchorEl={anchorEl}
           id="account-menu"
@@ -107,15 +112,21 @@ export default function LoginWidget() {
           anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
         >
           <MenuItem onClick={handleClose}>
-            <Avatar />
             <Typography variant="body1" noWrap>
               {session.user.email}{" "}
             </Typography>
           </MenuItem>
 
+          <MenuItem onClick={() => handleInstagramClick()}>
+            <ListItemIcon>
+              <InstagramIcon color="grey" />
+            </ListItemIcon>
+            @middmarkit
+          </MenuItem>
+
           <MenuItem onClick={signOut}>
             <ListItemIcon>
-              <Logout fontSize="small" />
+              <LogoutIcon />
             </ListItemIcon>
             Logout
           </MenuItem>

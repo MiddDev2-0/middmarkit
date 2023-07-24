@@ -223,7 +223,7 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
               markAsSold("sold");
             }}
           >
-            Mark as sold
+            Mark as unavailable
           </Button>
         )}
         {remove_button()}
