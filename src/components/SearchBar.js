@@ -2,8 +2,6 @@ import * as React from "react";
 import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
-//import Box from "@mui/material/Box";
-//import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { useRouter } from "next/router";
@@ -57,10 +55,16 @@ export default function SearchBar({ search }) {
   const [searchKey, setSearchKey] = useState("");
 
   useEffect(() => {
-    if (router !== "/") {
+    if (router.pathname !== "/" || !router.pathname.startsWith("/users/")) {
       setSearchKey("");
     }
   }, [router, setSearchKey]);
+
+  const handleSearchChange = (event) => {
+    const { value } = event.target;
+    setSearchKey(value);
+    search(value); // Call the search function on every change in input value
+  };
 
   return (
     <Search>
@@ -71,14 +75,7 @@ export default function SearchBar({ search }) {
         placeholder="Search items…"
         inputProps={{ "aria-label": "search" }}
         value={searchKey}
-        onKeyDown={(event) => {
-          if (event.key === "Enter") {
-            search(searchKey);
-          }
-        }}
-        onChange={(event) => {
-          setSearchKey(event.target.value);
-        }}
+        onChange={handleSearchChange}
       />
     </Search>
   );
