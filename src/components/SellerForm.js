@@ -8,11 +8,11 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import IconButton from "@mui/material/IconButton";
-import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useRouter } from "next/router";
 import { green } from "@mui/material/colors";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import EditIcon from "@mui/icons-material/Edit";
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -77,26 +77,30 @@ export default function SellerForm({}) {
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append(
-      "upload_preset",
-      process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PRESET
-    );
-    formData.append("api_key", process.env.NEXT_PUBLIC_CLOUD_API_KEY);
 
-    fetch(
-      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/auto/upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    )
-      .then((res) => res.json())
-      .then((response) => {
-        setImageId(response.public_id);
-        handleCloseBackdrop();
-      });
+    if (file) {
+      handleOpenBackdrop();
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append(
+        "upload_preset",
+        process.env.NEXT_PUBLIC_CLOUD_UPLOAD_PRESET
+      );
+      formData.append("api_key", process.env.NEXT_PUBLIC_CLOUD_API_KEY);
+
+      fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/auto/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      )
+        .then((res) => res.json())
+        .then((response) => {
+          setImageId(response.public_id);
+          handleCloseBackdrop();
+        });
+    }
   };
 
   const handlePost = () => {
@@ -126,6 +130,20 @@ export default function SellerForm({}) {
     router.push(`/`);
   };
 
+  useEffect(() => {
+    const handleWindowClick = (event) => {
+      const {target} = event;
+      const uploadButton = document.getElementById("image-upload");
+      if (uploadButton && !uploadButton.contains(target)) {
+        handleCloseBackdrop();
+      }
+    };
+    window.addEventListener("click", handleWindowClick);
+    return () => {
+      window.removeEventListener("click", handleWindowClick);
+    };
+  }, []);
+
   return (
     <>
       <Container component="main" maxWidth="xs">
@@ -138,27 +156,18 @@ export default function SellerForm({}) {
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h4" color="secondary">
+          <Typography
+            component="h1"
+            variant="h4"
+            color="secondary"
+            sx={{ mb: 2 }}
+          >
             Sell your stuff!
           </Typography>
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="label"
-            onClick={handleOpenBackdrop}
-          >
-            <input
-              hidden
-              accept="image/*"
-              type="file"
-              onChange={handleFileUpload}
-            />
-            <PhotoCamera />
-          </IconButton>
 
           <div>
             <Backdrop sx={{ color: "#fff" }} open={open}>
-              <CircularProgress color="inherit" />
+              <CircularProgress />
             </Backdrop>
           </div>
 
@@ -217,6 +226,26 @@ export default function SellerForm({}) {
                   value={description}
                   onChange={(event) => setDescription(event.target.value)}
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <label htmlFor="image-upload">
+                  <input
+                    id="image-upload"
+                    accept="image/*"
+                    type="file"
+                    hidden
+                    onChange={handleFileUpload}
+                  />
+                  <Button
+                    color="primary"
+                    variant={imageId ? "outlined" : "contained"}
+                    component="span"
+                    size="medium"
+                    startIcon={imageId ? <EditIcon /> : <CloudUploadIcon />}
+                  >
+                    {imageId ? "Change Image" : "Upload Image"}
+                  </Button>
+                </label>
               </Grid>
             </Grid>
             <Button
