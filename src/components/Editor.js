@@ -82,7 +82,6 @@ export default function Editor({ item }) {
     );
     formData.append("api_key", process.env.NEXT_PUBLIC_CLOUD_API_KEY);
 
-
     fetch(
       `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_process.env.NEXT_PUBLIC_CLOUD_NAME}/auto/upload`,
       {
@@ -108,6 +107,7 @@ export default function Editor({ item }) {
       isAvailable: true,
       images: imageId,
       adminRemoved: false,
+      adminApproved: false,
     };
 
     //BAD REQUEST ERROR:
@@ -222,18 +222,18 @@ export default function Editor({ item }) {
               </Grid>
             </Grid>
             <Button
-              type="button"
               fullWidth
+              size="medium"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               onClick={handleSave}
               disabled={!allFieldsPopulated}
             >
-              Save your item!
+              Save your changes
             </Button>
-            <Typography component="h6">
-              After saving your changes, your item will be reviewed and reposted
-              within 48 hours!
+            <Typography component="h5" variant="body2" color="grey.main">
+              After saving your changes, your item will be reviewed and
+              reposted!
             </Typography>
             <Button sx={{ mt: 2, mb: 2, ml: -1 }} onClick={handleCancel}>
               Cancel

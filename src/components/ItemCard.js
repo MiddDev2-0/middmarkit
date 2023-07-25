@@ -216,17 +216,20 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
         </Typography>
       </CardContent>
       <CardActions>
-        {page === "user" && !sold && !item.adminRemoved && (
-          <Button
-            size="medium"
-            color="warning"
-            onClick={() => {
-              markAsSold("sold");
-            }}
-          >
-            Mark as unavailable
-          </Button>
-        )}
+        {page === "user" &&
+          !sold &&
+          !item.adminRemoved &&
+          !!item.adminApproved && (
+            <Button
+              size="medium"
+              color="warning"
+              onClick={() => {
+                markAsSold("sold");
+              }}
+            >
+              Mark as Sold
+            </Button>
+          )}
         {remove_button()}
 
         {sold && (
