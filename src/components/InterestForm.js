@@ -1,7 +1,5 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { TextField, Typography } from "@mui/material";
-import { Button, Link, Box } from "@mui/material";
+import { useState, useRef, useEffect } from "react";
+import { Button, Link, Box, TextField, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import ItemShape from "./ItemShape";
 import UserShape from "./UserShape";
@@ -9,7 +7,25 @@ import UserShape from "./UserShape";
 export default function InterestForm({ seller, item }) {
   const [contents, setContents] = useState("");
   const [buyer, setBuyer] = useState();
+  const [emailCopied, setEmailCopied] = useState(false); // New state to track email copy status
   const { data: session } = useSession();
+  const rootRef = useRef();
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      // Check if the clicked element is outside the component
+      if (rootRef.current && !rootRef.current.contains(event.target)) {
+        setEmailCopied(false);
+      }
+    };
+    document.addEventListener("click", handleOutsideClick);
+    document.addEventListener("touchstart", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener("touchstart", handleOutsideClick);
+    };
+  }, [rootRef]);
 
   useEffect(() => {
     if (session) {
@@ -37,10 +53,20 @@ export default function InterestForm({ seller, item }) {
         id="mailto"
         href={`mailto:${seller?.email}?subject=MiddMarkit: Someone is interested in your item&body=${htmlContents}`}
         target="_blank"
+        rel="noopener noreferrer"
+        x-apple-data-detectors="true"
       >
         Send Email{" "}
       </Link>
     );
+  }
+
+  function copyEmailToClipboard() {
+    if (seller?.email) {
+      navigator.clipboard.writeText(seller.email).then(() => {
+        setEmailCopied(true);
+      });
+    }
   }
 
   useEffect(() => {
@@ -68,9 +94,28 @@ export default function InterestForm({ seller, item }) {
           value={contents}
           onChange={(event) => setContents(event.target.value)}
         />
-        <Button variant="outlined" size="medium" fullWidth>
-          {mailForm()}
-        </Button>
+
+        <Box sx={{ display: "flex", gap: "8px" }} ref={rootRef}>
+          <Button
+            variant="outlined"
+            size="large"
+            sx={{ flex: 1 }}
+            onClick={mailForm}
+          >
+            Send Email
+          </Button>
+          <Button
+            variant={emailCopied ? "contained" : "outlined"}
+            color={emailCopied ? "success" : "primary"}
+            size="large"
+            sx={{
+              flex: 1,
+            }}
+            onClick={copyEmailToClipboard}
+          >
+            {emailCopied ? "Email Copied!" : "Copy Email Address"}
+          </Button>
+        </Box>
       </Box>
     </>
   );
