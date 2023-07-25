@@ -11,6 +11,8 @@ import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import { useRouter } from "next/router";
+import { green } from "@mui/material/colors";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -234,12 +236,22 @@ export default function SellerForm({}) {
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
             >
-              <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
-              <DialogContent>
+              <DialogTitle
+                id="alert-dialog-title"
+                sx={{ backgroundColor: green[500], color: "#fff" }}
+              >
+                <CheckCircleIcon
+                  fontSize="large"
+                  sx={{ verticalAlign: "middle", mr: 2 }}
+                />
+                {"Successfully submitted!"}
+              </DialogTitle>
+              <DialogContent sx={{ mt: 2 }}>
                 <DialogContentText id="alert-dialog-description">
-                  Your item was submitted. It will be reviewed within 48 hours
-                  by our admins and then posted to the middmarkit website and
-                  Instagram page!
+                  {seller
+                    ? `Congratulations, ${seller.firstName}! Your item will be reviewed and
+                  then posted to middmarkit.com and @middmarkit on Insgagram!`
+                    : `Loading...`}
                 </DialogContentText>
               </DialogContent>
               <DialogActions
@@ -247,22 +259,26 @@ export default function SellerForm({}) {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "right",
+                  // A lighter green color for the actions section
                 }}
               >
                 <Button
                   onClick={() => router.push(`/users/${session.id}`)}
-                  color="primary"
-                  size="medium"
+                  size="large"
+                  sx={{ color: green[500], flex: 1 }} // Use green color for the button text
                 >
-                  My Items
+                  See Item
                 </Button>
                 <Button
                   onClick={() => router.reload()}
-                  color="primary"
                   variant="contained"
                   size="large"
+                  sx={{
+                    backgroundColor: green[500],
+                    flex: 2,
+                  }} // Use green color for the button background
                 >
-                  Post Another Item
+                  Sell More Items
                 </Button>
               </DialogActions>
             </Dialog>

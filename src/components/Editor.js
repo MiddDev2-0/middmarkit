@@ -82,7 +82,6 @@ export default function Editor({ item }) {
     );
     formData.append("api_key", process.env.NEXT_PUBLIC_CLOUD_API_KEY);
 
-
     fetch(
       `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_process.env.NEXT_PUBLIC_CLOUD_NAME}/auto/upload`,
       {
@@ -108,6 +107,7 @@ export default function Editor({ item }) {
       isAvailable: true,
       images: imageId,
       adminRemoved: false,
+      adminApproved: false,
     };
 
     //BAD REQUEST ERROR:
