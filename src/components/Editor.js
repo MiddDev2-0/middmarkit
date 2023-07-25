@@ -222,18 +222,18 @@ export default function Editor({ item }) {
               </Grid>
             </Grid>
             <Button
-              type="button"
               fullWidth
+              size="medium"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               onClick={handleSave}
               disabled={!allFieldsPopulated}
             >
-              Save your item!
+              Save your changes
             </Button>
-            <Typography component="h6">
-              After saving your changes, your item will be reviewed and reposted
-              within 48 hours!
+            <Typography component="h5" variant="body2" color="grey.main">
+              After saving your changes, your item will be reviewed and
+              reposted!
             </Typography>
             <Button sx={{ mt: 2, mb: 2, ml: -1 }} onClick={handleCancel}>
               Cancel

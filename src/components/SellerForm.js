@@ -230,7 +230,10 @@ export default function SellerForm({}) {
             >
               Post your item!
             </Button>
-
+            <Typography component="h5" variant="body2" color="grey.main">
+              Your email will be accessible to anyone viewing the item. Please
+              be cautious when sharing personal information.
+            </Typography>
             <Dialog
               open={openPop}
               aria-labelledby="alert-dialog-title"

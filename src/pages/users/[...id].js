@@ -290,7 +290,7 @@ export default function Album({ searchKey }) {
         <Divider sx={{ my: 2 }} />
 
         <ItemSection
-          title="Unavailable Items"
+          title="Sold Items"
           items={newUnavailItems.slice(
             (currentPageSold - 1) * itemsPerPage,
             currentPageSold * itemsPerPage
