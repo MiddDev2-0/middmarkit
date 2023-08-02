@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Button, Link, Box, TextField, Typography } from "@mui/material";
+import { Button, Box, TextField, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import ItemShape from "./ItemShape";
 import UserShape from "./UserShape";
@@ -48,17 +48,11 @@ export default function InterestForm({ seller, item }) {
 
   function mailForm() {
     const htmlContents = contents.replaceAll("\n", "%0D%0A");
-    return (
-      <Link
-        id="mailto"
-        href={`mailto:${seller?.email}?subject=MiddMarkit: Someone is interested in your item&body=${htmlContents}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        x-apple-data-detectors="true"
-      >
-        Send Email{" "}
-      </Link>
-    );
+    const mailtoLink = `mailto:${seller?.email}?subject=middmarkit: Someone wants to buy your ${item.name}&body=${htmlContents}`;
+    const anchor = document.createElement("a");
+    anchor.href = mailtoLink;
+    anchor.target = "_blank";
+    anchor.click(); // Programmatically trigger the click event
   }
 
   function copyEmailToClipboard() {
