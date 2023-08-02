@@ -58,10 +58,6 @@ Note we need to pin the `node-fetch` version due to breaking changes when used w
 💻 npm install --save @mui/material @emotion/react @emotion/styled @emotion/cache @emotion/server
 ```
 
-##### Application Purpose
-
-This applications aims to create a secure online marketplace for Middlebury College students to buy and sell items to one another, facilitating interactions between buyer and seller and maintaining an updated page of listings which are still for sale.
-
 ###### Application Link
 
 https://killington.csci312.dev/
