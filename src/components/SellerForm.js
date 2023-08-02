@@ -194,9 +194,6 @@ export default function SellerForm({}) {
                   inputProps={{
                     maxLength: 30,
                   }}
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
