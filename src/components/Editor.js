@@ -118,7 +118,6 @@ export default function Editor({ item }) {
       body: JSON.stringify(updatedItem),
     })
       .then((resp) => resp.json())
-      .then((data) => console.log(data))
       .catch((error) => console.log(error));
 
     router.push(`/users/${session.id}`);
