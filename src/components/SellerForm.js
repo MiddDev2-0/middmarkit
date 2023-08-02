@@ -51,7 +51,6 @@ export default function SellerForm({}) {
           }
           const data = await response.json();
           setSeller(data);
-          console.log(data.firstName);
         };
         getData();
       }
@@ -121,7 +120,6 @@ export default function SellerForm({}) {
       body: JSON.stringify(newItem),
     })
       .then((resp) => resp.json())
-      .then((data) => console.log(data))
       .catch((error) => console.log(error));
     handleClickOpen();
   };
@@ -132,7 +130,7 @@ export default function SellerForm({}) {
 
   useEffect(() => {
     const handleWindowClick = (event) => {
-      const {target} = event;
+      const { target } = event;
       const uploadButton = document.getElementById("image-upload");
       if (uploadButton && !uploadButton.contains(target)) {
         handleCloseBackdrop();
@@ -195,9 +193,6 @@ export default function SellerForm({}) {
                   onChange={(event) => setName(event.target.value)}
                   inputProps={{
                     maxLength: 30,
-                  }}
-                  InputProps={{
-                    disableUnderline: true,
                   }}
                 />
               </Grid>
