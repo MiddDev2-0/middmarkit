@@ -11,17 +11,15 @@ import Tooltip from "@mui/material/Tooltip";
 import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LogoutIcon from "@mui/icons-material/Logout";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { useEffect } from "react";
 
 export default function LoginWidget() {
   const { data: session } = useSession();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const router = useRouter();
-  const [user, setUser] = useState();
 
   const handleInstagramClick = () => {
     const instagramPageUrl = "https://www.instagram.com/middmarkit/";
@@ -34,24 +32,6 @@ export default function LoginWidget() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  useEffect(() => {
-    if (session) {
-      if (session.user) {
-        const getData = async () => {
-          const response = await fetch(`/api/users/${session.user.id}`, {
-            method: "GET",
-          });
-          if (!response.ok) {
-            console.log("error");
-            throw new Error(response.statusText);
-          }
-          const data = await response.json();
-          setUser(data);
-        };
-        getData();
-      }
-    }
-  }, [session]);
 
   if (session) {
     return (
@@ -112,6 +92,9 @@ export default function LoginWidget() {
           anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
         >
           <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <PermIdentityIcon color="grey" />
+            </ListItemIcon>
             <Typography variant="body1" noWrap>
               {session.user.email}{" "}
             </Typography>
@@ -129,34 +112,6 @@ export default function LoginWidget() {
               <LogoutIcon />
             </ListItemIcon>
             Logout
-          </MenuItem>
-          <MenuItem>
-            {!!session && !!session.user && !!user && !!user.reviewerStatus && (
-              <Button
-                variant={
-                  router.pathname === "/items/removed"
-                    ? "contained"
-                    : "outlined"
-                }
-                onClick={() => router.push("/items/removed")}
-              >
-                Removed Items
-              </Button>
-            )}
-          </MenuItem>
-          <MenuItem>
-            {!!session && !!session.user && !!user && !!user.reviewerStatus && (
-              <Button
-                variant={
-                  router.pathname === "/items/unapproved"
-                    ? "contained"
-                    : "outlined"
-                }
-                onClick={() => router.push("/items/unapproved")}
-              >
-                Approve Items
-              </Button>
-            )}
           </MenuItem>
         </Menu>
       </React.Fragment>
