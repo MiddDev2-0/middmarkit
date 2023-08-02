@@ -8,7 +8,6 @@ export default function ItemEditor() {
   const { id } = router.query;
   const [currentItem, setCurrentItem] = useState();
   const { data: session } = useSession();
-  console.log(id);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -25,9 +24,7 @@ export default function ItemEditor() {
           if (Boolean(data.isAvailable) === false) {
             router.push(`/`);
           }
-          console.log(data);
           setCurrentItem(data);
-          console.log(data);
         };
         getData();
       } else {

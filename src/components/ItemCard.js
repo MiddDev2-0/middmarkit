@@ -130,7 +130,6 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
         return fetch(sendinstagram, optionsPublish);
       })
       .then((response) => response.json())
-      .then((data) => console.log(data))
       .catch((error) => console.log(error));
   };
 
