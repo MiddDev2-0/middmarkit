@@ -3,11 +3,15 @@ import { Button, Box, TextField, Typography } from "@mui/material";
 import { useSession } from "next-auth/react";
 import ItemShape from "./ItemShape";
 import UserShape from "./UserShape";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import CheckIcon from "@mui/icons-material/Check";
+import InputAdornment from "@mui/material/InputAdornment";
 
 export default function InterestForm({ seller, item }) {
   const [contents, setContents] = useState("");
   const [buyer, setBuyer] = useState();
-  const [emailCopied, setEmailCopied] = useState(false); // New state to track email copy status
+  const [addressCopied, setAddressCopied] = useState(false);
+  const [contentsCopied, setContentsCopied] = useState(false);
   const { data: session } = useSession();
   const rootRef = useRef();
 
@@ -15,7 +19,8 @@ export default function InterestForm({ seller, item }) {
     const handleOutsideClick = (event) => {
       // Check if the clicked element is outside the component
       if (rootRef.current && !rootRef.current.contains(event.target)) {
-        setEmailCopied(false);
+        setAddressCopied(false);
+        setContentsCopied(false);
       }
     };
     document.addEventListener("click", handleOutsideClick);
@@ -55,10 +60,17 @@ export default function InterestForm({ seller, item }) {
     anchor.click(); // Programmatically trigger the click event
   }
 
-  function copyEmailToClipboard() {
+  function copyAddressToClipboard() {
     if (seller?.email) {
       navigator.clipboard.writeText(seller.email).then(() => {
-        setEmailCopied(true);
+        setAddressCopied(true);
+      });
+    }
+  }
+  function copyContentsToClipboard() {
+    if (contents) {
+      navigator.clipboard.writeText(contents).then(() => {
+        setContentsCopied(true);
       });
     }
   }
@@ -77,7 +89,6 @@ export default function InterestForm({ seller, item }) {
         <Typography sx={{ ml: 1 }} variant="h4" style={{ fontWeight: 400 }}>
           Email seller
         </Typography>
-
         <TextField
           fullWidth
           multiline
@@ -87,6 +98,37 @@ export default function InterestForm({ seller, item }) {
           label="Contents"
           value={contents}
           onChange={(event) => setContents(event.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment>
+                <>
+                  {contentsCopied ? (
+                    <CheckIcon
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        right: "10px",
+                        transform: "translateY(-50%)",
+                        cursor: "pointer",
+                        color: "green",
+                      }}
+                    />
+                  ) : (
+                    <ContentCopyIcon
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        right: "10px",
+                        transform: "translateY(-50%)",
+                        cursor: "pointer",
+                      }}
+                      onClick={copyContentsToClipboard}
+                    />
+                  )}
+                </>
+              </InputAdornment>
+            ),
+          }}
         />
 
         <Box sx={{ display: "flex", gap: "8px" }} ref={rootRef}>
@@ -99,15 +141,15 @@ export default function InterestForm({ seller, item }) {
             Send Email
           </Button>
           <Button
-            variant={emailCopied ? "contained" : "outlined"}
-            color={emailCopied ? "success" : "primary"}
+            variant={addressCopied ? "contained" : "outlined"}
+            color={addressCopied ? "success" : "primary"}
             size="large"
             sx={{
               flex: 1,
             }}
-            onClick={copyEmailToClipboard}
+            onClick={copyAddressToClipboard}
           >
-            {emailCopied ? "Email Copied!" : "Copy Email Address"}
+            {addressCopied ? "Email Copied!" : "Copy Email Address"}
           </Button>
         </Box>
       </Box>
