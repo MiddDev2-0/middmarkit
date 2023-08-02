@@ -1,15 +1,15 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Button from "@mui/material/Button";
-
 import SearchBar from "@/components/SearchBar";
-import { Typography } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Toolbar,
+  Container,
+  Stack,
+  Button,
+  AppBar,
+} from "@mui/material";
 
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-
-import Container from "@mui/material/Container";
 import LoginWidget from "@/components/LoginWidget";
 
 import { useSession } from "next-auth/react";

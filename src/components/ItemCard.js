@@ -96,7 +96,7 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
 
     const formData = {
       image_url: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/${item.images}`,
-      caption: `${item.name}\n${item.description}\nPrice: ${item.price}`,
+      caption: `${item.name}\n${item.description}\nPrice: $${item.price}`,
       access_token: process.env.NEXT_PUBLIC_IG_ACCESS_TOKEN,
     };
 

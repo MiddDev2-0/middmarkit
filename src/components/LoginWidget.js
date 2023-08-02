@@ -8,10 +8,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
-import AccountCircleSharpIcon from "@mui/icons-material/AccountCircleSharp";
+
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import { Avatar } from "@mui/material";
 
 import { useRouter } from "next/router";
 
@@ -32,6 +33,10 @@ export default function LoginWidget() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleEmailClick = () => {
+    setAnchorEl(null);
+    router.push(`/users/${session.user.id}`);
+  };
 
   if (session) {
     return (
@@ -39,7 +44,7 @@ export default function LoginWidget() {
         <Box
           sx={{ display: "flex", alignItems: "center", textAlign: "center" }}
         >
-          <Tooltip title="Account settings">
+          <Tooltip title="Account">
             <IconButton
               onClick={handleClick}
               size="small"
@@ -47,10 +52,7 @@ export default function LoginWidget() {
               aria-haspopup="true"
               aria-expanded={open ? "true" : undefined}
             >
-              <AccountCircleSharpIcon
-                sx={{ color: "white" }}
-                fontSize="large"
-              />
+              <Avatar alt="Logo" src="/mm_bag.png" />
             </IconButton>
           </Tooltip>
         </Box>
@@ -91,7 +93,7 @@ export default function LoginWidget() {
           transformOrigin={{ horizontal: "left", vertical: "top" }}
           anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
         >
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={() => handleEmailClick()}>
             <ListItemIcon>
               <PermIdentityIcon color="grey" />
             </ListItemIcon>

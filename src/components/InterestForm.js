@@ -53,7 +53,7 @@ export default function InterestForm({ seller, item }) {
 
   function mailForm() {
     const htmlContents = contents.replaceAll("\n", "%0D%0A");
-    const mailtoLink = `mailto:${seller?.email}?subject=middmarkit: Someone wants to buy your ${item.name}&body=${htmlContents}`;
+    const mailtoLink = `mailto:${seller?.email}?subject=I would like to buy your ${item.name} on Middmarkit&body=${htmlContents}`;
     const anchor = document.createElement("a");
     anchor.href = mailtoLink;
     anchor.target = "_blank";
@@ -63,14 +63,18 @@ export default function InterestForm({ seller, item }) {
   function copyAddressToClipboard() {
     if (seller?.email) {
       navigator.clipboard.writeText(seller.email).then(() => {
-        setAddressCopied(true);
+        setTimeout(() => {
+          setAddressCopied(true);
+        }, 100);
       });
     }
   }
   function copyContentsToClipboard() {
     if (contents) {
       navigator.clipboard.writeText(contents).then(() => {
-        setContentsCopied(true);
+        setTimeout(() => {
+          setContentsCopied(true);
+        }, 100);
       });
     }
   }
