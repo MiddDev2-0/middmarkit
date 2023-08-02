@@ -14,10 +14,13 @@ import LoginWidget from "@/components/LoginWidget";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function AppBarComponent({ search, searchKey }) {
   const { data: session } = useSession();
   const router = useRouter();
+  const [user, setUser] = useState();
 
   const handleClick = (button) => {
     if (button === "sell" && !!session) {
@@ -33,6 +36,25 @@ export default function AppBarComponent({ search, searchKey }) {
       router.push(`/users/${session.user.id}`);
     }
   };
+
+  useEffect(() => {
+    if (session) {
+      if (session.user) {
+        const getData = async () => {
+          const response = await fetch(`/api/users/${session.user.id}`, {
+            method: "GET",
+          });
+          if (!response.ok) {
+            console.log("error");
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          setUser(data);
+        };
+        getData();
+      }
+    }
+  }, [session]);
 
   return (
     <>
@@ -90,6 +112,40 @@ export default function AppBarComponent({ search, searchKey }) {
                 onClick={() => handleClick("user items")}
               >
                 My items
+              </Button>
+            )}
+          </Stack>
+          <Stack
+            sx={{ mt: 2 }}
+            direction="row"
+            spacing={2}
+            justifyContent="center"
+          >
+            {!!session && !!session.user && !!user && !!user.reviewerStatus && (
+              <Button
+                variant={
+                  router.pathname === "/items/removed"
+                    ? "contained"
+                    : "outlined"
+                }
+                color="warning"
+                onClick={() => router.push("/items/removed")}
+              >
+                Removed Items
+              </Button>
+            )}
+
+            {!!session && !!session.user && !!user && !!user.reviewerStatus && (
+              <Button
+                variant={
+                  router.pathname === "/items/unapproved"
+                    ? "contained"
+                    : "outlined"
+                }
+                color="success"
+                onClick={() => router.push("/items/unapproved")}
+              >
+                Approve Items
               </Button>
             )}
           </Stack>
