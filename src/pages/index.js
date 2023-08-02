@@ -18,11 +18,10 @@ import ItemCard from "@/components/ItemCard";
 import PropTypes from "prop-types";
 
 function Copyright() {
-  const newLocal = "https://mui.com/";
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href={newLocal}>
+      <Link color="inherit" href={"https://middmarkit.com/"}>
         middmarkit.com
       </Link>{" "}
       {new Date().getFullYear()}
