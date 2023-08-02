@@ -1,8 +1,30 @@
 # Project Skeleton
 
+## Description
+Middmarkit is a resale platform for Middlebury College. This application is a secure online marketplace for students to buy and sell items to one another, facilitating interactions between buyer and seller and maintaining an updated page of available listings.
+
+## Features
+
+- User Authentication: Users can sign up and log in using their Google accounts to access the platform.
+- Product Listing: Users can create listings with product details, descriptions, and images for resale.
+- Admin Review: Before items are posted, they must first be reviewed by a Middmarkit admin.
+- Automated Instagram Posting: Once reviewed, the items are automatically posted to @middmarkit on Instagram for broader visibility.
+- User Dashboard: Users can manage their listings through an intuitive dashboard.
+- Search: The platform offers search options to help users find relevant items easily.
+
+## Technologies Used
+
+- Next.js
+- React.js
+- Material UI
+- Google OAuth 2.0
+- Cloudinary for image storage
+- Neon.tech for PostgreSQL database management
+- Instagram Graph API for image posting
+
 ## Creation
 
-This project skeleton has been setup similar to our assignments and practicals. It is a Next.JS application, created with create-next-app `💻 npx create-next-app@latest`, which uses Jest and Testing Library for testing, ESLint for static analysis, Prettier for styling, and is configured to use GitHub actions for testing pull requests.
+This is a Next.JS application, created with create-next-app `💻 npx create-next-app@latest`, which uses Jest and Testing Library for testing, ESLint for static analysis, Prettier for styling, and is configured to use GitHub actions for testing pull requests.
 
 Development dependencies installed with:
 
