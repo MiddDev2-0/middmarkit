@@ -14,7 +14,7 @@ export default function MyDocument(props) {
         {/* PWA primary color */}
         <meta name="theme-color" content={theme.palette.primary.main} />
         <link rel="shortcut icon" href="/mm_bag.png" />
-        <meta name="emotion-insertion-point" content="" />
+        <meta name="emotion-insertion-point" content="middmarkit" />
         {emotionStyleTags}
       </Head>
       <body>
