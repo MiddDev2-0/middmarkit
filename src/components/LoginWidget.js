@@ -44,7 +44,7 @@ export default function LoginWidget() {
         <Box
           sx={{ display: "flex", alignItems: "center", textAlign: "center" }}
         >
-          <Tooltip title="Account settings">
+          <Tooltip title="Account">
             <IconButton
               onClick={handleClick}
               size="small"
