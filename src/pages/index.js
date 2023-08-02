@@ -192,7 +192,7 @@ export default function Album({ searchKey }) {
           color="text.secondary"
           component="p"
         >
-          middmarkit
+          Midd Markit
         </Typography>
         <Copyright />
       </Box>
