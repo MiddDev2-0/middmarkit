@@ -92,7 +92,6 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
       const data = await response.json();
       complete(data);
     };
-    getData();
 
     const formData = {
       image_url: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/${item.images}`,
@@ -127,10 +126,19 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
         };
         const sendinstagram = `https://graph.facebook.com/${API_VERSION}/${process.env.NEXT_PUBLIC_IG_USER_ID}/media_publish`;
 
-        return fetch(sendinstagram, optionsPublish);
+        return fetch(sendinstagram, optionsPublish)
+          .then((response) => response.json())
+          .then(() => {
+            getData();
+          })
+          .catch((error) => {
+            console.log("Error in posting to Cloudinary: ", error);
+          });
       })
-      .then((response) => response.json())
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        // Handle any error in the first fetch chain (Facebook API call)
+        console.log("Error in Facebook API:", error);
+      });
   };
 
   const removeRelistItem = (status) => {
