@@ -8,10 +8,13 @@ import PropTypes from "prop-types";
 import ItemShape from "./ItemShape";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 const API_VERSION = "v17.0";
 
 export default function ItemCard({ item, page, sold, complete, isReviewer }) {
+  const [postButtonDisabled, setPostButtonDisabled] = useState(false);
+  const [postFailed, setPostFailed] = useState(false);
   const router = useRouter();
   const { data: session } = useSession();
   const handleToItems = () => {
@@ -72,28 +75,7 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
     getData();
   };
 
-  const postItem = () => {
-    const getData = async () => {
-      const newItem = { ...item };
-      newItem.adminApproved = true;
-      newItem.isAvailable = Boolean(newItem.isAvailable);
-      const response = await fetch(`/api/items/${item.id}`, {
-        method: "PUT",
-        body: JSON.stringify(newItem),
-        headers: new Headers({
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        }),
-      });
-      if (!response.ok) {
-        console.log("error");
-        throw new Error(response.statusText);
-      }
-      const data = await response.json();
-      complete(data);
-    };
-    getData();
-
+  const postToInstagram = async () => {
     const formData = {
       image_url: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload/${item.images}`,
       caption: `${item.name}\n${item.description}\nPrice: $${item.price}`,
@@ -110,27 +92,70 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
 
     const container = `https://graph.facebook.com/v11.0/${process.env.NEXT_PUBLIC_IG_USER_ID}/media`;
 
-    fetch(container, options)
-      .then((response) => response.json())
-      .then((data) => {
-        const creationId = data.id;
-        const formDataPublish = {
-          creation_id: creationId,
-          access_token: process.env.NEXT_PUBLIC_IG_ACCESS_TOKEN,
-        };
-        const optionsPublish = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formDataPublish),
-        };
-        const sendinstagram = `https://graph.facebook.com/${API_VERSION}/${process.env.NEXT_PUBLIC_IG_USER_ID}/media_publish`;
+    try {
+      const response = await fetch(container, options);
+      const data = await response.json();
+      const creationId = data.id;
+      const formDataPublish = {
+        creation_id: creationId,
+        access_token: process.env.NEXT_PUBLIC_IG_ACCESS_TOKEN,
+      };
+      const optionsPublish = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formDataPublish),
+      };
+      const sendinstagram = `https://graph.facebook.com/${API_VERSION}/${process.env.NEXT_PUBLIC_IG_USER_ID}/media_publish`;
 
-        return fetch(sendinstagram, optionsPublish);
-      })
-      .then((response) => response.json())
-      .catch((error) => console.log(error));
+      const publishResponse = await fetch(sendinstagram, optionsPublish);
+      const publishData = await publishResponse.json();
+      // Check if the Instagram post was published successfully
+      if (publishData.id) {
+        return Promise.resolve(); // Resolve the Promise to indicate successful completion
+      } else {
+        return Promise.reject(new Error("Failed to publish to Instagram"));
+      }
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
+
+  const postToMiddmarkit = async () => {
+    const newItem = {
+      ...item,
+      datePosted: new Date().toISOString(),
+      adminApproved: true,
+    };
+    newItem.isAvailable = Boolean(newItem.isAvailable);
+    const response = await fetch(`/api/items/${item.id}`, {
+      method: "PUT",
+      body: JSON.stringify(newItem),
+      headers: new Headers({
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      }),
+    });
+    if (!response.ok) {
+      console.log("error");
+      throw new Error(response.statusText);
+    }
+    const data = await response.json();
+    complete(data);
+  };
+
+  const postItem = async () => {
+    try {
+      setPostButtonDisabled(true);
+      await postToInstagram();
+      await postToMiddmarkit();
+      setPostButtonDisabled(false);
+    } catch (error) {
+      console.error(error);
+      setPostButtonDisabled(false);
+      setPostFailed(true);
+    }
   };
 
   const removeRelistItem = (status) => {
@@ -254,16 +279,17 @@ export default function ItemCard({ item, page, sold, complete, isReviewer }) {
 
         {page === "unapproved" && (
           <Button
-            color="success"
+            color={postFailed ? "warning" : "success"}
             size="medium"
-            variant="outlined"
+            variant={postFailed ? "contained" : "outlined"}
             onClick={() => postItem()}
+            disabled={postButtonDisabled}
           >
             Post
           </Button>
         )}
 
-        {isReviewer && page === "remove" && (
+        {isReviewer && (
           <Button
             color="success"
             size="medium"
