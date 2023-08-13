@@ -35,8 +35,7 @@ export default function Album({}) {
     required: true,
     onUnauthenticated() {
       // The user is not authenticated, handle it here.
-      signIn("google");
-      return <div>Loading...</div>;
+      router.push(`/users/signin`);
     },
   });
 
