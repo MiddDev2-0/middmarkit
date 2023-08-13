@@ -26,10 +26,10 @@ export default function SignInPage() {
             minHeight="30vh"
           >
             <Typography variant="h4" sx={{ mt: 0 }}>
-              Join the Middlebury College Marketplace
+              Welcome to the Middlebury College Marketplace!
             </Typography>
             <Typography variant="subtitle1" sx={{ mt: 1.5 }}>
-              Sign in now to post items and view what others are selling!
+              Join the community to post items and view what others are selling.
             </Typography>
 
             <Button
@@ -38,7 +38,7 @@ export default function SignInPage() {
               onClick={() => signIn("google")}
               sx={{ mt: 3 }}
             >
-              Sign in with @middlebury email!
+              Sign up with school email
             </Button>
           </Box>
         </Container>
