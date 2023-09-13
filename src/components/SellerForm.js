@@ -108,7 +108,6 @@ export default function SellerForm({}) {
       description: description,
       price: Math.round(+price),
       sellerId: seller.id,
-      datePosted: new Date().toISOString(),
       isAvailable: true,
       images: imageId,
       adminRemoved: false,
@@ -252,7 +251,7 @@ export default function SellerForm({}) {
               onClick={handlePost}
               disabled={!allFieldsPopulated}
             >
-              Post your item!
+              Submit your item!
             </Button>
             <Typography component="h5" variant="body2" color="grey.main">
               Your email will be accessible to anyone viewing the item. Please
