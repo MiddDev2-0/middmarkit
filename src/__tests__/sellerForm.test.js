@@ -58,7 +58,9 @@ describe("End-to-End testing for seller page", () => {
       status: "authenticated",
     });
     render(<SellerForm />);
-    const saveButton = screen.getByRole("button", { name: "Post your item!" });
+    const saveButton = screen.getByRole("button", {
+      name: "Submit your item!",
+    });
     expect(saveButton).toBeDisabled();
 
     await act(async () => {
