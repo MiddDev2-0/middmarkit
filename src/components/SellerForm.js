@@ -107,6 +107,7 @@ export default function SellerForm({}) {
       name: name,
       description: description,
       price: Math.round(+price),
+      datePosted: new Date().toISOString(),
       sellerId: seller.id,
       isAvailable: true,
       images: imageId,
