@@ -51,14 +51,14 @@ export default function InterestForm({ seller, item }) {
     }
   }, [session]);
 
-  function mailForm() {
-    const htmlContents = contents.replaceAll("\n", "%0D%0A");
-    const mailtoLink = `mailto:${seller?.email}?subject=I would like to buy your ${item.name} on Middmarkit&body=${htmlContents}`;
-    const anchor = document.createElement("a");
-    anchor.href = mailtoLink;
-    anchor.target = "_blank";
-    anchor.click(); // Programmatically trigger the click event
-  }
+  // function mailForm() {
+  //   const htmlContents = contents.replaceAll("\n", "%0D%0A");
+  //   const mailtoLink = `mailto:${seller?.email}?subject=I would like to buy your ${item.name} on Middmarkit&body=${htmlContents}`;
+  //   const anchor = document.createElement("a");
+  //   anchor.href = mailtoLink;
+  //   anchor.target = "_blank";
+  //   anchor.click(); // Programmatically trigger the click event
+  // }
 
   function copyAddressToClipboard() {
     if (seller?.email) {
@@ -136,14 +136,14 @@ export default function InterestForm({ seller, item }) {
         />
 
         <Box sx={{ display: "flex", gap: "8px" }} ref={rootRef}>
-          <Button
+          {/* <Button
             variant="outlined"
             size="large"
             sx={{ flex: 1 }}
             onClick={mailForm}
           >
             Send Email
-          </Button>
+          </Button> */}
           <Button
             variant={addressCopied ? "contained" : "outlined"}
             color={addressCopied ? "success" : "primary"}

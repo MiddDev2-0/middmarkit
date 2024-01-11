@@ -5,6 +5,7 @@ import { useSession, SessionProvider } from "next-auth/react";
 
 jest.mock("next/router", () => require("next-router-mock"));
 jest.mock("next-auth/react");
+global.gtag = jest.fn();
 
 describe("IndividualItemView", () => {
   beforeEach(() => {

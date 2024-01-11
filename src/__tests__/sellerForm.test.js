@@ -7,6 +7,7 @@ import mockRouter from "next-router-mock";
 
 jest.mock("next/router", () => require("next-router-mock"));
 jest.mock("next-auth/react");
+global.gtag = jest.fn();
 
 describe("End-to-End testing for seller page", () => {
   beforeEach(() => {
