@@ -11,6 +11,8 @@ import NavBar from "@/components/NavBar";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
+import * as gtag from "../lib/gtag";
+
 import PropTypes from "prop-types";
 
 const clientSideEmotionCache = createEmotionCache();
@@ -21,6 +23,19 @@ export default function App({
   emotionCache = clientSideEmotionCache,
 }) {
   const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      gtag.pageview(url);
+    };
+    router.events.on("routeChangeComplete", handleRouteChange);
+    router.events.on("hashChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+      router.events.off("hashChangeComplete", handleRouteChange);
+    };
+  }, [router.events]);
+
   const [searchKey, setSearchKey] = useState("");
   const search = (searchString) => {
     setSearchKey(searchString);
