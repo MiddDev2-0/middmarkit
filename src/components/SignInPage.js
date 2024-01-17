@@ -38,7 +38,7 @@ export default function SignInPage() {
               onClick={() => signIn("google")}
               sx={{ mt: 3 }}
             >
-              Sign up with school email
+              Log in with school email
             </Button>
           </Box>
         </Container>
