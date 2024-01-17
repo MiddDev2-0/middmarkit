@@ -60,7 +60,7 @@ describe("End-to-End testing for seller page", () => {
     });
     render(<SellerForm />);
     const saveButton = screen.getByRole("button", {
-      name: "Submit your item!",
+      name: "Submit your post!",
     });
     expect(saveButton).toBeDisabled();
 
