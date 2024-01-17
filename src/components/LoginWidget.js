@@ -135,7 +135,7 @@ export default function LoginWidget() {
             variant="outlined"
             onClick={() => signIn("google")}
           >
-            Sign in
+            Log In
           </Button>{" "}
         </p>
       </div>

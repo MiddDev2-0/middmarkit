@@ -69,9 +69,7 @@ export default function SellerForm({}) {
   };
 
   useEffect(() => {
-    setAllFieldsPopulated(
-      name !== "" && description !== "" && price !== "" && imageId !== undefined
-    );
+    setAllFieldsPopulated(name !== "" && price !== "" && imageId !== undefined);
   }, [name, description, price, imageId]);
 
   const handleFileUpload = (event) => {
@@ -103,6 +101,9 @@ export default function SellerForm({}) {
   };
 
   const handlePost = () => {
+    if (!description) {
+      setDescription(" ");
+    }
     const newItem = {
       name: name,
       description: description,
@@ -187,12 +188,12 @@ export default function SellerForm({}) {
                   required
                   fullWidth
                   id="itemName"
-                  label="Item Name"
+                  label="Name"
                   autoFocus
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   inputProps={{
-                    maxLength: 30,
+                    maxLength: 50,
                   }}
                 />
               </Grid>
@@ -212,7 +213,6 @@ export default function SellerForm({}) {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
                   fullWidth
                   id="description"
                   label="Description"
@@ -252,10 +252,10 @@ export default function SellerForm({}) {
               onClick={handlePost}
               disabled={!allFieldsPopulated}
             >
-              Submit your item!
+              Submit your post!
             </Button>
             <Typography component="h5" variant="body2" color="grey.main">
-              Your email will be accessible to anyone viewing the item. Please
+              Your email will be accessible to anyone viewing the post. Please
               be cautious when sharing personal information.
             </Typography>
             <Dialog
@@ -276,8 +276,8 @@ export default function SellerForm({}) {
               <DialogContent sx={{ mt: 2 }}>
                 <DialogContentText id="alert-dialog-description">
                   {seller
-                    ? `Congratulations, ${seller.firstName}! Your item will be reviewed and
-                  then posted to middmarkit.com and @middmarkit on Insgagram!`
+                    ? `Congratulations, ${seller.firstName}! We will review your submission
+                    then post it.`
                     : `Loading...`}
                 </DialogContentText>
               </DialogContent>
@@ -294,7 +294,7 @@ export default function SellerForm({}) {
                   size="large"
                   sx={{ color: green[500], flex: 1 }} // Use green color for the button text
                 >
-                  See Item
+                  See Post
                 </Button>
                 <Button
                   onClick={() => router.reload()}
@@ -305,7 +305,7 @@ export default function SellerForm({}) {
                     flex: 2,
                   }} // Use green color for the button background
                 >
-                  Sell More Items
+                  Make Another Post
                 </Button>
               </DialogActions>
             </Dialog>
