@@ -26,10 +26,10 @@ export default function SignInPage() {
             minHeight="30vh"
           >
             <Typography variant="h4" sx={{ mt: 0 }}>
-              Welcome to the Middlebury College Marketplace!
+              Welcome to the Middlebury Marketplace!
             </Typography>
             <Typography variant="subtitle1" sx={{ mt: 1.5 }}>
-              Join the community to post items and view what others are selling.
+              Join the community to post and view what others are selling
             </Typography>
 
             <Button
