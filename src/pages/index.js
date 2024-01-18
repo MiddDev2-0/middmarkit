@@ -1,15 +1,13 @@
+import Head from "next/head";
 import { useSession } from "next-auth/react";
 import * as React from "react";
 import { Pagination, Stack } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
-
 import Box from "@mui/material/Box";
-
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
-
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -133,6 +131,15 @@ export default function Album({ searchKey }) {
 
   return (
     <>
+      <Head>
+        <title>
+          Middmarkit - The online resale market for Middlebury College students
+        </title>
+        <meta
+          name="description"
+          content="Join MiddMarkit – unique from MiddMarket, Middlebury College's exclusive online platform for students to buy, sell, and swap clothes, textbooks, and dorm essentials."
+        />
+      </Head>
       <CssBaseline />
       <Box
         sx={{

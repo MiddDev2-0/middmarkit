@@ -1,4 +1,4 @@
-// import { useSession } from "next-auth/react";
+import Head from "next/head";
 import { useSession } from "next-auth/react";
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -94,6 +94,9 @@ export default function Album({}) {
 
   return (
     <>
+      <Head>
+        <title>Removed</title>
+      </Head>
       <CssBaseline />
       <main>
         <Typography

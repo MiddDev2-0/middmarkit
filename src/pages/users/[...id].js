@@ -1,3 +1,4 @@
+import Head from "next/head";
 import PropTypes from "prop-types";
 import { useSession } from "next-auth/react";
 import * as React from "react";
@@ -221,6 +222,9 @@ export default function Album({ searchKey }) {
 
   return (
     <>
+      <Head>
+        <title>My Posts - Middmarkit</title>{" "}
+      </Head>
       <CssBaseline />
 
       <Typography

@@ -1,11 +1,4 @@
-/* setup
-
-Individual Item View
------
-Interest Form
-
-in the future this component would take in an item
-*/
+import Head from "next/head";
 import { useSession } from "next-auth/react";
 import IndividualItemView from "@/components/IndividualItemView";
 import { useState } from "react";
@@ -100,6 +93,19 @@ export default function ItemPage() {
 
   return (
     <div>
+      <Head>
+        <title>
+          {currentItem ? `${currentItem.name} - Middmarkit` : "Loading..."}
+        </title>
+        <meta
+          name="description"
+          content={
+            currentItem
+              ? `Explore ${currentItem.name} on MiddMarkit – ideal for Middlebury students. Affordable, eco-friendly, perfect for campus life. Buy now!`
+              : "Loading..."
+          }
+        />
+      </Head>
       <Container>
         <div>{currentItem && <IndividualItemView item={currentItem} />}</div>
         <div>
