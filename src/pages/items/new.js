@@ -26,7 +26,11 @@ export default function SellerPage({}) {
   return (
     <div>
       <Head>
-        <title>New Post Form</title>
+        <title>New Post - Middmarkit</title>
+        <meta
+          name="description"
+          content="Sell on MiddMarkit (distinct from MiddMarket) – easily list textbooks, clothes, and dorm essentials for Middlebury students. Join our green marketplace today!"
+        />
       </Head>
       <main>
         <SellerForm handleSaveItem={handleSaveItem} />

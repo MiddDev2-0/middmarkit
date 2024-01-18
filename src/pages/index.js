@@ -133,8 +133,12 @@ export default function Album({ searchKey }) {
     <>
       <Head>
         <title>
-          {session && session.user ? "Home - Logged In" : "Home - Guest"}
+          Middmarkit - The online resale market for Middlebury College students
         </title>
+        <meta
+          name="description"
+          content="Join MiddMarkit – unique from MiddMarket, Middlebury College's exclusive online platform for students to buy, sell, and swap clothes, textbooks, and dorm essentials."
+        />
       </Head>
       <CssBaseline />
       <Box

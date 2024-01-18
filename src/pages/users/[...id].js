@@ -223,7 +223,7 @@ export default function Album({ searchKey }) {
   return (
     <>
       <Head>
-        <title>User Items</title> {/* Set your desired page title here */}
+        <title>My Posts - Middmarkit</title>{" "}
       </Head>
       <CssBaseline />
 

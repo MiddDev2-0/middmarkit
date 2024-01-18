@@ -38,7 +38,7 @@ export default function ItemEditor() {
     <div>
       <Head>
         <title>
-          {currentItem ? `Edit item ${currentItem.id}` : "Loading..."}
+          {currentItem ? `Edit ${currentItem.name} - Middmarkit` : "Loading..."}
         </title>
       </Head>
       <div>

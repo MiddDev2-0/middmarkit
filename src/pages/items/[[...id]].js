@@ -94,7 +94,17 @@ export default function ItemPage() {
   return (
     <div>
       <Head>
-        <title>{currentItem ? `Item ${currentItem.id}` : "Loading..."}</title>
+        <title>
+          {currentItem ? `${currentItem.name} - Middmarkit` : "Loading..."}
+        </title>
+        <meta
+          name="description"
+          content={
+            currentItem
+              ? `Explore ${currentItem.name} on MiddMarkit – ideal for Middlebury students. Affordable, eco-friendly, perfect for campus life. Buy now!`
+              : "Loading..."
+          }
+        />
       </Head>
       <Container>
         <div>{currentItem && <IndividualItemView item={currentItem} />}</div>
