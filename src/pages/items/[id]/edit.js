@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import Editor from "@/components/Editor";
 import { useState, useEffect } from "react";
@@ -35,6 +36,11 @@ export default function ItemEditor() {
 
   return (
     <div>
+      <Head>
+        <title>
+          {currentItem ? `Edit item ${currentItem.id}` : "Loading..."}
+        </title>
+      </Head>
       <div>
         {session &&
           currentItem &&

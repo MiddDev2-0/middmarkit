@@ -2,6 +2,7 @@ import SellerForm from "../../components/SellerForm";
 import { useSession } from "next-auth/react";
 import { signIn } from "next-auth/react";
 import React, { useState } from "react";
+import Head from "next/head";
 
 export default function SellerPage({}) {
   const [itemList, setItemList] = useState([]);
@@ -24,8 +25,10 @@ export default function SellerPage({}) {
 
   return (
     <div>
+      <Head>
+        <title>New Post Form</title>
+      </Head>
       <main>
-        {/* <h1>Sell your stuff!</h1> */}
         <SellerForm handleSaveItem={handleSaveItem} />
       </main>
     </div>

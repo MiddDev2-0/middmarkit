@@ -1,11 +1,4 @@
-/* setup
-
-Individual Item View
------
-Interest Form
-
-in the future this component would take in an item
-*/
+import Head from "next/head";
 import { useSession } from "next-auth/react";
 import IndividualItemView from "@/components/IndividualItemView";
 import { useState } from "react";
@@ -100,6 +93,9 @@ export default function ItemPage() {
 
   return (
     <div>
+      <Head>
+        <title>{currentItem ? `Item ${currentItem.id}` : "Loading..."}</title>
+      </Head>
       <Container>
         <div>{currentItem && <IndividualItemView item={currentItem} />}</div>
         <div>
