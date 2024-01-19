@@ -15,3 +15,8 @@ export const event = ({ action, category, label, value }) => {
     value: value,
   });
 };
+
+// Function to set the user ID
+export function setUserId(userId) {
+  gtag("set", { user_id: userId });
+}

@@ -11,6 +11,7 @@ import Link from "@mui/material/Link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useEffect } from "react";
+import * as gtag from "../lib/gtag";
 
 import ItemCard from "@/components/ItemCard";
 import PropTypes from "prop-types";
@@ -37,6 +38,24 @@ export default function Album({ searchKey }) {
   const itemsPerPage = 50;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = currentPage * itemsPerPage;
+
+  useEffect(() => {
+    if (session) {
+      if (session.user) {
+        const getData = async () => {
+          const response = await fetch(`/api/users/${session.user.id}`, {
+            method: "GET",
+          });
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
+          const data = await response.json();
+          gtag.setUserId(data.id);
+        };
+        getData();
+      }
+    }
+  }, [session]);
 
   useEffect(() => {
     if (session) {
