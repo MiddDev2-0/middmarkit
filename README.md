@@ -60,6 +60,6 @@ Note we need to pin the `node-fetch` version due to breaking changes when used w
 
 ###### Application Link
 
-https://killington.csci312.dev/
+https://www.middmarkit.com/
 
 [![Node.js CI](https://github.com/csci312a-s23/project-killington/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/csci312a-s23/project-killington/actions/workflows/node.js.yml)
