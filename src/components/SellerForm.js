@@ -188,7 +188,7 @@ export default function SellerForm({}) {
                   required
                   fullWidth
                   id="itemName"
-                  label="Name"
+                  label="Item Name"
                   autoFocus
                   value={name}
                   onChange={(event) => setName(event.target.value)}
